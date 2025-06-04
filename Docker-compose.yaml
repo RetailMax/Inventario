@@ -1,0 +1,61 @@
+version: '3.8'
+services:
+  notificaciones:
+    build:
+      context: ../Notificaciones
+    ports:
+      - "8081:8080"
+    networks:
+      - backend
+
+  pricing:
+    build:
+      context: ../Pricing
+    ports:
+      - "8082:8080"
+    networks:
+      - backend
+
+  ordenes:
+    build:
+      context: ../Ordenes
+    ports:
+      - "8083:8080"
+    networks:
+      - backend
+
+  inventario:
+    build:
+      context: ../Inventario
+    ports:
+      - "8084:8080"
+    networks:
+      - backend
+
+  usuario:
+    build:
+      context: ../usuario
+    ports:
+      - "8085:8080"
+    networks:
+      - backend
+
+  pagos:
+    build:
+      context: ../Pagos
+    ports:
+      - "8086:8080"
+    networks:
+      - backend
+
+  #producto:
+  #  build:
+  #    context: ../Producto
+  #  ports:
+  #    - "8087:8080"
+  #  networks:
+  #    - backend
+
+networks:
+  backend:
+    driver: bridge
