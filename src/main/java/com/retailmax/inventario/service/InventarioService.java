@@ -1,49 +1,35 @@
 package com.retailmax.inventario.service;
 
-import com.retailmax.inventario.model.MovimientoStock;
-import com.retailmax.inventario.model.Stock;
-import com.retailmax.inventario.repository.MovimientoStockRepository;
-import com.retailmax.inventario.repository.StockRepository;
+import com.retailmax.inventario.model.Inventario;
+import com.retailmax.inventario.repository.InventarioRepository;
+
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
+@Transactional
 public class InventarioService {
 
     @Autowired
-    private StockRepository stockRepo;
+    private InventarioRepository inventarioRepository;
 
-    @Autowired
-    private MovimientoStockRepository movimientoRepo;
-
-    public Stock registrarMovimiento(MovimientoStock movimiento) {
-        Stock stock = stockRepo.findBySkuAndUbicacion(movimiento.getSku(), movimiento.getOrigen())
-                .orElse(new Stock(null, movimiento.getSku(), movimiento.getOrigen(), 0));
-
-        switch (movimiento.getTipo().toUpperCase()) {
-            case "ENTRADA":
-                stock.setCantidad(stock.getCantidad() + movimiento.getCantidad());
-                break;
-            case "SALIDA":
-            case "RESERVA":
-                if (stock.getCantidad() < movimiento.getCantidad()) {
-                    throw new IllegalArgumentException("Stock insuficiente para " + movimiento.getTipo());
-                }
-                stock.setCantidad(stock.getCantidad() - movimiento.getCantidad());
-                break;
-            default:
-                throw new IllegalArgumentException("Tipo de movimiento no reconocido");
-        }
-
-        movimiento.setFecha(LocalDateTime.now());
-        movimientoRepo.save(movimiento);
-        return stockRepo.save(stock);
+    public List<Inventario> findAll() {
+        return inventarioRepository.findAll();
     }
 
-    public Stock consultarStock(String sku, String ubicacion) {
-        return stockRepo.findBySkuAndUbicacion(sku, ubicacion)
-                .orElseThrow(() -> new RuntimeException("No se encontró stock para " + sku + " en " + ubicacion));
+    public Inventario findById(long id) {
+        return inventarioRepository.findById(id).get();
+    }
+
+    public Inventario save(Inventario inventario) {
+        return inventarioRepository.save(inventario);
+    }
+
+    public void delete(Long id) {
+        inventarioRepository.deleteById(id);
     }
 }
+
