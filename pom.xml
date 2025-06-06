@@ -94,6 +94,13 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- Faker para generación de datos de prueba -->
+		<dependency>
+			<groupId>net.datafaker</groupId>
+			<artifactId>datafaker</artifactId>
+			<version>2.4.2</version>
+		</dependency>
+
     </dependencies>
 
     <build>

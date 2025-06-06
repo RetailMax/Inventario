@@ -1,4 +1,4 @@
-package com.retailmax.inventario.model;
+package com.retailmax.inventario.model.enums;
 
 
 /*Clase para escoger el tipo de movimiento dentro de MS*/
@@ -8,7 +8,8 @@ public enum TipoMovimiento {
     AJUSTE("Ajuste de Inventario"),
     RESERVA("Reserva de Stock"),
     LIBERACION("Liberación de Stock Reservado"),
-    DEVOLUCION_CLIENTE("Devolución de Cliente");
+    DEVOLUCION_CLIENTE("Devolución de Cliente"),
+    DEVOLUCION_PROVEEDOR("Devolución a Proveedor");
 
     private final String descripcion;
 

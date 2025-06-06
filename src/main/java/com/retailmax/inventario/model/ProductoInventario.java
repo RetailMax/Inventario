@@ -18,7 +18,10 @@ import lombok.NoArgsConstructor;
 
 @Table(name = "inventarios")
 @Entity
-public class Inventario {
+
+/*Clase base para empezar a mover productos dentro del MS Inventario */
+
+public class ProductoInventario {
 
    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,14 +36,30 @@ public class Inventario {
     private String sku; // SKU único por variante de producto
 
     @Column(nullable = false)
-    private Integer cantidadDisponible; // stock actual
-
-    @Column(length = 100)
-    private String ubicacion; // bodega o tienda (opcional)
+    private Integer stock; // stock actual
 
     @Column(nullable = false)
-    private LocalDateTime fechaUltimaActualizacion; // auditoría
+    private Integer cantidadReservada; //Reservera para stock que se va a comprar
+
+    @Column(nullable = false)
+    private Integer cantidadDisponible; // Stock disponible para venta
+    
+    @Column(nullable = false)
+    private Integer cantidadEnTransito; // Movimiento de stock entre almacenes
+
+    @Column(nullable = false)
+    private Integer cantidadMinimaStock ; //Umbral para alertas de bajo stock
+
+    @Column(length = 100)
+    private String ubicacionAlmacen; // bodega o tienda (opcional)
+
+    @Column(nullable = false)
+    private LocalDateTime fechaUltimaActualizacion; // AUDITORÍA
+
+    @Column(nullable = false)
+    private LocalDateTime fechaCreacion; // AUDITORÍA
 
     @Column(nullable = false)
     private Boolean activo;
 }
+
