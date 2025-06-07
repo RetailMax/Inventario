@@ -26,7 +26,7 @@ public class MovimientoStock {
     @JoinColumn(name = "producto_inventario_id", nullable = false)
     private ProductoInventario productoInventario;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100) // Consistente con ProductoInventario.sku
     private String sku;
 
     @Enumerated(EnumType.STRING)
@@ -43,16 +43,15 @@ public class MovimientoStock {
     @Column(nullable = false)
     private Integer cantidadMovida;
 
+    @Column(nullable = false) // Asumiendo que siempre debe tener un valor
     private Integer stockFinalDespuesMovimiento;
 
+    @Column(length = 50)
     private String referenciaExterna;
 
+    @Column(length = 255)
     private String motivo;
 
     @Column(nullable = false)
     private LocalDateTime fechaMovimiento;
-
-    // ¡EL CONSTRUCTOR MANUAL HA SIDO ELIMINADO!
-    // Ahora dependes de @NoArgsConstructor o @AllArgsConstructor.
-    // La fechaMovimiento se establecerá en el servicio o usando el setter.
 }

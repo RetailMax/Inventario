@@ -9,8 +9,8 @@ public enum TipoMovimiento {
     RESERVA("Reserva de Stock"),
     LIBERACION("Liberación de Stock Reservado"),
     DEVOLUCION_CLIENTE("Devolución de Cliente"),
-    DEVOLUCION_PROVEEDOR("Devolución a Proveedor");
-
+    DEVOLUCION_PROVEEDOR("Devolución a Proveedor"),
+    AJUSTE_NEGATIVO("Ajuste Negativo de Inventario");
     private final String descripcion;
 
     TipoMovimiento(String descripcion) {
