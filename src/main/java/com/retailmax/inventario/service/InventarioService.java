@@ -1,57 +1,69 @@
 package com.retailmax.inventario.service;
 
+import com.retailmax.inventario.dto.MovimientoStockDTO;
+import com.retailmax.inventario.dto.ProductoInventarioDTO;
 import com.retailmax.inventario.model.MovimientoStock;
+import com.retailmax.inventario.model.ProductoInventario;
 import com.retailmax.inventario.model.Stock;
 import com.retailmax.inventario.repository.MovimientoStockRepository;
 import com.retailmax.inventario.repository.StockRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.time.LocalDateTime;
 
 @Service
+@RequiredArgsConstructor
 public class InventarioService {
 
-    @Autowired
-    private StockRepository stockRepository;
+    private final ProductoInventarioService productoInventarioService;
+    private final StockRepository stockRepository;
+    private final MovimientoStockRepository movimientoStockRepository;
 
-    @Autowired
-    private MovimientoStockRepository movimientoStockRepository;
+    public Stock registrarMovimientoDesdeDTO(MovimientoStockDTO dto) {
+        ProductoInventario producto = productoInventarioService.obtenerProductoPorSku(dto.getSku());
 
-    /**
-     * Registra un movimiento de entrada o salida de stock.
-     * @param movimiento MovimientoStock recibido desde el controller.
-     * @return Stock actualizado.
-     */
-    public Stock registrarMovimiento(MovimientoStock movimiento) {
-        Optional<Stock> optionalStock = stockRepository.findBySkuAndUbicacion(
-                movimiento.getSku(), movimiento.getUbicacion());
-
-        Stock stock;
-        if (optionalStock.isPresent()) {
-            stock = optionalStock.get();
-            stock.setCantidad(stock.getCantidad() + movimiento.getCantidad());
-        } else {
-            stock = Stock.builder()
-                    .sku(movimiento.getSku())
-                    .ubicacion(movimiento.getUbicacion())
-                    .cantidad(movimiento.getCantidad())
-                    .build();
+        if (producto == null) {
+            throw new IllegalArgumentException("Producto no encontrado con SKU: " + dto.getSku());
         }
 
-        // Guardar el movimiento en el historial
+        MovimientoStock movimiento = MovimientoStock.builder()
+                .sku(dto.getSku())
+                .tipoMovimiento(dto.getTipoMovimiento())
+                .cantidadMovida(dto.getCantidadMovida())
+                .referenciaExterna(dto.getReferenciaExterna())
+                .motivo(dto.getMotivo())
+                .origen(dto.getOrigen())
+                .ubicacion(dto.getUbicacionAlmacen())
+                .productoInventario(producto)
+                .fechaMovimiento(LocalDateTime.now())
+                .build();
+
+        return registrarMovimiento(movimiento);
+    }
+
+    public Stock registrarMovimiento(MovimientoStock movimiento) {
+        String sku = movimiento.getSku();
+        String ubicacion = movimiento.getUbicacion();
+
+        Stock stock = stockRepository.findBySkuAndUbicacion(sku, ubicacion)
+                .map(s -> {
+                    s.setCantidad(s.getCantidad() + movimiento.getCantidadMovida());
+                    return s;
+                })
+                .orElse(Stock.builder()
+                        .sku(sku)
+                        .ubicacion(ubicacion)
+                        .cantidad(movimiento.getCantidadMovida())
+                        .build());
+
+        movimiento.setStockFinalDespuesMovimiento(stock.getCantidad());
         movimientoStockRepository.save(movimiento);
         return stockRepository.save(stock);
     }
 
-    /**
-     * Consulta la cantidad disponible de stock por SKU y ubicación.
-     * @param sku SKU del producto.
-     * @param ubicacion Ubicación en bodega.
-     * @return Stock actual o null si no existe.
-     */
     public Stock consultarStock(String sku, String ubicacion) {
         return stockRepository.findBySkuAndUbicacion(sku, ubicacion)
-                .orElse(null);
+                .orElseThrow(() -> new IllegalArgumentException("Stock no encontrado para SKU: " + sku + " en ubicación: " + ubicacion));
     }
 }
