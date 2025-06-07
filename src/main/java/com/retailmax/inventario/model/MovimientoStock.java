@@ -22,6 +22,7 @@ public class MovimientoStock {
 
     private String tipo; // ENTRADA, SALIDA, RESERV
     private String sku;
+    private String ubicacion;  // <- ESTE CAMPO FALTABA
     private Integer cantidad;
     private String origen;
     private LocalDateTime fecha;
