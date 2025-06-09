@@ -1,40 +1,32 @@
 package com.retailmax.inventario.controller;
 
 import com.retailmax.inventario.dto.MovimientoStockDTO;
-import com.retailmax.inventario.model.Stock;
-import com.retailmax.inventario.service.InventarioService;
-import jakarta.validation.Valid;
+import com.retailmax.inventario.service.ProductoInventarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
-@RequestMapping("/api/movimientos") // Endpoint claro y sin colisión
-@RequiredArgsConstructor
+import java.util.List;
+
+@RestController // Indica que esta clase es un controlador REST
+@RequestMapping("/api/inventario") // Mismo prefijo base para agrupar bajo la API de inventario
+@RequiredArgsConstructor // Para inyección de dependencias vía constructor
 public class MovimientoStockController {
 
-    private final InventarioService inventarioService;
+    private final ProductoInventarioService productoInventarioService; // Inyección del servicio
 
     /**
-     * RF6: Registra una entrada o salida de stock.
-     * POST /api/movimientos
+     * RF15: Permite la consulta del historial de stock de un producto dado su SKU.
+     * GET /api/inventario/movimientos/{sku}
+     * @param sku SKU del producto cuyo historial de movimientos se desea consultar.
+     * @return ResponseEntity con una lista de MovimientoStockDTO y estado HTTP 200 OK.
      */
-    @PostMapping
-    public ResponseEntity<Stock> registrarMovimiento(@Valid @RequestBody MovimientoStockDTO movimientoDTO) {
-        Stock resultado = inventarioService.registrarMovimientoDesdeDTO(movimientoDTO);
-        return ResponseEntity.ok(resultado);
+    @GetMapping("/movimientos/{sku}")
+    public ResponseEntity<List<MovimientoStockDTO>> obtenerHistorialMovimientos(@PathVariable String sku) {
+        List<MovimientoStockDTO> movimientos = productoInventarioService.obtenerHistorialMovimientos(sku, null, null);
+        return ResponseEntity.ok(movimientos);
     }
 
-    /**
-     * RF7: Consulta la cantidad de stock disponible por SKU y ubicación.
-     * GET /api/movimientos/consulta?sku=SKU123&ubicacion=B1
-     */
-    @GetMapping("/consulta")
-    public ResponseEntity<Stock> consultarStock(
-            @RequestParam String sku,
-            @RequestParam String ubicacion) {
-
-        Stock stock = inventarioService.consultarStock(sku, ubicacion);
-        return ResponseEntity.ok(stock);
-    }
+    // Podrías añadir más endpoints aquí si hubiera otras operaciones específicas de MovimientoStock
+    // que no encajen en InventarioController (ej. consultar movimientos por rango de fechas, por tipo, etc.).
 }

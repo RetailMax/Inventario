@@ -35,6 +35,14 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        // Limpiar datos existentes para asegurar una carga limpia en el perfil dev
+        System.out.println("Limpiando datos existentes antes de la carga...");
+        movimientoStockRepository.deleteAll();
+        umbralAlertaRepository.deleteAll();
+        productoInventarioRepository.deleteAll();
+        System.out.println("Datos existentes limpiados.");
+
+       
         Faker faker = new Faker();
         Random random = new Random();
         LocalDateTime now = LocalDateTime.now(); // Para auditoría
@@ -94,11 +102,32 @@ public class DataLoader implements CommandLineRunner {
 
                 movimiento.setProductoInventario(productoAleatorio);
                 movimiento.setSku(productoAleatorio.getSku()); // SKU del producto asociado
-                movimiento.setTipoMovimiento(faker.options().option(TipoMovimiento.class));
+                // Asegurar que solo se seleccionen tipos de movimiento permitidos por la restricción de BD
+                List<TipoMovimiento> tiposPermitidosPorConstraint = List.of(
+                    TipoMovimiento.ENTRADA,
+                    TipoMovimiento.SALIDA,
+                    TipoMovimiento.AJUSTE,
+                    TipoMovimiento.RESERVA,
+                    TipoMovimiento.LIBERACION,
+                    TipoMovimiento.DEVOLUCION_CLIENTE
+                );
+                TipoMovimiento tipoSeleccionado = faker.options().option(tiposPermitidosPorConstraint.toArray(new TipoMovimiento[0]));
 
-                int cantidadMovida = faker.number().numberBetween(1, 20); // Cantidad del movimiento
-                if (movimiento.getTipoMovimiento() == TipoMovimiento.SALIDA || movimiento.getTipoMovimiento() == TipoMovimiento.DEVOLUCION_PROVEEDOR) {
-                    cantidadMovida *= -1; // Las salidas y devoluciones restan stock
+
+                movimiento.setTipoMovimiento(tipoSeleccionado);
+
+                int cantidadMovida;
+                if (tipoSeleccionado == TipoMovimiento.RESERVA || tipoSeleccionado == TipoMovimiento.LIBERACION) {
+                    // Para RESERVA y LIBERACION, la cantidad física movida es 0 (solo cambia el estado del stock).
+                
+                cantidadMovida = 0;
+                } else {
+                    cantidadMovida = faker.number().numberBetween(1, 20); // Cantidad base del movimiento
+                    // De los tipos permitidos, solo SALIDA implica una cantidad negativa.
+                    if (tipoSeleccionado == TipoMovimiento.SALIDA) {
+                        
+                    cantidadMovida *= -1; // Negar para movimientos que disminuyen stock físico
+                    }
                 }
                 movimiento.setCantidadMovida(cantidadMovida);
 
@@ -106,7 +135,7 @@ public class DataLoader implements CommandLineRunner {
                 // Aquí lo simulamos de forma básica.
                 // En un escenario real, esto se manejaría en la lógica de negocio.
                 int stockAntes = productoAleatorio.getStock(); // Simular stock antes del movimiento
-                movimiento.setStockFinalDespuesMovimiento(stockAntes + cantidadMovida);
+                movimiento.setStockFinalDespuesMovimiento(Math.max(0, stockAntes + cantidadMovida)); // Asegurar que no sea negativo
 
 
                 movimiento.setReferenciaExterna(faker.bothify("ORD#####")); // Número de orden, factura, etc.

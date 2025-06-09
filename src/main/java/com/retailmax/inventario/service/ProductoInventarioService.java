@@ -56,7 +56,67 @@ public class ProductoInventarioService {
         return mapToProductoInventarioDTO(savedProductoInventario);
     }
 
-    
+    @Transactional
+    public ProductoInventarioDTO actualizarStock(ActualizarStockRequestDTO requestDTO) {
+        ProductoInventario productoInventario = productoInventarioRepository.findBySku(requestDTO.getSku())
+                .orElseThrow(() -> new RecursoNoEncontradoException("Producto con SKU " + requestDTO.getSku() + " no encontrado en el inventario."));
+
+        Integer cantidadMovida = requestDTO.getCantidad();
+        TipoMovimiento tipoMovimiento = TipoMovimiento.fromName(requestDTO.getTipoActualizacion());
+
+        Integer oldCantidadDisponible = productoInventario.getCantidadDisponible();
+        Integer oldCantidadReservada = productoInventario.getCantidadReservada();
+
+        switch (tipoMovimiento) {
+            case ENTRADA:
+                productoInventario.setCantidadDisponible(oldCantidadDisponible + cantidadMovida);
+                break;
+            case SALIDA:
+                if (oldCantidadDisponible < cantidadMovida) {
+                    throw new StockInsuficienteException("No hay suficiente stock disponible para salida de " + cantidadMovida + " unidades del SKU " + requestDTO.getSku() + ". Stock actual: " + oldCantidadDisponible);
+                }
+                productoInventario.setCantidadDisponible(oldCantidadDisponible - cantidadMovida);
+                break;
+             case RESERVA:
+                if (oldCantidadDisponible < cantidadMovida) {
+                    throw new StockInsuficienteException("No hay suficiente stock disponible para reservar " + cantidadMovida + " unidades del SKU " + requestDTO.getSku() + ". Stock actual: " + oldCantidadDisponible);
+                }
+                productoInventario.setCantidadDisponible(oldCantidadDisponible - cantidadMovida);
+                productoInventario.setCantidadReservada(oldCantidadReservada + cantidadMovida);
+                break;
+            case LIBERACION:
+                if (oldCantidadReservada < cantidadMovida) {
+                    throw new StockInsuficienteException("No hay suficiente stock reservado para liberar " + cantidadMovida + " unidades del SKU " + requestDTO.getSku() + ". Stock reservado: " + oldCantidadReservada);
+                }
+                productoInventario.setCantidadDisponible(oldCantidadDisponible + cantidadMovida);
+                
+                productoInventario.setCantidadReservada(oldCantidadReservada - cantidadMovida);
+                break;
+            case AJUSTE:
+                if (oldCantidadDisponible + cantidadMovida < 0) {
+                     throw new IllegalArgumentException("El ajuste resultaría en stock negativo para el SKU " + requestDTO.getSku());
+                }
+                productoInventario.setCantidadDisponible(oldCantidadDisponible + cantidadMovida);
+                break;
+            case DEVOLUCION_CLIENTE: // Una devolución de cliente incrementa el stock disponible
+                productoInventario.setCantidadDisponible(oldCantidadDisponible + cantidadMovida);
+                break;
+            default:
+                throw new IllegalArgumentException("Tipo de movimiento '" + tipoMovimiento + "' no soportado para esta operación de actualización.");
+        }
+
+        productoInventario.setFechaUltimaActualizacion(LocalDateTime.now());
+        ProductoInventario updatedProductoInventario = productoInventarioRepository.save(productoInventario);
+
+        registrarMovimiento(
+            updatedProductoInventario,
+            tipoMovimiento,
+            cantidadMovida,
+            requestDTO.getReferenciaExterna()
+        );
+
+        return mapToProductoInventarioDTO(updatedProductoInventario);
+    }
 
     @Transactional(readOnly = true)
     public ProductoInventarioDTO consultarStockPorSku(String sku) {
@@ -126,36 +186,6 @@ public class ProductoInventarioService {
 
         return productoInventario.getCantidadDisponible() >= cantidadRequerida;
     }
-    @Transactional
-    public ProductoInventarioDTO actualizarStock(ActualizarStockRequestDTO request) {
-        ProductoInventario producto = productoInventarioRepository.findBySku(request.getSku())
-            .orElseThrow(() -> new RecursoNoEncontradoException("Producto con SKU " + request.getSku() + " no encontrado."));
-
-        TipoMovimiento tipoMovimiento = TipoMovimiento.valueOf(request.getTipoActualizacion());
-
-        if (tipoMovimiento == TipoMovimiento.SALIDA && producto.getCantidadDisponible() < request.getCantidad()) {
-            throw new StockInsuficienteException("Stock insuficiente para realizar la salida.");
-        }
-
-        int nuevaCantidad = tipoMovimiento == TipoMovimiento.ENTRADA
-            ? producto.getCantidadDisponible() + request.getCantidad()
-            : producto.getCantidadDisponible() - request.getCantidad();
-
-        producto.setCantidadDisponible(nuevaCantidad);
-        producto.setFechaUltimaActualizacion(LocalDateTime.now());
-
-        productoInventarioRepository.save(producto);
-
-        registrarMovimiento(producto, tipoMovimiento, request.getCantidad(), request.getReferenciaExterna());
-
-        return mapToProductoInventarioDTO(producto);
-    }
-    @Transactional(readOnly = true)
-    public ProductoInventario obtenerProductoPorSku(String sku) {
-        return productoInventarioRepository.findBySku(sku)
-                .orElseThrow(() -> new RecursoNoEncontradoException("Producto con SKU " + sku + " no encontrado."));
-    }
-
 
     private void registrarMovimiento(ProductoInventario productoInventario, TipoMovimiento tipoMovimiento, Integer cantidad, String referenciaExterna) {
         MovimientoStock movimiento = new MovimientoStock();
@@ -256,7 +286,7 @@ public class ProductoInventarioService {
                 .id(movimientoStock.getId())
                 .productoInventarioId(movimientoStock.getProductoInventario() != null ? movimientoStock.getProductoInventario().getId() : null)
                 .sku(movimientoStock.getSku())
-                .tipoMovimiento(movimientoStock.getTipoMovimiento()) // ✅ Aquí va el enum, no .name()
+                .tipoMovimiento(movimientoStock.getTipoMovimiento().name())
                 .cantidadMovida(movimientoStock.getCantidadMovida())
                 .stockFinalDespuesMovimiento(movimientoStock.getStockFinalDespuesMovimiento())
                 .referenciaExterna(movimientoStock.getReferenciaExterna())
