@@ -19,53 +19,44 @@ public class ProductoInventarioController {
 
     private final ProductoInventarioService productoInventarioService; // Inyección del servicio
 
-    /**
-     * RF1: Permite la adición de nuevos productos al inventario.
-     * POST /api/inventario/productos
-     * @param requestDTO Datos del nuevo producto a agregar.
-     * @return ResponseEntity con el ProductoInventarioDTO creado y estado HTTP 201 Created.
-     */
     @PostMapping("/productos")
     public ResponseEntity<ProductoInventarioDTO> agregarProducto(
             @Valid @RequestBody AgregarProductoInventarioRequestDTO requestDTO) {
         ProductoInventarioDTO nuevoProducto = productoInventarioService.agregarProductoInventario(requestDTO);
         return new ResponseEntity<>(nuevoProducto, HttpStatus.CREATED);
     }
-
-    /**
-     * RF2, RF4, RF5, RF10, RF16: Permite actualizar el stock (incremento, decremento, reserva, liberación, ajuste).
-     * El tipo de operación se define en el campo 'tipoActualizacion' del requestDTO.
-     * PUT /api/inventario/stock
-     * @param requestDTO Datos de la actualización de stock.
-     * @return ResponseEntity con el ProductoInventarioDTO actualizado y estado HTTP 200 OK.
-     */
-    @PutMapping("/stock")
-    public ResponseEntity<ProductoInventarioDTO> actualizarStock(
-            @Valid @RequestBody ActualizarStockRequestDTO requestDTO) {
-        ProductoInventarioDTO updatedProducto = productoInventarioService.actualizarStock(requestDTO);
-        return ResponseEntity.ok(updatedProducto);
+    @GetMapping("/productos")
+    public ResponseEntity<List<ProductoInventarioDTO>> consultarTodosLosProductos() {
+        List<ProductoInventarioDTO> productosList = productoInventarioService.consultarTodosLosProductos(); // Asumiendo que tienes este método en tu servicio
+        return ResponseEntity.ok(productosList);
     }
 
-    /**
-     * RF3: Consulta la cantidad de stock disponible para un producto específico por SKU.
-     * GET /api/inventario/stock/{sku}
-     * @param sku SKU del producto a consultar.
-     * @return ResponseEntity con el ProductoInventarioDTO del producto y estado HTTP 200 OK.
-     */
-    @GetMapping("/stock/{sku}")
-    public ResponseEntity<ProductoInventarioDTO> consultarStockPorSku(@PathVariable String sku) {
-        ProductoInventarioDTO producto = productoInventarioService.consultarStockPorSku(sku);
+    @GetMapping("/productos/{sku}")
+    public ResponseEntity<ProductoInventarioDTO> consultarProductoPorSku(@PathVariable String sku) {
+        ProductoInventarioDTO producto = productoInventarioService.consultarProductoPorSku(sku); // Necesitarás este método en tu servicio
         return ResponseEntity.ok(producto);
     }
 
-    /**
-     * RF3: Consulta la cantidad de stock disponible para todos los productos.
-     * GET /api/inventario/stock
-     * @return ResponseEntity con una lista de ProductoInventarioDTO y estado HTTP 200 OK.
-     */
-    @GetMapping("/stock")
-    public ResponseEntity<List<ProductoInventarioDTO>> consultarTodoElStock() {
-        List<ProductoInventarioDTO> stockList = productoInventarioService.consultarTodoElStock();
-        return ResponseEntity.ok(stockList);
+    @PutMapping("/productos/{sku}")
+    public ResponseEntity<ProductoInventarioDTO> actualizarProducto(
+            @PathVariable String sku,
+            @Valid @RequestBody AgregarProductoInventarioRequestDTO requestDTO) { // Podrías usar el mismo DTO de creación o uno específico para actualización
+        ProductoInventarioDTO productoActualizado = productoInventarioService.actualizarProducto(sku, requestDTO); // Necesitarás este método
+        return ResponseEntity.ok(productoActualizado);
     }
+
+    @DeleteMapping("/productos/{sku}")
+    public ResponseEntity<Void> eliminarProducto(@PathVariable String sku) {
+        productoInventarioService.eliminarProducto(sku); // Necesitarás este método en tu servicio
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/stock")
+    public ResponseEntity<ProductoInventarioDTO> actualizarStock(
+            @Valid @RequestBody ActualizarStockRequestDTO requestDTO) {
+        ProductoInventarioDTO updatedProducto = productoInventarioService.actualizarStock(requestDTO); // Necesitarás este método en tu servicio
+        return ResponseEntity.ok(updatedProducto);
+    }
+
+
 }

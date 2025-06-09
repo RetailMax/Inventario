@@ -56,7 +56,7 @@ public class ProductoInventarioService {
         return mapToProductoInventarioDTO(savedProductoInventario);
     }
 
-    @Transactional
+     @Transactional
     public ProductoInventarioDTO actualizarStock(ActualizarStockRequestDTO requestDTO) {
         ProductoInventario productoInventario = productoInventarioRepository.findBySku(requestDTO.getSku())
                 .orElseThrow(() -> new RecursoNoEncontradoException("Producto con SKU " + requestDTO.getSku() + " no encontrado en el inventario."));
@@ -89,10 +89,10 @@ public class ProductoInventarioService {
                     throw new StockInsuficienteException("No hay suficiente stock reservado para liberar " + cantidadMovida + " unidades del SKU " + requestDTO.getSku() + ". Stock reservado: " + oldCantidadReservada);
                 }
                 productoInventario.setCantidadDisponible(oldCantidadDisponible + cantidadMovida);
-                
                 productoInventario.setCantidadReservada(oldCantidadReservada - cantidadMovida);
                 break;
             case AJUSTE:
+                // Para AJUSTE, la cantidadMovida puede ser positiva (incremento) o negativa (decremento)
                 if (oldCantidadDisponible + cantidadMovida < 0) {
                      throw new IllegalArgumentException("El ajuste resultaría en stock negativo para el SKU " + requestDTO.getSku());
                 }
@@ -108,31 +108,10 @@ public class ProductoInventarioService {
         productoInventario.setFechaUltimaActualizacion(LocalDateTime.now());
         ProductoInventario updatedProductoInventario = productoInventarioRepository.save(productoInventario);
 
-        registrarMovimiento(
-            updatedProductoInventario,
-            tipoMovimiento,
-            cantidadMovida,
-            requestDTO.getReferenciaExterna()
-        );
-
+        registrarMovimiento(updatedProductoInventario, tipoMovimiento, cantidadMovida, requestDTO.getReferenciaExterna());
         return mapToProductoInventarioDTO(updatedProductoInventario);
     }
-
-    @Transactional(readOnly = true)
-    public ProductoInventarioDTO consultarStockPorSku(String sku) {
-        ProductoInventario productoInventario = productoInventarioRepository.findBySku(sku)
-                .orElseThrow(() -> new RecursoNoEncontradoException("Producto con SKU " + sku + " no encontrado en el inventario."));
-        return mapToProductoInventarioDTO(productoInventario);
-    }
-
-    @Transactional(readOnly = true)
-    public List<ProductoInventarioDTO> consultarTodoElStock() {
-        return productoInventarioRepository.findAll().stream()
-                .map(this::mapToProductoInventarioDTO)
-                .collect(Collectors.toList());
-    }
-
-    @Transactional
+    @Transactional  
     public ProductoInventarioDTO realizarAjusteManual(String sku, Integer cantidad, String motivo) {
         ProductoInventario productoInventario = productoInventarioRepository.findBySku(sku)
                 .orElseThrow(() -> new RecursoNoEncontradoException("Producto con SKU " + sku + " no encontrado para ajuste manual."));
@@ -236,39 +215,10 @@ public class ProductoInventarioService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
-    public List<ProductoInventarioDTO> generarReporteDeInventarioActual() {
-        return consultarTodoElStock();
-    }
-
-    @Transactional
-    public ProductoInventarioDTO recibirStockDeProveedor(String sku, Integer cantidad, String referenciaProveedor) {
-        try {
-            ProductoInventarioDTO productoActualizado = actualizarStock(
-                new ActualizarStockRequestDTO(
-                    sku,
-                    cantidad, // Correcto: cantidad (Integer)
-                    TipoMovimiento.ENTRADA.name(), // Correcto: tipoActualizacion (String)
-                    "Recepción de proveedor: " + referenciaProveedor, // Correcto: referenciaExterna (String)
-                    "Recepción de proveedor" // Falta: motivo (String)
-                )
-            );
-            System.out.println("Stock actualizado para " + sku + " desde proveedor. Cantidad: " + cantidad);
-            return productoActualizado;
-        } catch (RecursoNoEncontradoException e) {
-            System.out.println("Producto " + sku + " no encontrado, creándolo con stock inicial.");
-            AgregarProductoInventarioRequestDTO newProductRequest = new AgregarProductoInventarioRequestDTO(
-                sku,
-                cantidad,
-                "UbicacionDefecto",
-                0
-            );
-            return agregarProductoInventario(newProductRequest);
-        }
-    }
 
     private ProductoInventarioDTO mapToProductoInventarioDTO(ProductoInventario productoInventario) {
-        return ProductoInventarioDTO.builder()
+    
+                   return ProductoInventarioDTO.builder()
                 .id(productoInventario.getId())
                 .sku(productoInventario.getSku())
                 .cantidadDisponible(productoInventario.getCantidadDisponible())
@@ -294,4 +244,51 @@ public class ProductoInventarioService {
                 .fechaMovimiento(movimientoStock.getFechaMovimiento())
                 .build();
     }
+
+    @Transactional
+    public void eliminarProducto(String sku) {
+        ProductoInventario productoInventario = productoInventarioRepository.findBySku(sku)
+                .orElseThrow(() -> new RecursoNoEncontradoException("Producto con SKU " + sku + " no encontrado, no se puede eliminar."));
+
+        // Opcional: Antes de eliminar el producto, podrías querer eliminar o archivar los movimientos de stock asociados
+        // List<MovimientoStock> movimientosAsociados = movimientoStockRepository.findByProductoInventarioIdOrderByFechaMovimientoDesc(productoInventario.getId());
+        // movimientoStockRepository.deleteAll(movimientosAsociados); // Ejemplo de eliminación de movimientos
+        productoInventarioRepository.delete(productoInventario);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ProductoInventarioDTO> consultarTodosLosProductos() {
+        return productoInventarioRepository.findAll().stream()
+                .map(this::mapToProductoInventarioDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public ProductoInventarioDTO consultarProductoPorSku(String sku) {
+        ProductoInventario productoInventario = productoInventarioRepository.findBySku(sku)
+                .orElseThrow(() -> new RecursoNoEncontradoException("Producto con SKU " + sku + " no encontrado."));
+        return mapToProductoInventarioDTO(productoInventario);
+    }
+
+    @Transactional
+    public ProductoInventarioDTO actualizarProducto(String sku, AgregarProductoInventarioRequestDTO requestDTO) {
+        ProductoInventario productoExistente = productoInventarioRepository.findBySku(sku)
+                .orElseThrow(() -> new RecursoNoEncontradoException("Producto con SKU " + sku + " no encontrado, no se puede actualizar."));
+
+        // Actualizar los campos permitidos. SKU generalmente no se actualiza, o si se hace, requiere cuidado.
+        // Aquí asumimos que el SKU en el path es el identificador y el SKU en el DTO es el nuevo valor si se permite cambiar.
+        // Por simplicidad, no actualizaremos el SKU aquí, sino otros campos.
+        if (requestDTO.getUbicacionAlmacen() != null) {
+            productoExistente.setUbicacionAlmacen(requestDTO.getUbicacionAlmacen());
+        }
+        if (requestDTO.getCantidadMinimaStock() != null) {
+            productoExistente.setCantidadMinimaStock(requestDTO.getCantidadMinimaStock());
+        }
+        // No se actualiza la cantidad inicial directamente aquí, eso se maneja vía actualizarStock.
+
+        productoExistente.setFechaUltimaActualizacion(LocalDateTime.now());
+        ProductoInventario productoActualizado = productoInventarioRepository.save(productoExistente);
+        return mapToProductoInventarioDTO(productoActualizado);
+    }    
+
 }
