@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -64,4 +65,23 @@ public class MovimientoStockControllerV2 {
 
     // Se podrían añadir más endpoints para filtrar por fechas, tipo de movimiento, etc.,
     // si las funcionalidades lo requieren, siguiendo el mismo patrón HATEOAS.
+
+/**
+     * GET /api/v2/inventario/movimientos
+     * Proporciona un punto de entrada raíz para los recursos de movimientos.
+     * Puede devolver una lista vacía o enlaces a otras operaciones,
+     * ya que obtener todos los movimientos de todos los productos podría ser
+     * intensivo en recursos sin paginación y filtrado adecuados.
+     */
+    @GetMapping(produces = MediaTypes.HAL_JSON_VALUE)
+    public ResponseEntity<CollectionModel<EntityModel<MovimientoStockDTO>>> getMovimientosRoot() {
+        // Devuelve una lista vacía con un enlace 'self'.
+        // Esto indica que el recurso existe pero puede requerir consultas más específicas.
+        List<EntityModel<MovimientoStockDTO>> emptyList = Collections.emptyList();
+        CollectionModel<EntityModel<MovimientoStockDTO>> collectionModel = CollectionModel.of(emptyList,
+                linkTo(methodOn(MovimientoStockControllerV2.class).getMovimientosRoot()).withSelfRel());
+
+        return ResponseEntity.ok(collectionModel);
+    }
+
 }
