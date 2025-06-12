@@ -3,6 +3,8 @@ package com.retailmax.inventario.controller;
 import com.retailmax.inventario.assemblers.UmbralAlertaModelAssembler;
 import com.retailmax.inventario.dto.UmbralAlertaDTO;
 import com.retailmax.inventario.service.UmbralAlertaService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import com.retailmax.inventario.model.enums.TipoAlerta;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
  */
 @RestController
 @RequestMapping("/api/v2/inventario/umbrales")
+@Tag(name = "UmbralAlerta", description = "Operaciones relacionadas con la gestión de umbrales de alerta para productos de inventario")
 @RequiredArgsConstructor
 public class UmbralAlertaControllerV2 {
 
@@ -38,6 +41,8 @@ public class UmbralAlertaControllerV2 {
      * @return CollectionModel de EntityModel de UmbralAlertaDTO
      */
     @GetMapping(produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Consultar todos los umbrales de alerta",
+            description = "Permite consultar todos los umbrales de alerta actualmente configurados en el sistema.")
     public ResponseEntity<CollectionModel<EntityModel<UmbralAlertaDTO>>> getAllUmbrales() {
         List<EntityModel<UmbralAlertaDTO>> umbrales = umbralAlertaService.consultarTodosLosUmbrales().stream()
                 .map(assembler::toModel)
@@ -57,6 +62,8 @@ public class UmbralAlertaControllerV2 {
      * @return EntityModel de UmbralAlertaDTO.
      */
     @GetMapping(value = "/{sku}", produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Consultar umbral de alerta por SKU",
+            description = "Permite consultar un umbral de alerta configurado para un producto dado su SKU.")
     public ResponseEntity<EntityModel<UmbralAlertaDTO>> getUmbralBySku(@PathVariable String sku) {
         UmbralAlertaDTO umbral = umbralAlertaService.consultarUmbralAlertaPorSku(sku);
         return ResponseEntity.ok(assembler.toModel(umbral));
@@ -70,6 +77,8 @@ public class UmbralAlertaControllerV2 {
      * @return ResponseEntity con el EntityModel del umbral creado y el código de estado 201 Created.
      */
     @PostMapping(produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Crear umbral de alerta",
+            description = "Permite crear un nuevo umbral de alerta para un producto dado su SKU.")
     public ResponseEntity<EntityModel<UmbralAlertaDTO>> createUmbral(@Valid @RequestBody UmbralAlertaDTO requestDTO) {
         UmbralAlertaDTO nuevoUmbral = umbralAlertaService.crearUmbralAlerta(requestDTO);
         // Retorna 201 Created con el enlace a la ubicación del nuevo recurso
@@ -87,6 +96,8 @@ public class UmbralAlertaControllerV2 {
      * @return ResponseEntity con el EntityModel del umbral actualizado y el código de estado 200 OK.
      */
     @PutMapping(value = "/{sku}", produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Actualizar umbral de alerta por SKU",
+            description = "Permite actualizar un umbral de alerta existente para un producto dado su SKU.")
     public ResponseEntity<EntityModel<UmbralAlertaDTO>> updateUmbral(
             @PathVariable String sku,
             @Valid @RequestBody UmbralAlertaDTO requestDTO) {
@@ -102,6 +113,8 @@ public class UmbralAlertaControllerV2 {
      * @return ResponseEntity con el código de estado 204 No Content.
      */
     @DeleteMapping(value = "/{sku}", produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Eliminar umbral de alerta por SKU",
+            description = "Permite eliminar un umbral de alerta configurado para un producto dado su SKU.")
     public ResponseEntity<?> deleteUmbral(@PathVariable String sku) {
         umbralAlertaService.eliminarUmbralAlerta(sku);
         return ResponseEntity.noContent().build();
@@ -115,6 +128,8 @@ public class UmbralAlertaControllerV2 {
      * @return CollectionModel de EntityModel de UmbralAlertaDTO.
      */
     @GetMapping(value = "/tipo/{tipoAlerta}", produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Consultar umbrales activos por tipo de alerta",
+            description = "Permite consultar los umbrales de alerta activos filtrados por tipo de alerta.")
     public ResponseEntity<CollectionModel<EntityModel<UmbralAlertaDTO>>> getUmbralesActivosPorTipo(@PathVariable String tipoAlerta) {
         TipoAlerta alertType;
         try {

@@ -3,6 +3,8 @@ package com.retailmax.inventario.controller;
 import com.retailmax.inventario.assemblers.MovimientoStockModelAssembler;
 import com.retailmax.inventario.dto.MovimientoStockDTO;
 import com.retailmax.inventario.service.MovimientoStockService; // Ahora usando MovimientoStockService
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.CollectionModel;
@@ -24,6 +26,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
  */
 @RestController // Indica que esta clase es un controlador REST
 @RequestMapping("/api/v2/inventario/movimientos") // Prefijo para todas las rutas en este controlador
+@Tag(name = "MovimientoStock", description = "Operaciones relacionadas con el historial de movimientos de stock")
 @RequiredArgsConstructor // Genera un constructor con los campos 'final' para inyección
 public class MovimientoStockControllerV2 {
 
@@ -37,8 +40,11 @@ public class MovimientoStockControllerV2 {
      * @param sku SKU del producto cuyo historial de movimientos se desea consultar.
      * @return ResponseEntity con una CollectionModel de EntityModel de MovimientoStockDTO y estado HTTP 200 OK.
      */
+    
     @GetMapping(value = "/{sku}", produces = MediaTypes.HAL_JSON_VALUE)
-    public ResponseEntity<CollectionModel<EntityModel<MovimientoStockDTO>>> obtenerHistorialMovimientos(@PathVariable String sku) {
+    @Operation(summary = "Obtener historial de movimientos de stock por SKU",
+               description = "Consulta el historial de movimientos de stock para un producto dado su SKU.")
+     public ResponseEntity<CollectionModel<EntityModel<MovimientoStockDTO>>> obtenerHistorialMovimientos(@PathVariable String sku) {
         List<EntityModel<MovimientoStockDTO>> movimientos = movimientoStockService.obtenerHistorialMovimientos(sku, null, null).stream()
                 .map(assembler::toModel)
                 .collect(Collectors.toList());
@@ -58,6 +64,8 @@ public class MovimientoStockControllerV2 {
      * @return EntityModel de MovimientoStockDTO.
      */
     @GetMapping(value = "/id/{id}", produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Consultar un movimiento de stock por ID",
+               description = "Permite consultar un movimiento de stock específico utilizando su ID.")
     public ResponseEntity<EntityModel<MovimientoStockDTO>> getMovimientoById(@PathVariable Long id) {
         MovimientoStockDTO movimiento = movimientoStockService.consultarMovimientoPorId(id);
         return ResponseEntity.ok(assembler.toModel(movimiento));
@@ -74,6 +82,8 @@ public class MovimientoStockControllerV2 {
      * intensivo en recursos sin paginación y filtrado adecuados.
      */
     @GetMapping(produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Consultar movimientos de stock",
+               description = "Proporciona un punto de entrada raíz para los recursos de movimientos de stock.")
     public ResponseEntity<CollectionModel<EntityModel<MovimientoStockDTO>>> getMovimientosRoot() {
         // Devuelve una lista vacía con un enlace 'self'.
         // Esto indica que el recurso existe pero puede requerir consultas más específicas.

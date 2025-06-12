@@ -2,6 +2,8 @@ package com.retailmax.inventario.controller;
 
 import com.retailmax.inventario.dto.UmbralAlertaDTO; // Ahora usamos solo este DTO
 import com.retailmax.inventario.service.UmbralAlertaService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import com.retailmax.inventario.model.enums.TipoAlerta;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/inventario/umbrales")
+@Tag(name = "UmbralAlerta", description = "Operaciones relacionadas con la gestión de umbrales de alerta para productos de inventario")
 @RequiredArgsConstructor
 public class UmbralAlertaController {
 
@@ -23,6 +26,8 @@ public class UmbralAlertaController {
      * Crea un nuevo umbral de alerta para un SKU.
      */
     @PostMapping
+    @Operation(summary = "Crear umbral de alerta",
+               description = "Permite crear un nuevo umbral de alerta para un producto dado su SKU.")
     public ResponseEntity<UmbralAlertaDTO> crearUmbralAlerta(
             @Valid @RequestBody UmbralAlertaDTO requestDTO) { // Usamos el DTO unificado
         UmbralAlertaDTO nuevoUmbral = umbralAlertaService.crearUmbralAlerta(requestDTO);
@@ -34,6 +39,8 @@ public class UmbralAlertaController {
      * Actualiza un umbral de alerta existente por SKU.
      */
     @PutMapping("/{sku}")
+    @Operation(summary = "Actualizar umbral de alerta por SKU",
+               description = "Permite actualizar un umbral de alerta existente para un producto dado su SKU.")
     public ResponseEntity<UmbralAlertaDTO> actualizarUmbralAlerta(
             @PathVariable String sku,
             @Valid @RequestBody UmbralAlertaDTO requestDTO) { // Usamos el DTO unificado
@@ -48,6 +55,8 @@ public class UmbralAlertaController {
      * Consulta un umbral de alerta por SKU.
      */
     @GetMapping("/{sku}")
+    @Operation(summary = "Consultar umbral de alerta por SKU",
+               description = "Permite consultar un umbral de alerta configurado para un producto dado su SKU.")
     public ResponseEntity<UmbralAlertaDTO> consultarUmbralAlertaPorSku(@PathVariable String sku) {
         UmbralAlertaDTO umbral = umbralAlertaService.consultarUmbralAlertaPorSku(sku);
         return ResponseEntity.ok(umbral);
@@ -58,6 +67,8 @@ public class UmbralAlertaController {
      * Consulta todos los umbrales de alerta configurados.
      */
     @GetMapping
+    @Operation (summary = "Consultar todos los umbrales de alerta",
+               description = "Permite consultar todos los umbrales de alerta configurados en el sistema.")
     public ResponseEntity<List<UmbralAlertaDTO>> consultarTodosLosUmbrales() {
         List<UmbralAlertaDTO> umbrales = umbralAlertaService.consultarTodosLosUmbrales();
         return ResponseEntity.ok(umbrales);
@@ -69,6 +80,8 @@ public class UmbralAlertaController {
      * Ejemplo: /api/inventario/umbrales/tipo/BAJO_STOCK
      */
     @GetMapping("/tipo/{tipoAlerta}")
+    @Operation(summary = "Consultar umbrales activos por tipo de alerta",
+               description = "Permite consultar los umbrales de alerta activos filtrados por tipo de alerta.")
     public ResponseEntity<List<UmbralAlertaDTO>> consultarUmbralesActivosPorTipo(@PathVariable String tipoAlerta) {
         TipoAlerta alertType;
         try {
@@ -87,6 +100,8 @@ public class UmbralAlertaController {
      * Elimina un umbral de alerta por SKU.
      */
     @DeleteMapping("/{sku}")
+    @Operation(summary = "Eliminar umbral de alerta por SKU",
+               description = "Permite eliminar un umbral de alerta configurado para un producto dado su SKU.")
     public ResponseEntity<Void> eliminarUmbralAlerta(@PathVariable String sku) {
         umbralAlertaService.eliminarUmbralAlerta(sku);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

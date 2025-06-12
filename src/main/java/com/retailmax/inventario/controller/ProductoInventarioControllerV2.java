@@ -5,6 +5,8 @@ import com.retailmax.inventario.dto.AgregarProductoInventarioRequestDTO;
 import com.retailmax.inventario.dto.ActualizarStockRequestDTO;
 import com.retailmax.inventario.dto.ProductoInventarioDTO;
 import com.retailmax.inventario.service.ProductoInventarioService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.EntityModel;
@@ -26,6 +28,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
  */
 @RestController
 @RequestMapping("/api/v2/inventario/productos")
+@Tag(name = "ProductoInventario", description = "Operaciones relacionadas con la gestión de productos de inventario")
 @RequiredArgsConstructor
 public class ProductoInventarioControllerV2 {
 
@@ -39,6 +42,8 @@ public class ProductoInventarioControllerV2 {
      * @return CollectionModel de EntityModel de ProductoInventarioDTO
      */
     @GetMapping(produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Consultar todos los productos del inventario",
+               description = "Permite consultar todos los productos actualmente registrados en el inventario.")
     public ResponseEntity<CollectionModel<EntityModel<ProductoInventarioDTO>>> getAllProductos() {
         List<EntityModel<ProductoInventarioDTO>> productos = productoInventarioService.consultarTodosLosProductos().stream()
                 .map(assembler::toModel)
@@ -58,6 +63,8 @@ public class ProductoInventarioControllerV2 {
      * @return EntityModel de ProductoInventarioDTO.
      */
     @GetMapping(value = "/{sku}", produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Consultar un producto por SKU",
+               description = "Permite consultar un producto específico del inventario utilizando su SKU.")
     public ResponseEntity<EntityModel<ProductoInventarioDTO>> getProductoBySku(@PathVariable String sku) {
         ProductoInventarioDTO producto = productoInventarioService.consultarProductoPorSku(sku);
         return ResponseEntity.ok(assembler.toModel(producto));
@@ -71,6 +78,8 @@ public class ProductoInventarioControllerV2 {
      * @return ResponseEntity con el EntityModel del producto creado y el código de estado 201 Created.
      */
     @PostMapping(produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Agregar un nuevo producto al inventario",
+               description = "Permite agregar un nuevo producto al inventario con los detalles proporcionados.")
     public ResponseEntity<EntityModel<ProductoInventarioDTO>> agregarProducto(@Valid @RequestBody AgregarProductoInventarioRequestDTO requestDTO) {
         ProductoInventarioDTO nuevoProducto = productoInventarioService.agregarProductoInventario(requestDTO);
         // Retorna 201 Created con el enlace a la ubicación del nuevo recurso
@@ -88,6 +97,8 @@ public class ProductoInventarioControllerV2 {
      * @return ResponseEntity con el EntityModel del producto actualizado y el código de estado 200 OK.
      */
     @PutMapping(value = "/{sku}", produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Actualizar un producto existente en el inventario",
+               description = "Permite actualizar los detalles de un producto existente en el inventario utilizando su SKU.")
     public ResponseEntity<EntityModel<ProductoInventarioDTO>> actualizarProducto(
             @PathVariable String sku,
             @Valid @RequestBody AgregarProductoInventarioRequestDTO requestDTO) { // Usamos el mismo DTO de creación para actualización
@@ -103,6 +114,8 @@ public class ProductoInventarioControllerV2 {
      * @return ResponseEntity con el código de estado 204 No Content.
      */
     @DeleteMapping(value = "/{sku}", produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Eliminar un producto del inventario",
+               description = "Permite eliminar un producto del inventario utilizando su SKU.")
     public ResponseEntity<?> eliminarProducto(@PathVariable String sku) {
         productoInventarioService.eliminarProducto(sku);
         return ResponseEntity.noContent().build();
@@ -116,6 +129,8 @@ public class ProductoInventarioControllerV2 {
      * @return ResponseEntity con el EntityModel del producto actualizado y el código de estado 200 OK.
      */
     @PutMapping(value = "/stock", produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Actualizar el stock de un producto",
+               description = "Permite actualizar el stock de un producto específico en el inventario.")
     public ResponseEntity<EntityModel<ProductoInventarioDTO>> actualizarStock(
             @Valid @RequestBody ActualizarStockRequestDTO requestDTO) {
         ProductoInventarioDTO updatedProducto = productoInventarioService.actualizarStock(requestDTO);
@@ -132,6 +147,8 @@ public class ProductoInventarioControllerV2 {
      * @return CollectionModel de EntityModel de ProductoInventarioDTO.
      */
     @GetMapping(value = "/bajo-stock/{umbralCantidadMinima}", produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Consultar productos con stock bajo",
+               description = "Permite consultar productos cuyo stock está por debajo de un umbral específico.")
     public ResponseEntity<CollectionModel<EntityModel<ProductoInventarioDTO>>> verificarYNotificarStockBajo(@PathVariable Integer umbralCantidadMinima) {
         List<EntityModel<ProductoInventarioDTO>> productosBajoStock = productoInventarioService.verificarYNotificarStockBajo(umbralCantidadMinima).stream()
                 .map(assembler::toModel)
@@ -150,6 +167,8 @@ public class ProductoInventarioControllerV2 {
      * @return CollectionModel de EntityModel de ProductoInventarioDTO.
      */
     @GetMapping(value = "/exceso-stock/{umbralCantidadExcesiva}", produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Consultar productos con stock excesivo",
+               description = "Permite consultar productos cuyo stock está por encima de un umbral específico.")
     public ResponseEntity<CollectionModel<EntityModel<ProductoInventarioDTO>>> verificarYNotificarStockExcesivo(@PathVariable Integer umbralCantidadExcesiva) {
         List<EntityModel<ProductoInventarioDTO>> productosExcesoStock = productoInventarioService.verificarYNotificarStockExcesivo(umbralCantidadExcesiva).stream()
                 .map(assembler::toModel)
