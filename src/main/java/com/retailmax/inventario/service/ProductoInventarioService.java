@@ -179,25 +179,7 @@ public class ProductoInventarioService {
         movimientoStockRepository.save(movimiento);
     }
     @Transactional(readOnly = true)
-    public List<MovimientoStockDTO> obtenerHistorialMovimientos(String sku, LocalDateTime fechaInicio, LocalDateTime fechaFin) {
-        ProductoInventario productoInventario = productoInventarioRepository.findBySku(sku)
-                .orElseThrow(() -> new RecursoNoEncontradoException("Producto con SKU " + sku + " no encontrado para obtener su historial de movimientos."));
-
-        List<MovimientoStock> movimientos;
-        if (fechaInicio != null && fechaFin != null) {
-            movimientos = movimientoStockRepository.findByProductoInventarioIdAndFechaMovimientoBetweenOrderByFechaMovimientoDesc(
-                productoInventario.getId(), fechaInicio, fechaFin
-            );
-        } else {
-            movimientos = movimientoStockRepository.findByProductoInventarioIdOrderByFechaMovimientoDesc(productoInventario.getId());
-        }
-
-        return movimientos.stream()
-                .map(this::mapToMovimientoStockDTO)
-                .collect(Collectors.toList());
-    }
-
-    @Transactional(readOnly = true)
+    
     public List<ProductoInventarioDTO> verificarYNotificarStockBajo(Integer umbralCantidadMinima) {
         List<ProductoInventario> productosBajoStock = productoInventarioRepository.findByCantidadDisponibleLessThan(umbralCantidadMinima);
         System.out.println("Alertas de Stock Bajo generadas para: " + productosBajoStock.size() + " productos.");
@@ -231,19 +213,7 @@ public class ProductoInventarioService {
                 .build();
     }
 
-    private MovimientoStockDTO mapToMovimientoStockDTO(MovimientoStock movimientoStock) {
-        return MovimientoStockDTO.builder()
-                .id(movimientoStock.getId())
-                .productoInventarioId(movimientoStock.getProductoInventario() != null ? movimientoStock.getProductoInventario().getId() : null)
-                .sku(movimientoStock.getSku())
-                .tipoMovimiento(movimientoStock.getTipoMovimiento().name())
-                .cantidadMovida(movimientoStock.getCantidadMovida())
-                .stockFinalDespuesMovimiento(movimientoStock.getStockFinalDespuesMovimiento())
-                .referenciaExterna(movimientoStock.getReferenciaExterna())
-                .motivo(movimientoStock.getMotivo())
-                .fechaMovimiento(movimientoStock.getFechaMovimiento())
-                .build();
-    }
+
 
     @Transactional
     public void eliminarProducto(String sku) {

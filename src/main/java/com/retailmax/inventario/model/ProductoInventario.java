@@ -21,6 +21,7 @@ import lombok.NoArgsConstructor;
 
 /*Clase base para empezar a mover productos dentro del MS Inventario */
 
+
 public class ProductoInventario {
 
    @Id
