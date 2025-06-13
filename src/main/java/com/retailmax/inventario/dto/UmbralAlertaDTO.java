@@ -1,7 +1,6 @@
 package com.retailmax.inventario.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude; // Para omitir campos nulos en la respuesta JSON
-import com.retailmax.inventario.model.enums.TipoAlerta; // Se usa para la conversión interna en el servicio
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

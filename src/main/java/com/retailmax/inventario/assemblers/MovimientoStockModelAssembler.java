@@ -4,6 +4,7 @@ import com.retailmax.inventario.controller.MovimientoStockControllerV2;
 import com.retailmax.inventario.controller.ProductoInventarioControllerV2; // Para enlazar al producto asociado
 import com.retailmax.inventario.dto.MovimientoStockDTO;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.lang.NonNull;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +18,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 public class MovimientoStockModelAssembler implements RepresentationModelAssembler<MovimientoStockDTO, EntityModel<MovimientoStockDTO>> {
 
     @Override
-    public EntityModel<MovimientoStockDTO> toModel(MovimientoStockDTO movimientoStock) {
+    @NonNull
+    public EntityModel<MovimientoStockDTO> toModel(@NonNull MovimientoStockDTO movimientoStock) {
         // Construye el EntityModel para un MovimientoStockDTO individual
         return EntityModel.of(movimientoStock,
                 // Enlace 'self' al movimiento individual por su ID

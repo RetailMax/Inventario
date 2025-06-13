@@ -15,7 +15,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -28,18 +29,31 @@ public class MovimientoStockServiceTest {
     @Autowired
     private MovimientoStockService movimientoStockService;
 
-    @MockBean
+    @Autowired
     private MovimientoStockRepository movimientoStockRepository;
 
-    @MockBean
+    @Autowired
     private ProductoInventarioRepository productoInventarioRepository;
 
     private ProductoInventario testProducto;
 
+    @TestConfiguration
+    static class MovimientoStockServiceTestConfiguration {
+        @Bean
+        public MovimientoStockRepository movimientoStockRepository() {
+            return mock(MovimientoStockRepository.class);
+        }
+        @Bean
+        public ProductoInventarioRepository productoInventarioRepository() {
+            return mock(ProductoInventarioRepository.class);
+        }
+    }
+
     @BeforeEach
     void setUp() {
         // Reiniciar los mocks antes de cada prueba para asegurar un estado limpio
-        reset(movimientoStockRepository, productoInventarioRepository);
+        reset(movimientoStockRepository);
+        reset(productoInventarioRepository);
 
         // Crear un producto de prueba que será usado en varios tests
         testProducto = crearProductoInventario("SKU001", 100, "Bodega A", 10);

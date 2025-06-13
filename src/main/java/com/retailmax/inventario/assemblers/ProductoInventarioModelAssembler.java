@@ -3,6 +3,7 @@ package com.retailmax.inventario.assemblers;
 import com.retailmax.inventario.controller.ProductoInventarioControllerV2;
 import com.retailmax.inventario.dto.ProductoInventarioDTO;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.lang.NonNull;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +17,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 public class ProductoInventarioModelAssembler implements RepresentationModelAssembler<ProductoInventarioDTO, EntityModel<ProductoInventarioDTO>> {
 
     @Override
-    public EntityModel<ProductoInventarioDTO> toModel(ProductoInventarioDTO productoInventario) {
+    @NonNull
+    public EntityModel<ProductoInventarioDTO> toModel(@NonNull ProductoInventarioDTO productoInventario) {
         // Construye el EntityModel para un ProductoInventarioDTO individual
         // Agrega un enlace 'self' que apunta a la consulta del producto por su SKU
         return EntityModel.of(productoInventario,

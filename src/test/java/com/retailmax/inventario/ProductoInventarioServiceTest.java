@@ -22,7 +22,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -36,18 +37,31 @@ public class ProductoInventarioServiceTest {
     @Autowired
     private ProductoInventarioService productoInventarioService;
 
-    // Mockea los repositorios de los que depende el servicio
-    @MockBean
+    // Ahora estos serán inyectados desde TestConfiguration
+    @Autowired
     private ProductoInventarioRepository productoInventarioRepository;
 
-    @MockBean
+    @Autowired
     private MovimientoStockRepository movimientoStockRepository;
+
+    @TestConfiguration
+    static class ProductoInventarioServiceTestConfiguration {
+        @Bean
+        public ProductoInventarioRepository productoInventarioRepository() {
+            return mock(ProductoInventarioRepository.class);
+        }
+        @Bean
+        public MovimientoStockRepository movimientoStockRepository() {
+            return mock(MovimientoStockRepository.class);
+        }
+    }
 
     // Configuración inicial antes de cada prueba
     @BeforeEach
     void setUp() {
         // Reiniciar los mocks antes de cada prueba para asegurar un estado limpio
-        reset(productoInventarioRepository, movimientoStockRepository);
+        reset(productoInventarioRepository);
+        reset(movimientoStockRepository);
     }
 
     /**
@@ -290,7 +304,7 @@ public class ProductoInventarioServiceTest {
     @Test
     void testVerificarYNotificarStockBajo() {
         ProductoInventario prod1 = crearProductoInventario("SKU001", 5, "Bodega A", 10); // Bajo stock
-        ProductoInventario prod2 = crearProductoInventario("SKU002", 15, "Bodega B", 10); // No bajo stock
+        // ProductoInventario prod2 = crearProductoInventario("SKU002", 15, "Bodega B", 10); // No bajo stock - No se usa
         when(productoInventarioRepository.findByCantidadDisponibleLessThan(10)).thenReturn(List.of(prod1));
 
         List<ProductoInventarioDTO> bajoStock = productoInventarioService.verificarYNotificarStockBajo(10);
@@ -307,7 +321,7 @@ public class ProductoInventarioServiceTest {
     @Test
     void testVerificarYNotificarStockExcesivo() {
         ProductoInventario prod1 = crearProductoInventario("SKU001", 150, "Bodega A", 10); // Excesivo
-        ProductoInventario prod2 = crearProductoInventario("SKU002", 50, "Bodega B", 10); // No excesivo
+        // ProductoInventario prod2 = crearProductoInventario("SKU002", 50, "Bodega B", 10); // No excesivo - No se usa
         when(productoInventarioRepository.findByCantidadDisponibleGreaterThan(100)).thenReturn(List.of(prod1));
 
         List<ProductoInventarioDTO> excesoStock = productoInventarioService.verificarYNotificarStockExcesivo(100);
