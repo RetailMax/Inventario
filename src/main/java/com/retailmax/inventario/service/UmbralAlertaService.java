@@ -1,6 +1,6 @@
 package com.retailmax.inventario.service;
 
-import com.retailmax.inventario.dto.UmbralAlertaDTO; // Ahora usamos solo este DTO
+import com.retailmax.inventario.dto.UmbralAlertaDTO;
 import com.retailmax.inventario.exception.RecursoNoEncontradoException;
 import com.retailmax.inventario.model.UmbralAlerta;
 import com.retailmax.inventario.model.enums.TipoAlerta;
@@ -21,9 +21,7 @@ public class UmbralAlertaService {
     private final UmbralAlertaRepository umbralAlertaRepository;
 
     @Transactional
-    public UmbralAlertaDTO crearUmbralAlerta(UmbralAlertaDTO requestDTO) { // Usamos el DTO unificado
-        // Validaciones específicas para la creación (que el DTO unificado no puede imponer con @NotNull
-        // si queremos flexibilidad para la actualización).
+    public UmbralAlertaDTO crearUmbralAlerta(UmbralAlertaDTO requestDTO) {
         if (requestDTO.getSku() == null || requestDTO.getSku().isBlank()) {
             throw new IllegalArgumentException("El SKU es obligatorio para crear un umbral de alerta.");
         }
@@ -31,100 +29,87 @@ public class UmbralAlertaService {
             throw new IllegalArgumentException("El tipo de alerta es obligatorio para crear un umbral de alerta.");
         }
         if (requestDTO.getUmbralCantidad() == null) {
-            throw new IllegalArgumentException("La cantidad del umbral es obligatoria para crear un umbral de alerta.");
+            throw new IllegalArgumentException("La cantidad del umbral es obligatoria.");
         }
         if (requestDTO.getActivo() == null) {
-            throw new IllegalArgumentException("El estado activo es obligatorio para crear un umbral de alerta.");
+            throw new IllegalArgumentException("El campo activo es obligatorio.");
         }
 
-
-        Optional<UmbralAlerta> existingUmbral = umbralAlertaRepository.findBySku(requestDTO.getSku());
-        if (existingUmbral.isPresent()) {
-            throw new IllegalArgumentException("Ya existe un umbral de alerta configurado para el SKU: " + requestDTO.getSku());
+        Optional<UmbralAlerta> existente = umbralAlertaRepository.findBySku(requestDTO.getSku());
+        if (existente.isPresent()) {
+            throw new IllegalArgumentException("Ya existe un umbral para el SKU: " + requestDTO.getSku());
         }
 
-        UmbralAlerta nuevoUmbral = new UmbralAlerta();
-        nuevoUmbral.setSku(requestDTO.getSku());
-        nuevoUmbral.setTipoAlerta(TipoAlerta.fromName(requestDTO.getTipoAlerta()));
-        nuevoUmbral.setUmbralCantidad(requestDTO.getUmbralCantidad());
-        nuevoUmbral.setActivo(requestDTO.getActivo());
+        UmbralAlerta nuevo = new UmbralAlerta();
+        nuevo.setSku(requestDTO.getSku());
+        nuevo.setTipoAlerta(TipoAlerta.fromName(requestDTO.getTipoAlerta()));
+        nuevo.setUmbralCantidad(requestDTO.getUmbralCantidad());
+        nuevo.setActivo(requestDTO.getActivo());
+        nuevo.setFechaCreacion(LocalDateTime.now());
+        nuevo.setFechaUltimaActualizacion(LocalDateTime.now());
 
-        nuevoUmbral.setFechaCreacion(LocalDateTime.now());
-        nuevoUmbral.setFechaUltimaActualizacion(LocalDateTime.now());
-
-        UmbralAlerta savedUmbral = umbralAlertaRepository.save(nuevoUmbral);
-        return mapToDTO(savedUmbral);
+        return mapToDTO(umbralAlertaRepository.save(nuevo));
     }
 
     @Transactional
-    public UmbralAlertaDTO actualizarUmbralAlerta(String sku, UmbralAlertaDTO requestDTO) { // Usamos el DTO unificado
-        UmbralAlerta umbralExistente = umbralAlertaRepository.findBySku(sku)
-                .orElseThrow(() -> new RecursoNoEncontradoException("Umbral de alerta para SKU " + sku + " no encontrado."));
+    public UmbralAlertaDTO actualizarUmbralAlerta(String sku, UmbralAlertaDTO dto) {
+        UmbralAlerta existente = umbralAlertaRepository.findBySku(sku)
+                .orElseThrow(() -> new RecursoNoEncontradoException("No se encontró el umbral para SKU: " + sku));
 
-        // Solo actualizamos si los campos están presentes en el DTO de la solicitud
-        if (requestDTO.getTipoAlerta() != null && !requestDTO.getTipoAlerta().isBlank()) {
-            umbralExistente.setTipoAlerta(TipoAlerta.fromName(requestDTO.getTipoAlerta()));
+        if (dto.getTipoAlerta() != null && !dto.getTipoAlerta().isBlank()) {
+            existente.setTipoAlerta(TipoAlerta.fromName(dto.getTipoAlerta()));
         }
-        if (requestDTO.getUmbralCantidad() != null) {
-            umbralExistente.setUmbralCantidad(requestDTO.getUmbralCantidad());
+        if (dto.getUmbralCantidad() != null) {
+            existente.setUmbralCantidad(dto.getUmbralCantidad());
         }
-        if (requestDTO.getActivo() != null) {
-            umbralExistente.setActivo(requestDTO.getActivo());
+        if (dto.getActivo() != null) {
+            existente.setActivo(dto.getActivo());
         }
 
-        umbralExistente.setFechaUltimaActualizacion(LocalDateTime.now());
-
-        UmbralAlerta updatedUmbral = umbralAlertaRepository.save(umbralExistente);
-        return mapToDTO(updatedUmbral);
+        existente.setFechaUltimaActualizacion(LocalDateTime.now());
+        return mapToDTO(umbralAlertaRepository.save(existente));
     }
 
     @Transactional(readOnly = true)
     public UmbralAlertaDTO consultarUmbralAlertaPorSku(String sku) {
         UmbralAlerta umbral = umbralAlertaRepository.findBySku(sku)
-                .orElseThrow(() -> new RecursoNoEncontradoException("Umbral de alerta para SKU " + sku + " no encontrado."));
+                .orElseThrow(() -> new RecursoNoEncontradoException("No se encontró el umbral para SKU: " + sku));
         return mapToDTO(umbral);
     }
 
     @Transactional(readOnly = true)
     public List<UmbralAlertaDTO> consultarTodosLosUmbrales() {
-        return umbralAlertaRepository.findAll().stream()
+        return umbralAlertaRepository.findAll()
+                .stream()
                 .map(this::mapToDTO)
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
     public List<UmbralAlertaDTO> consultarUmbralesActivosPorTipo(TipoAlerta tipoAlerta) {
-        // Asumiendo que TipoAlerta ya es el Enum correcto
-        // Si necesitas un método en el repo, lo podrías añadir:
-        // return umbralAlertaRepository.findByTipoAlertaAndActivoTrue(tipoAlerta).stream()
-        //        .map(this::mapToDTO)
-        //        .collect(Collectors.toList());
-
-        // O, si no tienes el método en el repo y solo filtras en memoria (menos eficiente para grandes datasets):
-        return umbralAlertaRepository.findAll().stream()
+        return umbralAlertaRepository.findAll()
+                .stream()
                 .filter(u -> u.getActivo() && u.getTipoAlerta().equals(tipoAlerta))
                 .map(this::mapToDTO)
                 .collect(Collectors.toList());
     }
 
-
     @Transactional
     public void eliminarUmbralAlerta(String sku) {
         UmbralAlerta umbral = umbralAlertaRepository.findBySku(sku)
-                .orElseThrow(() -> new RecursoNoEncontradoException("Umbral de alerta para SKU " + sku + " no encontrado para eliminar."));
+                .orElseThrow(() -> new RecursoNoEncontradoException("No se encontró el umbral para eliminar con SKU: " + sku));
         umbralAlertaRepository.delete(umbral);
     }
 
-    // Método de mapeo de entidad a DTO (ahora siempre usa el mismo DTO)
-    private UmbralAlertaDTO mapToDTO(UmbralAlerta umbralAlerta) {
+    private UmbralAlertaDTO mapToDTO(UmbralAlerta u) {
         return UmbralAlertaDTO.builder()
-                .id(umbralAlerta.getId())
-                .sku(umbralAlerta.getSku())
-                .tipoAlerta(umbralAlerta.getTipoAlerta().name()) // Convertir Enum a String para el DTO
-                .umbralCantidad(umbralAlerta.getUmbralCantidad())
-                .activo(umbralAlerta.getActivo())
-                .fechaCreacion(umbralAlerta.getFechaCreacion())
-                .fechaUltimaActualizacion(umbralAlerta.getFechaUltimaActualizacion())
+                .id(u.getId())
+                .sku(u.getSku())
+                .tipoAlerta(u.getTipoAlerta().name())
+                .umbralCantidad(u.getUmbralCantidad())
+                .activo(u.getActivo())
+                .fechaCreacion(u.getFechaCreacion())
+                .fechaUltimaActualizacion(u.getFechaUltimaActualizacion())
                 .build();
     }
 }

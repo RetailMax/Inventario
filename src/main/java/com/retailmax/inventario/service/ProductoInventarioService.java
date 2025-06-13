@@ -1,9 +1,6 @@
 package com.retailmax.inventario.service;
 
-import com.retailmax.inventario.dto.ActualizarStockRequestDTO;
-import com.retailmax.inventario.dto.AgregarProductoInventarioRequestDTO;
-import com.retailmax.inventario.dto.MovimientoStockDTO;
-import com.retailmax.inventario.dto.ProductoInventarioDTO;
+import com.retailmax.inventario.dto.*;
 import com.retailmax.inventario.exception.ProductoExistenteException;
 import com.retailmax.inventario.exception.RecursoNoEncontradoException;
 import com.retailmax.inventario.exception.StockInsuficienteException;
@@ -18,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,99 +28,74 @@ public class ProductoInventarioService {
     @Transactional
     public ProductoInventarioDTO agregarProductoInventario(AgregarProductoInventarioRequestDTO requestDTO) {
         if (productoInventarioRepository.existsBySku(requestDTO.getSku())) {
-            throw new ProductoExistenteException("Ya existe un producto con el SKU: " + requestDTO.getSku() + " en el inventario.");
+            throw new ProductoExistenteException("Ya existe un producto con el SKU: " + requestDTO.getSku());
         }
 
-        ProductoInventario nuevoProductoInventario = new ProductoInventario();
-        nuevoProductoInventario.setSku(requestDTO.getSku());
-        nuevoProductoInventario.setCantidadDisponible(requestDTO.getCantidadInicial());
-        nuevoProductoInventario.setUbicacionAlmacen(requestDTO.getUbicacionAlmacen());
-        nuevoProductoInventario.setCantidadMinimaStock(requestDTO.getCantidadMinimaStock() != null ? requestDTO.getCantidadMinimaStock() : 0);
+        ProductoInventario producto = new ProductoInventario();
+        producto.setSku(requestDTO.getSku());
+        producto.setCantidadDisponible(requestDTO.getCantidadInicial());
+        producto.setUbicacionAlmacen(requestDTO.getUbicacionAlmacen());
+        producto.setCantidadMinimaStock(Optional.ofNullable(requestDTO.getCantidadMinimaStock()).orElse(0));
+        producto.setCantidadReservada(0);
+        producto.setCantidadEnTransito(0);
+        producto.setActivo(true);
+        producto.setFechaCreacion(LocalDateTime.now());
+        producto.setFechaUltimaActualizacion(LocalDateTime.now());
 
-        nuevoProductoInventario.setFechaCreacion(LocalDateTime.now());
-        nuevoProductoInventario.setFechaUltimaActualizacion(LocalDateTime.now());
-        nuevoProductoInventario.setCantidadReservada(0);
-        nuevoProductoInventario.setCantidadEnTransito(0); // Inicializar cantidad en tránsito
-        nuevoProductoInventario.setActivo(true); // Establecer como activo por defecto
-        ProductoInventario savedProductoInventario = productoInventarioRepository.save(nuevoProductoInventario);
+        ProductoInventario saved = productoInventarioRepository.save(producto);
+        registrarMovimiento(saved, TipoMovimiento.ENTRADA, requestDTO.getCantidadInicial(), "Entrada inicial");
 
-        registrarMovimiento(
-            savedProductoInventario,
-            TipoMovimiento.ENTRADA,
-            requestDTO.getCantidadInicial(),
-            "Entrada inicial al inventario"
-        );
-
-        return mapToProductoInventarioDTO(savedProductoInventario);
+        return mapToProductoInventarioDTO(saved);
     }
 
     @Transactional
     public ProductoInventarioDTO actualizarStock(ActualizarStockRequestDTO requestDTO) {
-        ProductoInventario productoInventario = productoInventarioRepository.findBySku(requestDTO.getSku())
-                .orElseThrow(() -> new RecursoNoEncontradoException("Producto con SKU " + requestDTO.getSku() + " no encontrado en el inventario."));
+        ProductoInventario producto = productoInventarioRepository.findBySku(requestDTO.getSku())
+                .orElseThrow(() -> new RecursoNoEncontradoException("Producto con SKU " + requestDTO.getSku() + " no encontrado."));
 
-        Integer cantidadMovida = requestDTO.getCantidad();
-        TipoMovimiento tipoMovimiento = TipoMovimiento.fromName(requestDTO.getTipoActualizacion());
+        int cantidad = requestDTO.getCantidad();
+        TipoMovimiento tipo = TipoMovimiento.fromName(requestDTO.getTipoActualizacion());
 
-        Integer oldCantidadDisponible = productoInventario.getCantidadDisponible();
-        Integer oldCantidadReservada = productoInventario.getCantidadReservada();
+        int disponible = producto.getCantidadDisponible();
+        int reservada = producto.getCantidadReservada();
 
-        switch (tipoMovimiento) {
-            case ENTRADA:
-                productoInventario.setCantidadDisponible(oldCantidadDisponible + cantidadMovida);
-                break;
-            case SALIDA:
-                if (oldCantidadDisponible < cantidadMovida) {
-                    throw new StockInsuficienteException("No hay suficiente stock disponible para salida de " + cantidadMovida + " unidades del SKU " + requestDTO.getSku() + ". Stock actual: " + oldCantidadDisponible);
-                }
-                productoInventario.setCantidadDisponible(oldCantidadDisponible - cantidadMovida);
-                break;
-             case RESERVA:
-                if (oldCantidadDisponible < cantidadMovida) {
-                    throw new StockInsuficienteException("No hay suficiente stock disponible para reservar " + cantidadMovida + " unidades del SKU " + requestDTO.getSku() + ". Stock actual: " + oldCantidadDisponible);
-                }
-                productoInventario.setCantidadDisponible(oldCantidadDisponible - cantidadMovida);
-                productoInventario.setCantidadReservada(oldCantidadReservada + cantidadMovida);
-                break;
-            case LIBERACION:
-                if (oldCantidadReservada < cantidadMovida) {
-                    throw new StockInsuficienteException("No hay suficiente stock reservado para liberar " + cantidadMovida + " unidades del SKU " + requestDTO.getSku() + ". Stock reservado: " + oldCantidadReservada);
-                }
-                productoInventario.setCantidadDisponible(oldCantidadDisponible + cantidadMovida);
-                
-                productoInventario.setCantidadReservada(oldCantidadReservada - cantidadMovida);
-                break;
-            case AJUSTE:
-                if (oldCantidadDisponible + cantidadMovida < 0) {
-                     throw new IllegalArgumentException("El ajuste resultaría en stock negativo para el SKU " + requestDTO.getSku());
-                }
-                productoInventario.setCantidadDisponible(oldCantidadDisponible + cantidadMovida);
-                break;
-            case DEVOLUCION_CLIENTE: // Una devolución de cliente incrementa el stock disponible
-                productoInventario.setCantidadDisponible(oldCantidadDisponible + cantidadMovida);
-                break;
-            default:
-                throw new IllegalArgumentException("Tipo de movimiento '" + tipoMovimiento + "' no soportado para esta operación de actualización.");
+        switch (tipo) {
+            case ENTRADA -> producto.setCantidadDisponible(disponible + cantidad);
+            case SALIDA -> {
+                if (disponible < cantidad) throw new StockInsuficienteException("Stock insuficiente.");
+                producto.setCantidadDisponible(disponible - cantidad);
+            }
+            case RESERVA -> {
+                if (disponible < cantidad) throw new StockInsuficienteException("Stock insuficiente para reserva.");
+                producto.setCantidadDisponible(disponible - cantidad);
+                producto.setCantidadReservada(reservada + cantidad);
+            }
+            case LIBERACION -> {
+                if (reservada < cantidad) throw new StockInsuficienteException("Stock reservado insuficiente.");
+                producto.setCantidadDisponible(disponible + cantidad);
+                producto.setCantidadReservada(reservada - cantidad);
+            }
+            case AJUSTE -> {
+                if (disponible + cantidad < 0) throw new IllegalArgumentException("Ajuste resultaría en stock negativo.");
+                producto.setCantidadDisponible(disponible + cantidad);
+            }
+            case DEVOLUCION_CLIENTE -> producto.setCantidadDisponible(disponible + cantidad);
+            default -> throw new IllegalArgumentException("Tipo de movimiento no soportado.");
         }
 
-        productoInventario.setFechaUltimaActualizacion(LocalDateTime.now());
-        ProductoInventario updatedProductoInventario = productoInventarioRepository.save(productoInventario);
+        producto.setFechaUltimaActualizacion(LocalDateTime.now());
+        ProductoInventario actualizado = productoInventarioRepository.save(producto);
 
-        registrarMovimiento(
-            updatedProductoInventario,
-            tipoMovimiento,
-            cantidadMovida,
-            requestDTO.getReferenciaExterna()
-        );
+        registrarMovimiento(actualizado, tipo, cantidad, requestDTO.getReferenciaExterna());
 
-        return mapToProductoInventarioDTO(updatedProductoInventario);
+        return mapToProductoInventarioDTO(actualizado);
     }
 
     @Transactional(readOnly = true)
     public ProductoInventarioDTO consultarStockPorSku(String sku) {
-        ProductoInventario productoInventario = productoInventarioRepository.findBySku(sku)
-                .orElseThrow(() -> new RecursoNoEncontradoException("Producto con SKU " + sku + " no encontrado en el inventario."));
-        return mapToProductoInventarioDTO(productoInventario);
+        ProductoInventario producto = productoInventarioRepository.findBySku(sku)
+                .orElseThrow(() -> new RecursoNoEncontradoException("Producto con SKU " + sku + " no encontrado."));
+        return mapToProductoInventarioDTO(producto);
     }
 
     @Transactional(readOnly = true)
@@ -134,104 +107,67 @@ public class ProductoInventarioService {
 
     @Transactional
     public ProductoInventarioDTO realizarAjusteManual(String sku, Integer cantidad, String motivo) {
-        ProductoInventario productoInventario = productoInventarioRepository.findBySku(sku)
-                .orElseThrow(() -> new RecursoNoEncontradoException("Producto con SKU " + sku + " no encontrado para ajuste manual."));
+        ProductoInventario producto = productoInventarioRepository.findBySku(sku)
+                .orElseThrow(() -> new RecursoNoEncontradoException("Producto con SKU " + sku + " no encontrado."));
 
-        Integer oldCantidadDisponible = productoInventario.getCantidadDisponible();
-        if (oldCantidadDisponible + cantidad < 0) {
-            throw new IllegalArgumentException("El ajuste de " + cantidad + " unidades resultaría en stock negativo para el SKU " + sku + ". Stock actual: " + oldCantidadDisponible);
+        if (producto.getCantidadDisponible() + cantidad < 0) {
+            throw new IllegalArgumentException("Ajuste negativo inválido.");
         }
 
-        productoInventario.setCantidadDisponible(oldCantidadDisponible + cantidad);
-        productoInventario.setFechaUltimaActualizacion(LocalDateTime.now());
-        ProductoInventario updatedProductoInventario = productoInventarioRepository.save(productoInventario);
+        producto.setCantidadDisponible(producto.getCantidadDisponible() + cantidad);
+        producto.setFechaUltimaActualizacion(LocalDateTime.now());
+        ProductoInventario actualizado = productoInventarioRepository.save(producto);
 
-        registrarMovimiento(
-            updatedProductoInventario,
-            TipoMovimiento.AJUSTE,
-            cantidad,
-            motivo
-        );
-
-        return mapToProductoInventarioDTO(updatedProductoInventario);
+        registrarMovimiento(actualizado, TipoMovimiento.AJUSTE, cantidad, motivo);
+        return mapToProductoInventarioDTO(actualizado);
     }
 
     @Transactional
     public ProductoInventarioDTO decrementarStockPorOrdenConfirmada(String sku, Integer cantidad, String ordenId) {
-        ProductoInventario productoInventario = productoInventarioRepository.findBySku(sku)
-                .orElseThrow(() -> new RecursoNoEncontradoException("Producto con SKU " + sku + " no encontrado para decrementar stock por orden confirmada."));
+        ProductoInventario producto = productoInventarioRepository.findBySku(sku)
+                .orElseThrow(() -> new RecursoNoEncontradoException("Producto con SKU " + sku + " no encontrado."));
 
-        if (productoInventario.getCantidadDisponible() < cantidad) {
-            throw new StockInsuficienteException("Stock insuficiente para la orden " + ordenId + " del SKU " + sku + ". Disponible: " + productoInventario.getCantidadDisponible() + ", Solicitado: " + cantidad);
+        if (producto.getCantidadDisponible() < cantidad) {
+            throw new StockInsuficienteException("Stock insuficiente para orden confirmada.");
         }
 
-        productoInventario.setCantidadDisponible(productoInventario.getCantidadDisponible() - cantidad);
-        productoInventario.setFechaUltimaActualizacion(LocalDateTime.now());
-        ProductoInventario updatedProductoInventario = productoInventarioRepository.save(productoInventario);
+        producto.setCantidadDisponible(producto.getCantidadDisponible() - cantidad);
+        producto.setFechaUltimaActualizacion(LocalDateTime.now());
+        ProductoInventario actualizado = productoInventarioRepository.save(producto);
 
-        registrarMovimiento(
-            updatedProductoInventario,
-            TipoMovimiento.SALIDA,
-            cantidad,
-            "Salida por orden confirmada: " + ordenId
-        );
-
-        return mapToProductoInventarioDTO(updatedProductoInventario);
+        registrarMovimiento(actualizado, TipoMovimiento.SALIDA, cantidad, "Orden confirmada: " + ordenId);
+        return mapToProductoInventarioDTO(actualizado);
     }
 
     @Transactional(readOnly = true)
-    public boolean validarDisponibilidad(String sku, Integer cantidadRequerida) {
-        ProductoInventario productoInventario = productoInventarioRepository.findBySku(sku)
-                .orElseThrow(() -> new RecursoNoEncontradoException("Producto con SKU " + sku + " no encontrado para validar disponibilidad."));
-
-        return productoInventario.getCantidadDisponible() >= cantidadRequerida;
-    }
-
-    private void registrarMovimiento(ProductoInventario productoInventario, TipoMovimiento tipoMovimiento, Integer cantidad, String referenciaExterna) {
-        MovimientoStock movimiento = new MovimientoStock();
-        movimiento.setProductoInventario(productoInventario);
-        movimiento.setSku(productoInventario.getSku());
-        movimiento.setTipoMovimiento(tipoMovimiento);
-        movimiento.setCantidadMovida(cantidad);
-        movimiento.setStockFinalDespuesMovimiento(productoInventario.getCantidadDisponible()); // Stock después de la operación
-        movimiento.setReferenciaExterna(referenciaExterna);
-        movimiento.setMotivo(tipoMovimiento.getDescripcion()); // Usar la descripción del tipo de movimiento como motivo general
-        movimiento.setFechaMovimiento(LocalDateTime.now()); // Establecer la fecha y hora actual del movimiento
-        movimientoStockRepository.save(movimiento);
-    }
-    @Transactional(readOnly = true)
-    public List<MovimientoStockDTO> obtenerHistorialMovimientos(String sku, LocalDateTime fechaInicio, LocalDateTime fechaFin) {
-        ProductoInventario productoInventario = productoInventarioRepository.findBySku(sku)
-                .orElseThrow(() -> new RecursoNoEncontradoException("Producto con SKU " + sku + " no encontrado para obtener su historial de movimientos."));
-
-        List<MovimientoStock> movimientos;
-        if (fechaInicio != null && fechaFin != null) {
-            movimientos = movimientoStockRepository.findByProductoInventarioIdAndFechaMovimientoBetweenOrderByFechaMovimientoDesc(
-                productoInventario.getId(), fechaInicio, fechaFin
-            );
-        } else {
-            movimientos = movimientoStockRepository.findByProductoInventarioIdOrderByFechaMovimientoDesc(productoInventario.getId());
-        }
-
-        return movimientos.stream()
-                .map(this::mapToMovimientoStockDTO)
-                .collect(Collectors.toList());
+    public boolean validarDisponibilidad(String sku, Integer cantidad) {
+        ProductoInventario producto = productoInventarioRepository.findBySku(sku)
+                .orElseThrow(() -> new RecursoNoEncontradoException("Producto con SKU " + sku + " no encontrado."));
+        return producto.getCantidadDisponible() >= cantidad;
     }
 
     @Transactional(readOnly = true)
-    public List<ProductoInventarioDTO> verificarYNotificarStockBajo(Integer umbralCantidadMinima) {
-        List<ProductoInventario> productosBajoStock = productoInventarioRepository.findByCantidadDisponibleLessThan(umbralCantidadMinima);
-        System.out.println("Alertas de Stock Bajo generadas para: " + productosBajoStock.size() + " productos.");
-        return productosBajoStock.stream()
+    public List<MovimientoStockDTO> obtenerHistorialMovimientos(String sku, LocalDateTime desde, LocalDateTime hasta) {
+        ProductoInventario producto = productoInventarioRepository.findBySku(sku)
+                .orElseThrow(() -> new RecursoNoEncontradoException("Producto con SKU " + sku + " no encontrado."));
+
+        List<MovimientoStock> movimientos = (desde != null && hasta != null)
+                ? movimientoStockRepository.findByProductoInventarioIdAndFechaMovimientoBetweenOrderByFechaMovimientoDesc(producto.getId(), desde, hasta)
+                : movimientoStockRepository.findByProductoInventarioIdOrderByFechaMovimientoDesc(producto.getId());
+
+        return movimientos.stream().map(this::mapToMovimientoStockDTO).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<ProductoInventarioDTO> verificarYNotificarStockBajo(Integer umbral) {
+        return productoInventarioRepository.findByCantidadDisponibleLessThan(umbral).stream()
                 .map(this::mapToProductoInventarioDTO)
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public List<ProductoInventarioDTO> verificarYNotificarStockExcesivo(Integer umbralCantidadExcesiva) {
-        List<ProductoInventario> productosConStockExcesivo = productoInventarioRepository.findByCantidadDisponibleGreaterThan(umbralCantidadExcesiva);
-        System.out.println("Alertas de Stock Excesivo generadas para: " + productosConStockExcesivo.size() + " productos.");
-        return productosConStockExcesivo.stream()
+    public List<ProductoInventarioDTO> verificarYNotificarStockExcesivo(Integer umbral) {
+        return productoInventarioRepository.findByCantidadDisponibleGreaterThan(umbral).stream()
                 .map(this::mapToProductoInventarioDTO)
                 .collect(Collectors.toList());
     }
@@ -242,56 +178,66 @@ public class ProductoInventarioService {
     }
 
     @Transactional
-    public ProductoInventarioDTO recibirStockDeProveedor(String sku, Integer cantidad, String referenciaProveedor) {
+    public ProductoInventarioDTO recibirStockDeProveedor(String sku, Integer cantidad, String referencia) {
         try {
-            ProductoInventarioDTO productoActualizado = actualizarStock(
-                new ActualizarStockRequestDTO(
-                    sku,
-                    cantidad, // Correcto: cantidad (Integer)
-                    TipoMovimiento.ENTRADA.name(), // Correcto: tipoActualizacion (String)
-                    "Recepción de proveedor: " + referenciaProveedor, // Correcto: referenciaExterna (String)
-                    "Recepción de proveedor" // Falta: motivo (String)
-                )
-            );
-            System.out.println("Stock actualizado para " + sku + " desde proveedor. Cantidad: " + cantidad);
-            return productoActualizado;
+            return actualizarStock(new ActualizarStockRequestDTO(sku, cantidad, TipoMovimiento.ENTRADA.name(), "Recepción proveedor: " + referencia, "Recepción"));
         } catch (RecursoNoEncontradoException e) {
-            System.out.println("Producto " + sku + " no encontrado, creándolo con stock inicial.");
-            AgregarProductoInventarioRequestDTO newProductRequest = new AgregarProductoInventarioRequestDTO(
-                sku,
-                cantidad,
-                "UbicacionDefecto",
-                0
-            );
-            return agregarProductoInventario(newProductRequest);
+            return agregarProductoInventario(new AgregarProductoInventarioRequestDTO(sku, cantidad, "UbicacionDefecto", 0));
         }
     }
 
-    private ProductoInventarioDTO mapToProductoInventarioDTO(ProductoInventario productoInventario) {
+    @Transactional
+    public void eliminarProductoPorId(Long id) {
+        ProductoInventario producto = productoInventarioRepository.findById(id)
+                .orElseThrow(() -> new RecursoNoEncontradoException("Producto con ID " + id + " no encontrado."));
+        productoInventarioRepository.delete(producto);
+        registrarMovimiento(producto, TipoMovimiento.AJUSTE, 0, "Eliminación del producto del sistema");
+    }
+
+    private void registrarMovimiento(ProductoInventario producto, TipoMovimiento tipo, Integer cantidad, String referencia) {
+        MovimientoStock movimiento = new MovimientoStock();
+        movimiento.setProductoInventario(producto);
+        movimiento.setSku(producto.getSku());
+        movimiento.setTipoMovimiento(tipo);
+        movimiento.setCantidadMovida(cantidad);
+        movimiento.setStockFinalDespuesMovimiento(producto.getCantidadDisponible());
+        movimiento.setReferenciaExterna(referencia);
+        movimiento.setMotivo(tipo.getDescripcion());
+        movimiento.setFechaMovimiento(LocalDateTime.now());
+
+        movimientoStockRepository.save(movimiento);
+    }
+
+    private ProductoInventarioDTO mapToProductoInventarioDTO(ProductoInventario producto) {
         return ProductoInventarioDTO.builder()
-                .id(productoInventario.getId())
-                .sku(productoInventario.getSku())
-                .cantidadDisponible(productoInventario.getCantidadDisponible())
-                .cantidadReservada(productoInventario.getCantidadReservada() != null ? productoInventario.getCantidadReservada() : 0)
-                .cantidadTotal(productoInventario.getCantidadDisponible() + (productoInventario.getCantidadReservada() != null ? productoInventario.getCantidadReservada() : 0))
-                .ubicacionAlmacen(productoInventario.getUbicacionAlmacen())
-                .cantidadMinimaStock(productoInventario.getCantidadMinimaStock() != null ? productoInventario.getCantidadMinimaStock() : 0)
-                .fechaCreacion(productoInventario.getFechaCreacion())
-                .fechaUltimaActualizacion(productoInventario.getFechaUltimaActualizacion())
+                .id(producto.getId())
+                .sku(producto.getSku())
+                .cantidadDisponible(producto.getCantidadDisponible())
+                .cantidadReservada(Optional.ofNullable(producto.getCantidadReservada()).orElse(0))
+                .cantidadTotal(producto.getCantidadDisponible() + Optional.ofNullable(producto.getCantidadReservada()).orElse(0))
+                .ubicacionAlmacen(producto.getUbicacionAlmacen())
+                .cantidadMinimaStock(Optional.ofNullable(producto.getCantidadMinimaStock()).orElse(0))
+                .fechaCreacion(producto.getFechaCreacion())
+                .fechaUltimaActualizacion(producto.getFechaUltimaActualizacion())
                 .build();
     }
 
-    private MovimientoStockDTO mapToMovimientoStockDTO(MovimientoStock movimientoStock) {
+    private MovimientoStockDTO mapToMovimientoStockDTO(MovimientoStock movimiento) {
         return MovimientoStockDTO.builder()
-                .id(movimientoStock.getId())
-                .productoInventarioId(movimientoStock.getProductoInventario() != null ? movimientoStock.getProductoInventario().getId() : null)
-                .sku(movimientoStock.getSku())
-                .tipoMovimiento(movimientoStock.getTipoMovimiento().name())
-                .cantidadMovida(movimientoStock.getCantidadMovida())
-                .stockFinalDespuesMovimiento(movimientoStock.getStockFinalDespuesMovimiento())
-                .referenciaExterna(movimientoStock.getReferenciaExterna())
-                .motivo(movimientoStock.getMotivo())
-                .fechaMovimiento(movimientoStock.getFechaMovimiento())
+                .id(movimiento.getId())
+                .productoInventarioId(movimiento.getProductoInventario() != null ? movimiento.getProductoInventario().getId() : null)
+                .sku(movimiento.getSku())
+                .tipoMovimiento(movimiento.getTipoMovimiento().name())
+                .cantidadMovida(movimiento.getCantidadMovida())
+                .stockFinalDespuesMovimiento(movimiento.getStockFinalDespuesMovimiento())
+                .referenciaExterna(movimiento.getReferenciaExterna())
+                .motivo(movimiento.getMotivo())
+                .fechaMovimiento(movimiento.getFechaMovimiento())
                 .build();
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<ProductoInventario> buscarPorSku(String sku) {
+        return productoInventarioRepository.findBySku(sku);
     }
 }
