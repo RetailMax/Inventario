@@ -14,4 +14,7 @@ public interface MovimientoStockRepository extends JpaRepository<MovimientoStock
     
     // Método para buscar todos los movimientos de un producto, ordenados por fecha descendente
     List<MovimientoStock> findByProductoInventarioIdOrderByFechaMovimientoDesc(Long productoInventarioId);
+
+    List<MovimientoStock> findBySkuOrderByFechaMovimientoDesc(String sku);
+
 }

@@ -261,4 +261,39 @@ public class ProductoInventarioService {
         return mapToProductoInventarioDTO(productoActualizado);
     }    
 
+    @Transactional(readOnly = true)
+    public List<MovimientoStockDTO> obtenerHistorialMovimientos(String sku, LocalDateTime fechaInicio, LocalDateTime fechaFin) {
+        // Primero, verificar que el producto exista.
+        if (!productoInventarioRepository.existsBySku(sku)) {
+            throw new RecursoNoEncontradoException("Producto con SKU " + sku + " no encontrado, no se puede obtener su historial de movimientos.");
+        }
+
+        List<MovimientoStock> movimientos;
+        // Aquí podrías tener una lógica más compleja si necesitas filtrar por fechaInicio y fechaFin.
+        // Por ahora, simplemente obtenemos todos los movimientos para el SKU ordenados por fecha.
+        // Asegúrate de que tu MovimientoStockRepository tenga un método adecuado, como findBySkuOrderByFechaMovimientoDesc.
+        movimientos = movimientoStockRepository.findBySkuOrderByFechaMovimientoDesc(sku);
+
+        return movimientos.stream()
+                .map(this::mapToMovimientoStockDTO)
+                .collect(Collectors.toList());
+    }
+
+    // Método auxiliar para mapear MovimientoStock a MovimientoStockDTO
+    // Este método podría estar en una clase Mapper dedicada si prefieres.
+    private MovimientoStockDTO mapToMovimientoStockDTO(MovimientoStock movimiento) {
+        return MovimientoStockDTO.builder()
+                // Asume que MovimientoStockDTO tiene los campos correspondientes y un builder.
+                .id(movimiento.getId())
+                .sku(movimiento.getSku())
+                .tipoMovimiento(movimiento.getTipoMovimiento().name())
+                .cantidadMovida(movimiento.getCantidadMovida())
+                .stockFinalDespuesMovimiento(movimiento.getStockFinalDespuesMovimiento())
+                .referenciaExterna(movimiento.getReferenciaExterna())
+                .motivo(movimiento.getMotivo())
+                .fechaMovimiento(movimiento.getFechaMovimiento())
+                .productoInventarioId(movimiento.getProductoInventario() != null ? movimiento.getProductoInventario().getId() : null)
+                .build();
+    }
+
 }
