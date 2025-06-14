@@ -1,37 +1,51 @@
 package com.retailmax.inventario.controller;
 
 import com.retailmax.inventario.dto.MovimientoStockDTO;
-import com.retailmax.inventario.service.MovimientoStockService; // Cambiado a MovimientoStockService
+import com.retailmax.inventario.model.MovimientoStock;
+import com.retailmax.inventario.service.MovimientoStockService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController // Indica que esta clase es un controlador REST
-@RequestMapping("/api/inventario") // Mismo prefijo base para agrupar bajo la API de inventario
-@Tag(name = "MovimientoStock", description = "Operaciones relacionadas con el historial de movimientos de stock")
-@RequiredArgsConstructor // Para inyección de dependencias vía constructor
+@RestController // Indicates that this class is a REST controller
+@RequestMapping("/api/inventario") // Same base prefix to group under the inventory API
+@Tag(name = "MovimientoStock", description = "Operations related to stock movement history")
+@RequiredArgsConstructor // For dependency injection via constructor
 public class MovimientoStockController {
 
-    private final MovimientoStockService movimientoStockService; // Cambiado a MovimientoStockService
+    private final MovimientoStockService movimientoStockService;
 
     /**
-     * RF15: Permite la consulta del historial de stock de un producto dado su SKU.
+     * RF15: Allows querying the stock history of a product given its SKU.
      * GET /api/inventario/movimientos/{sku}
-     * @param sku SKU del producto cuyo historial de movimientos se desea consultar.
-     * @return ResponseEntity con una lista de MovimientoStockDTO y estado HTTP 200 OK.
+     * @param sku SKU of the product whose movement history is to be queried.
+     * @return ResponseEntity with a list of MovimientoStockDTO and HTTP status 200 OK.
      */
     @GetMapping("/movimientos/{sku}")
-    @Operation(summary = "Obtener historial de movimientos de stock por SKU",
-               description = "Consulta el historial de movimientos de stock para un producto dado su SKU.")
+    @Operation(summary = "Get stock movement history by SKU",
+               description = "Queries the stock movement history for a product given its SKU.")
     public ResponseEntity<List<MovimientoStockDTO>> obtenerHistorialMovimientos(@PathVariable String sku) {
-        List<MovimientoStockDTO> movimientos = movimientoStockService.obtenerHistorialMovimientos(sku, null, null); // Usando movimientoStockService
+        List<MovimientoStockDTO> movimientos = movimientoStockService.obtenerHistorialMovimientos(sku, null, null);
         return ResponseEntity.ok(movimientos);
     }
 
-    // Podrías añadir más endpoints aquí si hubiera otras operaciones específicas de MovimientoStock
-    // que no encajen en InventarioController (ej. consultar movimientos por rango de fechas, por tipo, etc.).
+    /**
+     * POST /api/inventario/movimientos
+     * Allows registering a new stock movement.
+     * @param movimiento The MovimientoStock to register (from the request body).
+     * @return ResponseEntity with the registered MovimientoStockDTO and HTTP status 201 Created.
+     */
+    @PostMapping("/movimientos") // <--- NEW ENDPOINT ADDED HERE
+    @Operation(summary = "Register new stock movement",
+               description = "Allows registering an inbound or outbound stock movement for an existing product.")
+    public ResponseEntity<MovimientoStockDTO> registrarMovimiento(@Valid @RequestBody MovimientoStock movimiento) {
+        MovimientoStockDTO nuevoMovimiento = movimientoStockService.registrarMovimiento(movimiento);
+        return new ResponseEntity<>(nuevoMovimiento, HttpStatus.CREATED);
+    }
 }

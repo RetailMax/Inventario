@@ -13,8 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
+import org.springframework.boot.test.mock.mockito.MockBean; // Importación clave: MockBean
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -24,12 +23,16 @@ import java.util.Optional;
 @SpringBootTest
 public class UmbralAlertaServiceTest {
 
-    @Autowired
+    @Autowired // El servicio real que vamos a probar
     private UmbralAlertaService umbralAlertaService;
 
-    @Autowired
+    // Usamos @MockBean para crear un mock del repositorio y que Spring lo inyecte.
+    // Esto resuelve el conflicto de definición de beans y permite la carga del contexto.
+    @MockBean
     private UmbralAlertaRepository umbralAlertaRepository;
 
+    // *** RECUERDA ELIMINAR O COMENTAR LA CLASE DE CONFIGURACIÓN ANIDADA QUE CAUSABA EL CONFLICTO ***
+    /*
     @TestConfiguration
     static class UmbralAlertaServiceTestConfiguration {
         @Bean
@@ -37,6 +40,7 @@ public class UmbralAlertaServiceTest {
             return mock(UmbralAlertaRepository.class);
         }
     }
+    */
 
     @BeforeEach
     void setUp() {
