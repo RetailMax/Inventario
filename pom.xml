@@ -20,6 +20,8 @@
 
     <properties>
         <java.version>21</java.version>
+        <!-- ¡Versión de Lombok definida aquí! -->
+        <lombok.version>1.18.38</lombok.version>
     </properties>
 
     <dependencies>
@@ -77,6 +79,8 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <!-- ¡Usando la propiedad de la versión aquí! -->
+            <version>${lombok.version}</version>
             <optional>true</optional>
         </dependency>
 
@@ -95,11 +99,11 @@
         </dependency>
 
         <!-- Faker para generación de datos de prueba -->
-		<dependency>
-			<groupId>net.datafaker</groupId>
-			<artifactId>datafaker</artifactId>
-			<version>2.4.2</version>
-		</dependency>
+        <dependency>
+            <groupId>net.datafaker</groupId>
+            <artifactId>datafaker</artifactId>
+            <version>2.4.2</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-hateoas</artifactId>
@@ -127,7 +131,9 @@
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
-                            <version>1.18.32</version>
+
+                            <!-- ¡Usando la propiedad de la versión aquí también! -->
+                            <version>1.18.38</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>

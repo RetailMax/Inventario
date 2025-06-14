@@ -4,8 +4,10 @@ import com.retailmax.inventario.dto.MovimientoStockDTO;
 import com.retailmax.inventario.exception.RecursoNoEncontradoException;
 import com.retailmax.inventario.model.MovimientoStock;
 import com.retailmax.inventario.model.ProductoInventario;
+import com.retailmax.inventario.model.enums.TipoMovimiento;
 import com.retailmax.inventario.repository.MovimientoStockRepository;
 import com.retailmax.inventario.repository.ProductoInventarioRepository;
+import com.retailmax.inventario.exception.StockInsuficienteException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,6 +53,58 @@ public class MovimientoStockService {
         MovimientoStock movimientoStock = movimientoStockRepository.findById(id)
                 .orElseThrow(() -> new RecursoNoEncontradoException("Movimiento de stock con ID " + id + " no encontrado."));
         return mapToMovimientoStockDTO(movimientoStock);
+    }
+
+    @Transactional
+    public MovimientoStockDTO registrarMovimiento(MovimientoStock movimientoInput) {
+        if (movimientoInput.getSku() == null || movimientoInput.getSku().isBlank()) {
+            throw new IllegalArgumentException("El SKU es obligatorio para registrar un movimiento.");
+        }
+        if (movimientoInput.getCantidadMovida() == null || movimientoInput.getCantidadMovida() <= 0) {
+            throw new IllegalArgumentException("La cantidad movida debe ser un entero positivo.");
+        }
+        if (movimientoInput.getTipoMovimiento() == null) {
+            throw new IllegalArgumentException("El tipo de movimiento es obligatorio.");
+        }
+
+        ProductoInventario producto = productoInventarioRepository.findBySku(movimientoInput.getSku())
+                .orElseThrow(() -> new RecursoNoEncontradoException("Producto con SKU " + movimientoInput.getSku() + " no encontrado. No se puede registrar el movimiento."));
+
+        int cantidadActual = producto.getCantidadDisponible();
+        int cantidadMovida = movimientoInput.getCantidadMovida();
+        TipoMovimiento tipo = movimientoInput.getTipoMovimiento();
+
+        switch (tipo) {
+            case ENTRADA:
+                producto.setCantidadDisponible(cantidadActual + cantidadMovida);
+                break;
+            case SALIDA:
+                if (cantidadActual < cantidadMovida) {
+                    throw new StockInsuficienteException("No hay suficiente stock para el SKU " + producto.getSku() + ". Disponible: " + cantidadActual + ", Solicitado: " + cantidadMovida);
+                }
+                producto.setCantidadDisponible(cantidadActual - cantidadMovida);
+                break;
+            default:
+                // Otros tipos de movimiento como AJUSTE, RESERVA, etc., podrían necesitar lógica más específica
+                // o no ser manejados por este endpoint genérico de "registrarMovimiento".
+                // Por ahora, solo soportamos ENTRADA y SALIDA explícitamente aquí.
+                throw new IllegalArgumentException("Tipo de movimiento '" + tipo + "' no soportado directamente por esta operación. Considere usar un endpoint específico si es necesario.");
+        }
+        producto.setFechaUltimaActualizacion(LocalDateTime.now());
+        productoInventarioRepository.save(producto);
+
+        MovimientoStock nuevoRegistroMovimiento = new MovimientoStock();
+        nuevoRegistroMovimiento.setProductoInventario(producto);
+        nuevoRegistroMovimiento.setSku(producto.getSku());
+        nuevoRegistroMovimiento.setTipoMovimiento(tipo);
+        nuevoRegistroMovimiento.setCantidadMovida(cantidadMovida);
+        nuevoRegistroMovimiento.setStockFinalDespuesMovimiento(producto.getCantidadDisponible());
+        nuevoRegistroMovimiento.setReferenciaExterna(movimientoInput.getReferenciaExterna());
+        nuevoRegistroMovimiento.setMotivo(movimientoInput.getMotivo() != null ? movimientoInput.getMotivo() : tipo.getDescripcion());
+        nuevoRegistroMovimiento.setFechaMovimiento(movimientoInput.getFechaMovimiento() != null ? movimientoInput.getFechaMovimiento() : LocalDateTime.now());
+
+        MovimientoStock savedMovimiento = movimientoStockRepository.save(nuevoRegistroMovimiento);
+        return mapToMovimientoStockDTO(savedMovimiento);
     }
 
     private MovimientoStockDTO mapToMovimientoStockDTO(MovimientoStock movimientoStock) {

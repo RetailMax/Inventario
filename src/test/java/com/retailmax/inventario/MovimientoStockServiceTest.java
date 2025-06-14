@@ -1,6 +1,6 @@
 package com.retailmax.inventario;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.*; // Importa todas las estáticas de Mockito
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.retailmax.inventario.dto.MovimientoStockDTO;
@@ -15,43 +15,46 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
+import org.springframework.boot.test.mock.mockito.MockBean; // Importación clave: MockBean
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-@SpringBootTest
+@SpringBootTest // Carga el contexto completo de Spring Boot para la aplicación principal
 public class MovimientoStockServiceTest {
 
-    @Autowired
+    @Autowired // El servicio real, que será inyectado con los mocks de los repositorios
     private MovimientoStockService movimientoStockService;
 
-    @Autowired
+    // Usamos @MockBean para crear mocks de los repositorios y que Spring los inyecte.
+    // Esto reemplaza cualquier bean existente y resuelve el conflicto.
+    @MockBean
     private MovimientoStockRepository movimientoStockRepository;
 
-    @Autowired
+    @MockBean
     private ProductoInventarioRepository productoInventarioRepository;
 
     private ProductoInventario testProducto;
 
-    @TestConfiguration
-    static class MovimientoStockServiceTestConfiguration {
-        @Bean
-        public MovimientoStockRepository movimientoStockRepository() {
-            return mock(MovimientoStockRepository.class);
-        }
-        @Bean
-        public ProductoInventarioRepository productoInventarioRepository() {
-            return mock(ProductoInventarioRepository.class);
-        }
-    }
+    // *** ELIMINAMOS LA CLASE DE CONFIGURACIÓN ANIDADA QUE CAUSABA EL CONFLICTO ***
+    // @TestConfiguration
+    // static class MovimientoStockServiceTestConfiguration {
+    //     @Bean
+    //     public MovimientoStockRepository movimientoStockRepository() {
+    //         return mock(MovimientoStockRepository.class);
+    //     }
+    //     @Bean
+    //     public ProductoInventarioRepository productoInventarioRepository() {
+    //         return mock(ProductoInventarioRepository.class);
+    //     }
+    // }
 
     @BeforeEach
     void setUp() {
         // Reiniciar los mocks antes de cada prueba para asegurar un estado limpio
+        // Esto es necesario porque @MockBean crea un singleton mock por contexto
         reset(movimientoStockRepository);
         reset(productoInventarioRepository);
 
