@@ -91,6 +91,25 @@ public class ProductoInventarioService {
         return mapToProductoInventarioDTO(actualizado);
     }
 
+    @Transactional
+    public ProductoInventarioDTO actualizarUbicacionPorSku(ActualizarUbicacionDTO dto) {
+        ProductoInventario producto = productoInventarioRepository.findBySku(dto.getSku())
+                .orElseThrow(() -> new RecursoNoEncontradoException("Producto con SKU " + dto.getSku() + " no encontrado."));
+
+        producto.setUbicacionAlmacen(dto.getNuevaUbicacion());
+        producto.setFechaUltimaActualizacion(LocalDateTime.now());
+
+        ProductoInventario actualizado = productoInventarioRepository.save(producto);
+        return mapToProductoInventarioDTO(actualizado);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ProductoInventarioDTO> buscarPorUbicacion(String ubicacion) {
+        return productoInventarioRepository.findByUbicacionAlmacenIgnoreCase(ubicacion).stream()
+                .map(this::mapToProductoInventarioDTO)
+                .collect(Collectors.toList());
+    }
+
     @Transactional(readOnly = true)
     public ProductoInventarioDTO consultarStockPorSku(String sku) {
         ProductoInventario producto = productoInventarioRepository.findBySku(sku)
