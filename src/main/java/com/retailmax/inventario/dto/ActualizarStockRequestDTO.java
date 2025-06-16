@@ -19,6 +19,9 @@ public class ActualizarStockRequestDTO {
     @Min(value = 1, message = "La cantidad debe ser al menos 1")
     private Integer cantidad;
 
+    @NotBlank(message = "El tipo de movimiento no puede estar vacío")
+    private String tipoMovimiento; // Debe ser ENTRADA o SALIDA
+
     @NotBlank(message = "El tipo de actualización no puede ser nulo")
     private String tipoActualizacion; // Se mantiene como String para la entrada de la API
 
