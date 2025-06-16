@@ -117,7 +117,7 @@ public class ProductoInventarioServiceTest {
         // Datos de prueba
         String sku = "SKU001";
         ProductoInventario productoExistente = crearProductoInventario(sku, 50, "Bodega A", 10);
-        ActualizarStockRequestDTO requestDTO = new ActualizarStockRequestDTO(sku, 20, "ENTRADA", "Ref Compra 123", "Motivo de prueba entrada");
+        ActualizarStockRequestDTO requestDTO = new ActualizarStockRequestDTO(sku, 20, "ENTRADA", "AJUSTE_TEST", "Ref Compra 123", "Motivo de prueba entrada");
 
         // Simular el comportamiento del repositorio
         when(productoInventarioRepository.findBySku(sku)).thenReturn(Optional.of(productoExistente));
@@ -141,7 +141,7 @@ public class ProductoInventarioServiceTest {
     void testActualizarStock_Salida_Success() {
         String sku = "SKU001";
         ProductoInventario productoExistente = crearProductoInventario(sku, 50, "Bodega A", 10);
-        ActualizarStockRequestDTO requestDTO = new ActualizarStockRequestDTO(sku, 20, "SALIDA", "Ref Venta 456", "Motivo de prueba salida");
+        ActualizarStockRequestDTO requestDTO = new ActualizarStockRequestDTO(sku, 20, "SALIDA", "AJUSTE_TEST", "Ref Venta 456", "Motivo de prueba salida");
 
         when(productoInventarioRepository.findBySku(sku)).thenReturn(Optional.of(productoExistente));
         when(productoInventarioRepository.save(any(ProductoInventario.class))).thenAnswer(invocation -> invocation.getArgument(0));
@@ -162,7 +162,7 @@ public class ProductoInventarioServiceTest {
     void testActualizarStock_Salida_InsufficientStock() {
         String sku = "SKU001";
         ProductoInventario productoExistente = crearProductoInventario(sku, 10, "Bodega A", 5);
-        ActualizarStockRequestDTO requestDTO = new ActualizarStockRequestDTO(sku, 20, "SALIDA", "Ref Venta 456", "Motivo de prueba salida insuficiente");
+        ActualizarStockRequestDTO requestDTO = new ActualizarStockRequestDTO(sku, 20, "SALIDA", "AJUSTE_TEST", "Ref Venta 456", "Motivo de prueba salida insuficiente");
 
         when(productoInventarioRepository.findBySku(sku)).thenReturn(Optional.of(productoExistente));
 
