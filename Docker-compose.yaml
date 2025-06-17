@@ -1,60 +1,21 @@
 version: '3.8'
 services:
-  notificaciones:
-    build:
-      context: ../Notificaciones
-    ports:
-      - "8081:8080"
-    networks:
-      - backend
-
-  pricing:
-    build:
-      context: ../Pricing
-    ports:
-      - "8082:8080"
-    networks:
-      - backend
-
-  ordenes:
-    build:
-      context: ../Ordenes
-    ports:
-      - "8083:8080"
-    networks:
-      - backend
-
   inventario:
     build:
       context: ../Inventario
     ports:
-      - "8084:8080"
+      - "8087:8080"
+    volumes:
+      - ./wallet:/app/wallet
+    environment:
+      - SPRING_APPLICATION_NAME=Inventario
+      - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@microservinventary_high?TNS_ADMIN=/app/wallet
+      - SPRING_DATASOURCE_USERNAME=ADMIN
+      - SPRING_DATASOURCE_PASSWORD=Inventario202506
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.OracleDialect
     networks:
       - backend
-
-  usuario:
-    build:
-      context: ../usuario
-    ports:
-      - "8085:8080"
-    networks:
-      - backend
-
-  pagos:
-    build:
-      context: ../Pagos
-    ports:
-      - "8086:8080"
-    networks:
-      - backend
-
-  #producto:
-  #  build:
-  #    context: ../Producto
-  #  ports:
-  #    - "8087:8080"
-  #  networks:
-  #    - backend
 
 networks:
   backend:
