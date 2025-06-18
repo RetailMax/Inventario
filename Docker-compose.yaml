@@ -1,14 +1,15 @@
+
 version: '3.8'
 services:
   inventario:
     build:
       context: ../Inventario
     ports:
-      - "8087:8080"
+      - "8081:8080"
     volumes:
       - ./wallet:/app/wallet
     environment:
-      - SPRING_APPLICATION_NAME=Inventario
+      - SPRING_APPLICATION_NAME=orders
       - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@microservinventary_high?TNS_ADMIN=/app/wallet
       - SPRING_DATASOURCE_USERNAME=ADMIN
       - SPRING_DATASOURCE_PASSWORD=Inventario202506
@@ -19,4 +20,5 @@ services:
 
 networks:
   backend:
+
     driver: bridge
