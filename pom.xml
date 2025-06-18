@@ -131,12 +131,8 @@
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
-<<<<<<< HEAD
-                            <version>1.18.32</version>
-=======
                             <!-- ¡Usando la propiedad de la versión aquí también! -->
-                            <version>1.18.38</version>
->>>>>>> RF1-Gestión-de-Stock
+                            <version>{1.18.38}</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
