@@ -17,13 +17,12 @@ import com.retailmax.inventario.model.ProductoInventario;
 import com.retailmax.inventario.model.enums.TipoMovimiento;
 import com.retailmax.inventario.repository.MovimientoStockRepository;
 import com.retailmax.inventario.repository.ProductoInventarioRepository;
-import com.retailmax.inventario.service.ProductoInventarioService;
+import com.retailmax.inventario.service.ProductoInventarioService; // Asegurarse de la importación correcta
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -33,35 +32,25 @@ import java.util.Optional;
 @SpringBootTest
 public class ProductoInventarioServiceTest {
 
-    // Inyecta el servicio que vamos a probar
     @Autowired
     private ProductoInventarioService productoInventarioService;
 
-    // Ahora estos serán inyectados desde TestConfiguration
-    @Autowired
+    @MockBean
     private ProductoInventarioRepository productoInventarioRepository;
 
-    @Autowired
+    @MockBean
     private MovimientoStockRepository movimientoStockRepository;
 
-    @TestConfiguration
-    static class ProductoInventarioServiceTestConfiguration {
-        @Bean
-        public ProductoInventarioRepository productoInventarioRepository() {
-            return mock(ProductoInventarioRepository.class);
-        }
-        @Bean
-        public MovimientoStockRepository movimientoStockRepository() {
-            return mock(MovimientoStockRepository.class);
-        }
-    }
+    private ProductoInventario testProducto; // Declarado a nivel de clase
 
-    // Configuración inicial antes de cada prueba
     @BeforeEach
     void setUp() {
         // Reiniciar los mocks antes de cada prueba para asegurar un estado limpio
         reset(productoInventarioRepository);
         reset(movimientoStockRepository);
+
+        // Inicializar testProducto una vez aquí
+        testProducto = crearProductoInventario("SKU001", 100, "Bodega A", 10);
     }
 
     /**
@@ -128,7 +117,7 @@ public class ProductoInventarioServiceTest {
         // Datos de prueba
         String sku = "SKU001";
         ProductoInventario productoExistente = crearProductoInventario(sku, 50, "Bodega A", 10);
-        ActualizarStockRequestDTO requestDTO = new ActualizarStockRequestDTO(sku, 20, "ENTRADA", "Ref Compra 123", "Motivo de prueba entrada");
+        ActualizarStockRequestDTO requestDTO = new ActualizarStockRequestDTO(sku, 20, "ENTRADA", "AJUSTE_TEST", "Ref Compra 123", "Motivo de prueba entrada");
 
         // Simular el comportamiento del repositorio
         when(productoInventarioRepository.findBySku(sku)).thenReturn(Optional.of(productoExistente));
@@ -152,7 +141,7 @@ public class ProductoInventarioServiceTest {
     void testActualizarStock_Salida_Success() {
         String sku = "SKU001";
         ProductoInventario productoExistente = crearProductoInventario(sku, 50, "Bodega A", 10);
-        ActualizarStockRequestDTO requestDTO = new ActualizarStockRequestDTO(sku, 20, "SALIDA", "Ref Venta 456", "Motivo de prueba salida");
+        ActualizarStockRequestDTO requestDTO = new ActualizarStockRequestDTO(sku, 20, "SALIDA", "AJUSTE_TEST", "Ref Venta 456", "Motivo de prueba salida");
 
         when(productoInventarioRepository.findBySku(sku)).thenReturn(Optional.of(productoExistente));
         when(productoInventarioRepository.save(any(ProductoInventario.class))).thenAnswer(invocation -> invocation.getArgument(0));
@@ -173,7 +162,7 @@ public class ProductoInventarioServiceTest {
     void testActualizarStock_Salida_InsufficientStock() {
         String sku = "SKU001";
         ProductoInventario productoExistente = crearProductoInventario(sku, 10, "Bodega A", 5);
-        ActualizarStockRequestDTO requestDTO = new ActualizarStockRequestDTO(sku, 20, "SALIDA", "Ref Venta 456", "Motivo de prueba salida insuficiente");
+        ActualizarStockRequestDTO requestDTO = new ActualizarStockRequestDTO(sku, 20, "SALIDA", "AJUSTE_TEST", "Ref Venta 456", "Motivo de prueba salida insuficiente");
 
         when(productoInventarioRepository.findBySku(sku)).thenReturn(Optional.of(productoExistente));
 
@@ -337,13 +326,19 @@ public class ProductoInventarioServiceTest {
      */
     @Test
     void testObtenerHistorialMovimientos() {
-        String sku = "SKU001";
-        ProductoInventario producto = crearProductoInventario(sku, 100, "Bodega A", 10);
-        MovimientoStock mov1 = crearMovimientoStock(producto, TipoMovimiento.ENTRADA, 50, "Compra inicial");
-        MovimientoStock mov2 = crearMovimientoStock(producto, TipoMovimiento.SALIDA, 20, "Venta");
+        // Usamos el SKU de testProducto directamente para consistencia
+        String sku = testProducto.getSku();
 
-        when(productoInventarioRepository.findBySku(sku)).thenReturn(Optional.of(producto));
-        when(movimientoStockRepository.findBySkuOrderByFechaMovimientoDesc(eq(sku))).thenReturn(Arrays.asList(mov2, mov1));
+        // Creamos movimientos vinculados a testProducto
+        MovimientoStock mov1 = crearMovimientoStock(testProducto, TipoMovimiento.ENTRADA, 50, "Compra inicial");
+        MovimientoStock mov2 = crearMovimientoStock(testProducto, TipoMovimiento.SALIDA, 20, "Venta");
+
+        // Mockear findBySku para que devuelva testProducto
+        when(productoInventarioRepository.findBySku(sku)).thenReturn(Optional.of(testProducto));
+        // Mockear findByProductoInventarioIdOrderByFechaMovimientoDesc (o el que corresponda) con los movimientos
+        // Nota: Asegúrate que el método mocked aquí coincida con el que el servicio llama cuando fechaInicio/fechaFin son null
+        when(movimientoStockRepository.findByProductoInventarioIdOrderByFechaMovimientoDesc(testProducto.getId())).thenReturn(Arrays.asList(mov2, mov1));
+
 
         List<MovimientoStockDTO> historial = productoInventarioService.obtenerHistorialMovimientos(sku, null, null);
 
@@ -352,8 +347,11 @@ public class ProductoInventarioServiceTest {
         assertEquals(TipoMovimiento.SALIDA.name(), historial.get(0).getTipoMovimiento());
         assertEquals(TipoMovimiento.ENTRADA.name(), historial.get(1).getTipoMovimiento());
         verify(productoInventarioRepository, times(1)).findBySku(sku);
-        verify(movimientoStockRepository, times(1)).findBySkuOrderByFechaMovimientoDesc(sku);
+        // Verificación ajustada al método mockeado
+        verify(movimientoStockRepository, times(1)).findByProductoInventarioIdOrderByFechaMovimientoDesc(testProducto.getId());
+        verify(movimientoStockRepository, never()).findByProductoInventarioIdAndFechaMovimientoBetweenOrderByFechaMovimientoDesc(anyLong(), any(LocalDateTime.class), any(LocalDateTime.class));
     }
+
 
     /**
      * Método auxiliar para crear una instancia de ProductoInventario para las pruebas.
@@ -362,7 +360,7 @@ public class ProductoInventarioServiceTest {
         ProductoInventario producto = new ProductoInventario();
         producto.setId(1L); // Asigna un ID ficticio para las pruebas
         producto.setSku(sku);
-        producto.setStock(cantidadDisponible); // Podrías necesitar ajustar esto si 'stock' y 'cantidadDisponible' tienen diferentes significados
+        producto.setStock(cantidadDisponible); // Asegúrate que 'stock' se inicialice
         producto.setCantidadDisponible(cantidadDisponible);
         producto.setCantidadReservada(0);
         producto.setCantidadEnTransito(0);
