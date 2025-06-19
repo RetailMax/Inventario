@@ -50,6 +50,11 @@ public class ProductoInventarioService {
         producto.setCantidadMinimaStock(requestDTO.getCantidadMinimaStock());
         producto.setUbicacionAlmacen(requestDTO.getUbicacionAlmacen());
         producto.setActivo(true); // Active by default when created
+        // Asignar campos de variación
+        producto.setProductoBaseSku(requestDTO.getProductoBaseSku());
+        producto.setTalla(requestDTO.getTalla());
+        producto.setColor(requestDTO.getColor());
+
         producto.setFechaCreacion(LocalDateTime.now());
         producto.setFechaUltimaActualizacion(LocalDateTime.now());
         // CORRECTION for ORA-01400: Ensure the 'stock' field is not NULL
@@ -180,6 +185,11 @@ public class ProductoInventarioService {
         // producto.setCantidadDisponible(requestDTO.getCantidadInicial()); // Corrected field, but consider if this logic is desired here
         producto.setCantidadMinimaStock(requestDTO.getCantidadMinimaStock());
         producto.setUbicacionAlmacen(requestDTO.getUbicacionAlmacen());
+        // Actualizar campos de variación
+        producto.setProductoBaseSku(requestDTO.getProductoBaseSku()); // Asumimos que se puede actualizar el base SKU
+        producto.setTalla(requestDTO.getTalla());
+        producto.setColor(requestDTO.getColor());
+
         producto.setFechaUltimaActualizacion(LocalDateTime.now());
         // CORRECTION for ORA-01400: Ensure the 'stock' field also updates if 'cantidadDisponible' changes
         // producto.setStock(requestDTO.getCantidadInicial()); // <--- CORRECTION HERE, but consider if this logic is desired here
@@ -271,6 +281,9 @@ public class ProductoInventarioService {
                 // .activo(producto.getActivo()) // This field is not in ProductoInventarioDTO
                 .fechaCreacion(producto.getFechaCreacion())
                 .fechaUltimaActualizacion(producto.getFechaUltimaActualizacion())
+                .productoBaseSku(producto.getProductoBaseSku()) // Mapear campos de variación
+                .talla(producto.getTalla()) // Mapear campos de variación
+                .color(producto.getColor()) // Mapear campos de variación
                 .build();
     }
 

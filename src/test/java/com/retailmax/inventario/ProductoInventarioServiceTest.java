@@ -59,8 +59,10 @@ public class ProductoInventarioServiceTest {
     @Test
     void testAgregarProductoInventario_Success() {
         // Datos de prueba
+        // Actualizar la creación del DTO para incluir los nuevos campos de variaciones
+        // (productoBaseSku, talla, color)
         AgregarProductoInventarioRequestDTO requestDTO = new AgregarProductoInventarioRequestDTO(
-                "SKU001", 100, "Bodega A", 10);
+                "SKU001", 100, "Bodega A", 10, "BASE_SKU", "M", "Azul");
         ProductoInventario productoInventario = crearProductoInventario("SKU001", 100, "Bodega A", 10);
 
         // Simular el comportamiento del repositorio:
@@ -81,6 +83,9 @@ public class ProductoInventarioServiceTest {
         assertEquals(100, result.getCantidadDisponible());
         assertEquals("Bodega A", result.getUbicacionAlmacen());
         assertEquals(10, result.getCantidadMinimaStock());
+        assertEquals("BASE_SKU", result.getProductoBaseSku());
+        assertEquals("M", result.getTalla());
+        assertEquals("Azul", result.getColor());
 
         // Verificar que los métodos del repositorio fueron llamados
         verify(productoInventarioRepository, times(1)).existsBySku("SKU001");
@@ -95,7 +100,7 @@ public class ProductoInventarioServiceTest {
     void testAgregarProductoInventario_AlreadyExists() {
         // Datos de prueba
         AgregarProductoInventarioRequestDTO requestDTO = new AgregarProductoInventarioRequestDTO(
-                "SKU001", 100, "Bodega A", 10);
+                "SKU001", 100, "Bodega A", 10, "BASE_SKU", "M", "Azul");
 
         // Simular el comportamiento del repositorio: existsBySku devuelve true (el producto ya existe)
         when(productoInventarioRepository.existsBySku("SKU001")).thenReturn(true);
@@ -257,7 +262,7 @@ public class ProductoInventarioServiceTest {
         String sku = "SKU001";
         ProductoInventario productoExistente = crearProductoInventario(sku, 100, "Bodega A", 10);
         AgregarProductoInventarioRequestDTO requestDTO = new AgregarProductoInventarioRequestDTO(
-                sku, 100, "Bodega C", 15); // Simula una actualización de ubicación y stock mínimo
+                sku, 100, "Bodega C", 15, "NEW_BASE", "L", "Rojo"); // Actualizar con variaciones
 
         when(productoInventarioRepository.findBySku(sku)).thenReturn(Optional.of(productoExistente));
         when(productoInventarioRepository.save(any(ProductoInventario.class))).thenAnswer(invocation -> invocation.getArgument(0));
@@ -267,6 +272,9 @@ public class ProductoInventarioServiceTest {
         assertNotNull(result);
         assertEquals("Bodega C", result.getUbicacionAlmacen());
         assertEquals(15, result.getCantidadMinimaStock());
+        assertEquals("NEW_BASE", result.getProductoBaseSku());
+        assertEquals("L", result.getTalla());
+        assertEquals("Rojo", result.getColor());
         verify(productoInventarioRepository, times(1)).findBySku(sku);
         verify(productoInventarioRepository, times(1)).save(any(ProductoInventario.class));
     }
@@ -278,7 +286,7 @@ public class ProductoInventarioServiceTest {
     void testActualizarProducto_NotFound() {
         String sku = "SKU001";
         AgregarProductoInventarioRequestDTO requestDTO = new AgregarProductoInventarioRequestDTO(
-                sku, 100, "Bodega C", 15);
+                sku, 100, "Bodega C", 15, "BASE", "S", "Verde");
 
         when(productoInventarioRepository.findBySku(sku)).thenReturn(Optional.empty());
 
@@ -366,6 +374,10 @@ public class ProductoInventarioServiceTest {
         producto.setCantidadEnTransito(0);
         producto.setCantidadMinimaStock(cantidadMinima);
         producto.setUbicacionAlmacen(ubicacion);
+        // Asignar valores por defecto o nulos para los campos de variación en el método helper si no son relevantes para todas las pruebas
+        producto.setProductoBaseSku(null); // O un valor por defecto si es necesario
+        producto.setTalla(null);
+        producto.setColor(null);
         producto.setFechaCreacion(LocalDateTime.now().minusDays(10));
         producto.setFechaUltimaActualizacion(LocalDateTime.now());
         producto.setActivo(true);

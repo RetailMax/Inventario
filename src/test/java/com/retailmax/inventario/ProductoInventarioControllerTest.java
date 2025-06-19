@@ -48,8 +48,13 @@ class ProductoInventarioControllerTest {
 
     @Test
     void testCrearProductoInventario() throws Exception {
+        // Actualizar la creación del DTO para incluir los nuevos campos de variaciones
+        // (productoBaseSku, talla, color).
+        // Se asume que para esta prueba, un producto base no tiene variaciones propias,
+        // por lo que se pueden pasar valores nulos o vacíos si la lógica lo permite,
+        // o un SKU base si este producto es en sí mismo una variante.
         AgregarProductoInventarioRequestDTO requestDTO = new AgregarProductoInventarioRequestDTO(
-                "TESTSKU123", 15, "Z1", 5);
+                "TESTSKU123", 15, "Z1", 5, "BASE_SKU_TEST", null, null);
 
         mockMvc.perform(post(PRODUCTOS_BASE_URL)
                 .contentType(MediaType.APPLICATION_JSON)
