@@ -23,4 +23,9 @@ public class ProductoInventarioDTO {
     // Añadir campos de auditoría si se van a exponer en el DTO
     private LocalDateTime fechaCreacion;
     private LocalDateTime fechaUltimaActualizacion;
+
+    // Nuevos campos para RF3: Gestión de Variaciones
+    private String productoBaseSku;
+    private String talla;
+    private String color;
 }

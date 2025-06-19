@@ -24,4 +24,12 @@ public class AgregarProductoInventarioRequestDTO {
 
     @Min(value = 0, message = "La cantidad mínima de stock no puede ser negativa")
     private Integer cantidadMinimaStock; // Opcional, puede ser nulo si no se especifica
+
+    // Nuevos campos para RF3: Gestión de Variaciones
+    @NotBlank(message = "El SKU del producto base no puede estar vacío si es una variante")
+    private String productoBaseSku; // SKU del producto "padre"
+
+    private String talla; // Talla de la variante (opcional si no aplica)
+
+    private String color; // Color de la variante (opcional si no aplica)
 }

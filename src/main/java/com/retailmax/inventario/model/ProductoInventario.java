@@ -62,5 +62,14 @@ public class ProductoInventario {
 
     @Column(nullable = false)
     private Boolean activo;
-}
 
+    // Nuevos campos para RF3: Gestión de Variaciones
+    @Column(name = "producto_base_sku", length = 100) // SKU del producto "padre" o agrupador
+    private String productoBaseSku;
+
+    @Column(name = "talla", length = 50)
+    private String talla; // Ejemplo: S, M, L, XL, 32, 34, etc.
+
+    @Column(name = "color", length = 50)
+    private String color; // Ejemplo: Azul, Rojo, Verde, etc.
+}
