@@ -1,9 +1,6 @@
 package com.retailmax.inventario.controller;
 
-import com.retailmax.inventario.dto.AgregarProductoInventarioRequestDTO;
-import com.retailmax.inventario.dto.ActualizarStockRequestDTO;
-import com.retailmax.inventario.dto.AjusteStockManualRequestDTO;
-import com.retailmax.inventario.dto.ProductoInventarioDTO;
+import com.retailmax.inventario.dto.*;
 import com.retailmax.inventario.model.enums.TipoMovimiento;
 import com.retailmax.inventario.service.ProductoInventarioService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -103,5 +100,24 @@ public class ProductoInventarioController {
 
         ProductoInventarioDTO actualizado = productoInventarioService.actualizarStock(request);
         return ResponseEntity.ok(actualizado);
+    }
+
+    // ✅ RF10 - Reserva de Stock
+    @PostMapping("/stock/reserva")
+    @Operation(
+            summary = "Validar disponibilidad de stock para reserva",
+            description = "Verifica si hay suficiente stock disponible para un producto antes de realizar una reserva."
+    )
+    public ResponseEntity<String> validarDisponibilidadStock(
+            @Valid @RequestBody ReservaStockRequestDTO requestDTO) {
+
+        boolean disponible = productoInventarioService.validarDisponibilidad(
+                requestDTO.getSku(), requestDTO.getCantidad());
+
+        if (disponible) {
+            return ResponseEntity.ok("Stock disponible para reserva");
+        } else {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Stock insuficiente");
+        }
     }
 }

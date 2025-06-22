@@ -245,4 +245,14 @@ public class ProductoInventarioService {
                 .motivo(movimiento.getMotivo())
                 .build();
     }
+    // 🚩 RF10 - Reserva de Stock
+
+    @Transactional(readOnly = true)
+    public boolean validarDisponibilidad(String sku, Integer cantidadSolicitada) {
+        ProductoInventario producto = productoInventarioRepository.findBySku(sku)
+                .orElseThrow(() -> new RecursoNoEncontradoException("Producto con SKU " + sku + " no encontrado."));
+        
+        return producto.getCantidadDisponible() >= cantidadSolicitada;
+    }
+
 }
