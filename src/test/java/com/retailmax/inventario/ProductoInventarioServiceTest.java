@@ -1,6 +1,7 @@
 package com.retailmax.inventario;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -14,6 +15,7 @@ import com.retailmax.inventario.exception.RecursoNoEncontradoException;
 import com.retailmax.inventario.exception.StockInsuficienteException;
 import com.retailmax.inventario.model.MovimientoStock;
 import com.retailmax.inventario.model.ProductoInventario;
+import com.retailmax.inventario.model.enums.EstadoStock;
 import com.retailmax.inventario.model.enums.TipoMovimiento;
 import com.retailmax.inventario.repository.MovimientoStockRepository;
 import com.retailmax.inventario.repository.ProductoInventarioRepository;
@@ -41,6 +43,7 @@ public class ProductoInventarioServiceTest {
     @MockBean
     private MovimientoStockRepository movimientoStockRepository;
 
+
     private ProductoInventario testProducto; // Declarado a nivel de clase
 
     @BeforeEach
@@ -61,8 +64,10 @@ public class ProductoInventarioServiceTest {
         // Datos de prueba
         // Actualizar la creación del DTO para incluir los nuevos campos de variaciones
         // (productoBaseSku, talla, color)
-        AgregarProductoInventarioRequestDTO requestDTO = new AgregarProductoInventarioRequestDTO(
-                "SKU001", 100, "Bodega A", 10, "BASE_SKU", "M", "Azul");
+        new AgregarProductoInventarioRequestDTO(
+            "SKU001", 100, "Bodega A", 10, "BASE_SKU", "M", "Azul", EstadoStock.DISPONIBLE
+        );
+
         ProductoInventario productoInventario = crearProductoInventario("SKU001", 100, "Bodega A", 10);
 
         // Simular el comportamiento del repositorio:
@@ -100,7 +105,8 @@ public class ProductoInventarioServiceTest {
     void testAgregarProductoInventario_AlreadyExists() {
         // Datos de prueba
         AgregarProductoInventarioRequestDTO requestDTO = new AgregarProductoInventarioRequestDTO(
-                "SKU001", 100, "Bodega A", 10, "BASE_SKU", "M", "Azul");
+        "SKU001", 100, "Bodega A", 10, "BASE_SKU", "M", "Azul", EstadoStock.DISPONIBLE);
+
 
         // Simular el comportamiento del repositorio: existsBySku devuelve true (el producto ya existe)
         when(productoInventarioRepository.existsBySku("SKU001")).thenReturn(true);
@@ -261,8 +267,8 @@ public class ProductoInventarioServiceTest {
     void testActualizarProducto_Success() {
         String sku = "SKU001";
         ProductoInventario productoExistente = crearProductoInventario(sku, 100, "Bodega A", 10);
-        AgregarProductoInventarioRequestDTO requestDTO = new AgregarProductoInventarioRequestDTO(
-                sku, 100, "Bodega C", 15, "NEW_BASE", "L", "Rojo"); // Actualizar con variaciones
+        new AgregarProductoInventarioRequestDTO("SKU002", 50, "Bodega B", 5, "BASE002", "S", "Rojo", EstadoStock.DISPONIBLE)
+ // Actualizar con variaciones
 
         when(productoInventarioRepository.findBySku(sku)).thenReturn(Optional.of(productoExistente));
         when(productoInventarioRepository.save(any(ProductoInventario.class))).thenAnswer(invocation -> invocation.getArgument(0));

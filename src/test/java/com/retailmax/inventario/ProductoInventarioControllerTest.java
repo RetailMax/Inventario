@@ -3,7 +3,8 @@ package com.retailmax.inventario;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.retailmax.inventario.dto.AgregarProductoInventarioRequestDTO;
 import com.retailmax.inventario.model.ProductoInventario;
-import com.retailmax.inventario.repository.MovimientoStockRepository; // Import MovimientoStockRepository
+import com.retailmax.inventario.model.enums.EstadoStock;
+import com.retailmax.inventario.repository.MovimientoStockRepository;
 import com.retailmax.inventario.repository.ProductoInventarioRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,7 +33,7 @@ class ProductoInventarioControllerTest {
     private ProductoInventarioRepository productoInventarioRepository;
 
     @Autowired
-    private MovimientoStockRepository movimientoStockRepository; // Inject MovimientoStockRepository
+    private MovimientoStockRepository movimientoStockRepository;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -41,24 +42,26 @@ class ProductoInventarioControllerTest {
 
     @BeforeEach
     void setup() {
-        // IMPORTANT: Delete child records (MovimientoStock) first to avoid foreign key violations
-        movimientoStockRepository.deleteAll(); // <--- ADDED THIS LINE
+        movimientoStockRepository.deleteAll();
         productoInventarioRepository.deleteAll();
     }
 
     @Test
     void testCrearProductoInventario() throws Exception {
-        // Actualizar la creación del DTO para incluir los nuevos campos de variaciones
-        // (productoBaseSku, talla, color).
-        // Se asume que para esta prueba, un producto base no tiene variaciones propias,
-        // por lo que se pueden pasar valores nulos o vacíos si la lógica lo permite,
-        // o un SKU base si este producto es en sí mismo una variante.
         AgregarProductoInventarioRequestDTO requestDTO = new AgregarProductoInventarioRequestDTO(
-                "TESTSKU123", 15, "Z1", 5, "BASE_SKU_TEST", null, null);
+                "TESTSKU123",
+                15,
+                "Z1",
+                5,
+                "BASE_SKU_TEST",
+                null,
+                null,
+                EstadoStock.DISPONIBLE
+        );
 
         mockMvc.perform(post(PRODUCTOS_BASE_URL)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(requestDTO)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDTO)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.sku", is("TESTSKU123")));
     }
@@ -76,6 +79,7 @@ class ProductoInventarioControllerTest {
         producto.setActivo(true);
         producto.setFechaCreacion(LocalDateTime.now());
         producto.setFechaUltimaActualizacion(LocalDateTime.now());
+        producto.setEstado(EstadoStock.DISPONIBLE);
         productoInventarioRepository.save(producto);
 
         mockMvc.perform(get(PRODUCTOS_BASE_URL + "/SKU321"))
@@ -97,6 +101,7 @@ class ProductoInventarioControllerTest {
         producto.setActivo(true);
         producto.setFechaCreacion(LocalDateTime.now());
         producto.setFechaUltimaActualizacion(LocalDateTime.now());
+        producto.setEstado(EstadoStock.DISPONIBLE);
         productoInventarioRepository.save(producto);
 
         mockMvc.perform(delete(PRODUCTOS_BASE_URL + "/" + skuToDelete))

@@ -2,12 +2,16 @@ package com.retailmax.inventario.model;
 
 import java.time.LocalDateTime;
 
+import com.retailmax.inventario.model.enums.EstadoStock;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,56 +24,53 @@ import lombok.NoArgsConstructor;
 @Entity
 
 /*Clase base para empezar a mover productos dentro del MS Inventario */
-
-
 public class ProductoInventario {
 
-   @Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //DEFINICIÓN DE @Columna
-    /* @Column: se usan para mapear los atributos de la clase Java a columnas
-     de una tabla en la base de datos. Sirven para especificar detalles sobre 
-     cómo se debe almacenar cada campo en la base de datos.*/
-
     @Column(nullable = false, length = 100)
-    private String sku; // SKU único por variante de producto
+    private String sku;
 
     @Column(nullable = false)
-    private Integer stock; // stock actual
+    private Integer stock;
 
     @Column(nullable = false)
-    private Integer cantidadReservada; //Reservera para stock que se va a comprar
+    private Integer cantidadReservada;
 
     @Column(nullable = false)
-    private Integer cantidadDisponible; // Stock disponible para venta
-    
-    @Column(nullable = false)
-    private Integer cantidadEnTransito; // Movimiento de stock entre almacenes
+    private Integer cantidadDisponible;
 
     @Column(nullable = false)
-    private Integer cantidadMinimaStock ; //Umbral para alertas de bajo stock
+    private Integer cantidadEnTransito;
+
+    @Column(nullable = false)
+    private Integer cantidadMinimaStock;
 
     @Column(length = 100)
-    private String ubicacionAlmacen; // bodega o tienda (opcional)
+    private String ubicacionAlmacen;
 
     @Column(nullable = false)
-    private LocalDateTime fechaUltimaActualizacion; // AUDITORÍA
+    private LocalDateTime fechaUltimaActualizacion;
 
     @Column(nullable = false)
-    private LocalDateTime fechaCreacion; // AUDITORÍA
+    private LocalDateTime fechaCreacion;
 
     @Column(nullable = false)
     private Boolean activo;
 
-    // Nuevos campos para RF3: Gestión de Variaciones
-    @Column(name = "producto_base_sku", length = 100) // SKU del producto "padre" o agrupador
+    @Column(name = "producto_base_sku", length = 100)
     private String productoBaseSku;
 
     @Column(name = "talla", length = 50)
-    private String talla; // Ejemplo: S, M, L, XL, 32, 34, etc.
+    private String talla;
 
     @Column(name = "color", length = 50)
-    private String color; // Ejemplo: Azul, Rojo, Verde, etc.
+    private String color;
+
+    // NUEVO CAMPO PARA RF5
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private EstadoStock estado = EstadoStock.DISPONIBLE;
 }
