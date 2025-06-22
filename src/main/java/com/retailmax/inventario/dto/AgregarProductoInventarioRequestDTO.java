@@ -1,5 +1,6 @@
 package com.retailmax.inventario.dto;
 
+import com.retailmax.inventario.model.enums.EstadoStock;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -23,13 +24,16 @@ public class AgregarProductoInventarioRequestDTO {
     private String ubicacionAlmacen;
 
     @Min(value = 0, message = "La cantidad mínima de stock no puede ser negativa")
-    private Integer cantidadMinimaStock; // Opcional, puede ser nulo si no se especifica
+    private Integer cantidadMinimaStock;
 
     // Nuevos campos para RF3: Gestión de Variaciones
     @NotBlank(message = "El SKU del producto base no puede estar vacío si es una variante")
-    private String productoBaseSku; // SKU del producto "padre"
+    private String productoBaseSku;
 
-    private String talla; // Talla de la variante (opcional si no aplica)
+    private String talla;
 
-    private String color; // Color de la variante (opcional si no aplica)
+    private String color;
+
+    // NUEVO CAMPO para RF5: Estado de Stock
+    private EstadoStock estado;
 }
