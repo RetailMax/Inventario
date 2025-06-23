@@ -120,4 +120,21 @@ public class ProductoInventarioController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Stock insuficiente");
         }
     }
+    // ✅ RF11 - Liberación de Stock
+    @PostMapping("/stock/liberar")
+    @Operation(
+            summary = "Liberar stock reservado",
+            description = "Libera stock previamente reservado y lo devuelve al stock disponible."
+    )
+    public ResponseEntity<String> liberarStock(
+            @Valid @RequestBody LiberarStockRequestDTO requestDTO) {
+
+        productoInventarioService.liberarStockReservado(
+                requestDTO.getSku(),
+                requestDTO.getCantidadLiberar(),
+                requestDTO.getMotivo()
+        );
+
+        return ResponseEntity.ok("Stock liberado exitosamente.");
+    }
 }
