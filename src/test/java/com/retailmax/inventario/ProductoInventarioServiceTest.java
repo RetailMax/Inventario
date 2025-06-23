@@ -1,5 +1,21 @@
 package com.retailmax.inventario;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.Optional;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
 import com.retailmax.inventario.dto.AgregarProductoInventarioRequestDTO;
 import com.retailmax.inventario.dto.ProductoInventarioDTO;
 import com.retailmax.inventario.exception.ProductoExistenteException;
@@ -7,16 +23,6 @@ import com.retailmax.inventario.model.ProductoInventario;
 import com.retailmax.inventario.repository.MovimientoStockRepository;
 import com.retailmax.inventario.repository.ProductoInventarioRepository;
 import com.retailmax.inventario.service.ProductoInventarioService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 public class ProductoInventarioServiceTest {
 
@@ -66,10 +72,18 @@ public class ProductoInventarioServiceTest {
     }
 
     @Test
+    void consultarProductoPorSku_DeberiaLanzarExcepcionSiNoExiste() {
+        when(productoInventarioRepository.findBySku("NO_EXISTE")).thenReturn(Optional.empty());
+
+        assertThrows(RuntimeException.class, () ->
+                productoInventarioService.consultarProductoPorSku("NO_EXISTE"));
+    }
+    @Test
     void consultarProductoPorSku_DeberiaRetornarProductoExistente() {
         ProductoInventario producto = new ProductoInventario();
         producto.setSku("SKU123");
         producto.setCantidadDisponible(5);
+        producto.setCantidadReservada(0); // <-- FIX agregado
 
         when(productoInventarioRepository.findBySku("SKU123")).thenReturn(Optional.of(producto));
 
@@ -79,11 +93,4 @@ public class ProductoInventarioServiceTest {
         assertEquals("SKU123", dto.getSku());
     }
 
-    @Test
-    void consultarProductoPorSku_DeberiaLanzarExcepcionSiNoExiste() {
-        when(productoInventarioRepository.findBySku("NO_EXISTE")).thenReturn(Optional.empty());
-
-        assertThrows(RuntimeException.class, () ->
-                productoInventarioService.consultarProductoPorSku("NO_EXISTE"));
-    }
 }
