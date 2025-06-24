@@ -1,7 +1,7 @@
 package com.retailmax.inventario.assemblers;
 
-import com.retailmax.inventario.controller.MovimientoStockControllerV2;
-import com.retailmax.inventario.controller.ProductoInventarioControllerV2; // Para enlazar al producto asociado
+import com.retailmax.inventario.controller.MovimientoStockController;
+import com.retailmax.inventario.controller.ProductoInventarioController; // Para enlazar al producto asociado
 import com.retailmax.inventario.dto.MovimientoStockDTO;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.lang.NonNull;
@@ -23,10 +23,10 @@ public class MovimientoStockModelAssembler implements RepresentationModelAssembl
         // Construye el EntityModel para un MovimientoStockDTO individual
         return EntityModel.of(movimientoStock,
                 // Enlace 'self' al movimiento individual por su ID
-                linkTo(methodOn(MovimientoStockControllerV2.class).getMovimientoById(movimientoStock.getId())).withSelfRel(),
+                linkTo(methodOn(MovimientoStockController.class).getMovimientoById(movimientoStock.getId())).withSelfRel(),
                 // Enlace a la colección de movimientos para el mismo SKU
-                linkTo(methodOn(MovimientoStockControllerV2.class).obtenerHistorialMovimientos(movimientoStock.getSku())).withRel("movimientos-del-sku"),
+                linkTo(methodOn(MovimientoStockController.class).obtenerHistorialMovimientos(movimientoStock.getSku())).withRel("movimientos-del-sku"),
                 // Enlace al producto de inventario asociado
-                linkTo(methodOn(ProductoInventarioControllerV2.class).getProductoBySku(movimientoStock.getSku())).withRel("producto-asociado"));
+                linkTo(methodOn(ProductoInventarioController.class).consultarProductoPorSku(movimientoStock.getSku())).withRel("producto-asociado"));
     }
 }

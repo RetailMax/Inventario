@@ -1,6 +1,6 @@
 package com.retailmax.inventario.assemblers;
 
-import com.retailmax.inventario.controller.UmbralAlertaControllerV2;
+import com.retailmax.inventario.controller.UmbralAlertaController;
 import com.retailmax.inventario.dto.UmbralAlertaDTO;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.lang.NonNull;
@@ -22,8 +22,8 @@ public class UmbralAlertaModelAssembler implements RepresentationModelAssembler<
         // Construye el EntityModel para un UmbralAlertaDTO individual
         // Agrega un enlace 'self' que apunta a la consulta del umbral por su SKU
         return EntityModel.of(umbralAlerta,
-                linkTo(methodOn(UmbralAlertaControllerV2.class).getUmbralBySku(umbralAlerta.getSku())).withSelfRel(),
+                linkTo(methodOn(UmbralAlertaController.class).getUmbralBySku(umbralAlerta.getSku())).withSelfRel(),
                 // Agrega un enlace 'umbrales' que apunta a la colección completa de umbrales
-                linkTo(methodOn(UmbralAlertaControllerV2.class).getAllUmbrales()).withRel("umbrales"));
+                linkTo(methodOn(UmbralAlertaController.class).getAllUmbrales()).withRel("umbrales"));
     }
 }
