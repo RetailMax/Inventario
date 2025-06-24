@@ -245,4 +245,43 @@ public class ProductoInventarioService {
                 .motivo(movimiento.getMotivo())
                 .build();
     }
+    // 🚩 RF10 - Reserva de Stock
+
+    @Transactional(readOnly = true)
+    public boolean validarDisponibilidad(String sku, Integer cantidadSolicitada) {
+        ProductoInventario producto = productoInventarioRepository.findBySku(sku)
+                .orElseThrow(() -> new RecursoNoEncontradoException("Producto con SKU " + sku + " no encontrado."));
+        
+        return producto.getCantidadDisponible() >= cantidadSolicitada;
+    }
+
+    @Transactional
+        public void liberarStockReservado(String sku, Integer cantidadLiberar, String motivo) {
+            ProductoInventario producto = productoInventarioRepository.findBySku(sku)
+                    .orElseThrow(() -> new RecursoNoEncontradoException("Producto con SKU " + sku + " no encontrado."));
+
+            if (producto.getCantidadReservada() < cantidadLiberar) {
+                throw new IllegalArgumentException("No hay suficiente stock reservado para liberar.");
+            }
+
+            producto.setCantidadReservada(producto.getCantidadReservada() - cantidadLiberar);
+            producto.setCantidadDisponible(producto.getCantidadDisponible() + cantidadLiberar);
+            producto.setStock(producto.getCantidadDisponible());
+            producto.setFechaUltimaActualizacion(LocalDateTime.now());
+
+            productoInventarioRepository.save(producto);
+
+            MovimientoStock movimiento = new MovimientoStock();
+            movimiento.setProductoInventario(producto);
+            movimiento.setSku(producto.getSku());
+            movimiento.setCantidadMovida(cantidadLiberar);
+            movimiento.setTipoMovimiento(TipoMovimiento.AJUSTE); // o LIBERACION si existe
+            movimiento.setFechaMovimiento(LocalDateTime.now());
+            movimiento.setStockFinalDespuesMovimiento(producto.getCantidadDisponible());
+            movimiento.setReferenciaExterna("Liberación");
+            movimiento.setMotivo(motivo != null ? motivo : "Liberación de stock reservado");
+            movimientoStockRepository.save(movimiento);
+    }
+
 }
+                                                                                                                                                                                                                                                                                                                             
