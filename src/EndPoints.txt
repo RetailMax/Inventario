@@ -1,7 +1,5 @@
 SWAGGER http://localhost:8080/doc/swagger-ui/index.html
 
-SKU Ejemplo para buscar:    F5560438
-SKU para deletear:          3BE46DA4, D0A5BB70, F57FADCF
 
 POST /api/inventario/umbrales
 {
@@ -10,3 +8,24 @@ POST /api/inventario/umbrales
     "umbralCantidad": 15,
     "activo": true
 }'
+
+
+
+PUT /api/inventario/productos/stock
+
+{
+  "sku": "DCC4B93B",
+  "cantidad": 1,
+  "tipoMovimiento": "ENTRADA",
+  "referenciaExterna": "string",
+  "motivo": "string"
+}
+
+
+/api/inventario/productos/stock/reserva
+
+
+{
+  "sku": "DCC4B93B",
+  "cantidad": 10
+}
