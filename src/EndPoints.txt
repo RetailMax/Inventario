@@ -1,0 +1,10 @@
+SWAGGER http://localhost:8080/doc/swagger-ui/index.html
+
+
+POST /api/inventario/umbrales
+{
+    "sku": "SKU-NUEVO-001",
+    "tipoAlerta": "BAJO_STOCK",
+    "umbralCantidad": 15,
+    "activo": true
+}'
