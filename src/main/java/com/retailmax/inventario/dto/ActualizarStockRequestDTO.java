@@ -22,9 +22,6 @@ public class ActualizarStockRequestDTO {
     @NotBlank(message = "El tipo de movimiento no puede estar vacío")
     private String tipoMovimiento; // Debe ser ENTRADA o SALIDA (o valores equivalentes según tu lógica de negocio)
 
-    @NotBlank(message = "El tipo de actualización no puede estar vacío")
-    private String tipoActualizacion; // Ejemplo: MANUAL, SISTEMA, AJUSTE_INICIAL, VENTA, COMPRA
-
     private String referenciaExterna; // Por ejemplo, un ID de orden, factura, etc.
 
     private String motivo; // Un campo adicional para describir la razón del movimiento

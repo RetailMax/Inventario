@@ -1,5 +1,7 @@
 SWAGGER http://localhost:8080/doc/swagger-ui/index.html
 
+SKU Ejemplo para buscar:    F5560438
+SKU para deletear:          3BE46DA4, D0A5BB70, F57FADCF
 
 POST /api/inventario/umbrales
 {

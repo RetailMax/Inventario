@@ -109,8 +109,7 @@ public class ProductoInventarioController {
                 dto.getSku(),
                 dto.getCantidad(),
                 tipoMovimiento.name(),
-                "AJUSTE_MANUAL",
-                null,
+                "AJUSTE_MANUAL", // Usamos la referencia externa para identificar el origen
                 dto.getMotivo()
         );
 

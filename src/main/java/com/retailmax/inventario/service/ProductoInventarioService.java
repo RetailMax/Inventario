@@ -78,7 +78,7 @@ public class ProductoInventarioService {
 
         int cantidadActual = producto.getCantidadDisponible();
         int cantidadMovida = requestDTO.getCantidad();
-        TipoMovimiento tipoMovimiento = TipoMovimiento.fromName(requestDTO.getTipoActualizacion());
+        TipoMovimiento tipoMovimiento = TipoMovimiento.fromName(requestDTO.getTipoMovimiento());
 
         int nuevoStockDisponible;
         switch (tipoMovimiento) {
@@ -95,7 +95,7 @@ public class ProductoInventarioService {
                 nuevoStockDisponible = cantidadMovida;
                 break;
             default:
-                throw new IllegalArgumentException("Invalid movement type: " + requestDTO.getTipoActualizacion());
+                throw new IllegalArgumentException("Invalid movement type: " + requestDTO.getTipoMovimiento());
         }
 
         producto.setCantidadDisponible(nuevoStockDisponible);
