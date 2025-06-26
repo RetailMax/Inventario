@@ -26,14 +26,14 @@ public class AuditoriaInventarioService {
             ProductoInventario producto = productoInventarioRepository.findBySku(sku).orElse(null);
 
             if (producto != null) {
-                int stockSistema = producto.getCantidadDisponible();
+                Integer stockSistema = producto.getCantidadDisponible(); // Cambiado a Integer para permitir null
                 if (!stockSistemaEquals(stockSistema, stockFisicoValor)) {
                     discrepancias.add(DiscrepanciaStockDTO.builder()
                             .sku(sku)
                             .descripcionProducto(producto.getProductoBaseSku())
                             .stockSistema(stockSistema)
                             .stockFisico(stockFisicoValor)
-                            .diferencia(stockFisicoValor - stockSistema)
+                            .diferencia(stockFisicoValor - (stockSistema != null ? stockSistema : 0)) // Manejar null para el cálculo
                             .motivo("Diferencia entre stock físico y sistema")
                             .build());
                 }
