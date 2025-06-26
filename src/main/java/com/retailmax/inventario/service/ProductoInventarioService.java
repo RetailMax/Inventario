@@ -230,7 +230,7 @@ public class ProductoInventarioService {
                 .build();
     }
 
-    private MovimientoStockDTO mapMovimientoToDTO(MovimientoStock movimiento) {
+    public MovimientoStockDTO mapMovimientoToDTO(MovimientoStock movimiento) { // Changed from private to package-private
         if (movimiento == null) return null;
 
         return MovimientoStockDTO.builder()

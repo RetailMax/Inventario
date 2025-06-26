@@ -18,10 +18,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.retailmax.inventario.dto.ActualizarStockRequestDTO;
 import com.retailmax.inventario.dto.AgregarProductoInventarioRequestDTO;
 import com.retailmax.inventario.dto.ProductoInventarioDTO;
+import com.retailmax.inventario.dto.MovimientoStockDTO;
 import com.retailmax.inventario.exception.ProductoExistenteException;
 import com.retailmax.inventario.exception.RecursoNoEncontradoException;
 import com.retailmax.inventario.exception.StockInsuficienteException;
+import com.retailmax.inventario.model.enums.TipoMovimiento;
 import com.retailmax.inventario.model.enums.EstadoStock;
+import com.retailmax.inventario.model.MovimientoStock;
 import com.retailmax.inventario.model.ProductoInventario;
 import com.retailmax.inventario.repository.MovimientoStockRepository;
 import com.retailmax.inventario.repository.ProductoInventarioRepository;
@@ -91,6 +94,57 @@ public class ProductoInventarioServiceTest {
 
         assertNotNull(dto);
         assertEquals("SKU123", dto.getSku());
+    }
+
+    // --- Tests para actualizarProducto para aumentar cobertura de JaCoCo ---
+
+    @Test
+    void actualizarProducto_DeberiaActualizarProductoCorrectamente() {
+        // Caso: Actualización exitosa de un producto existente.
+        // Esperado: El producto se actualiza con los nuevos datos y se devuelve el DTO actualizado.
+        String sku = "SKU_ACTUALIZAR";
+        ProductoInventario productoExistente = new ProductoInventario();
+        productoExistente.setSku(sku);
+        productoExistente.setCantidadDisponible(10);
+        productoExistente.setCantidadReservada(0);
+        productoExistente.setCantidadMinimaStock(5);
+        productoExistente.setUbicacionAlmacen("OLD_LOC");
+        productoExistente.setEstado(EstadoStock.DISPONIBLE);
+
+        AgregarProductoInventarioRequestDTO requestDTO = new AgregarProductoInventarioRequestDTO();
+        requestDTO.setCantidadMinimaStock(10);
+        requestDTO.setUbicacionAlmacen("NEW_LOC");
+        requestDTO.setProductoBaseSku("NEW_BASE_SKU");
+        requestDTO.setTalla("M");
+        requestDTO.setColor("Blue");
+
+        when(productoInventarioRepository.findBySku(sku)).thenReturn(Optional.of(productoExistente));
+        when(productoInventarioRepository.save(any(ProductoInventario.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        ProductoInventarioDTO result = productoInventarioService.actualizarProducto(sku, requestDTO);
+
+        assertNotNull(result);
+        assertEquals(sku, result.getSku());
+        assertEquals(10, result.getCantidadMinimaStock());
+        assertEquals("NEW_LOC", result.getUbicacionAlmacen());
+        assertEquals("NEW_BASE_SKU", result.getProductoBaseSku());
+        assertEquals("M", result.getTalla());
+        assertEquals("Blue", result.getColor());
+        verify(productoInventarioRepository, times(1)).findBySku(sku);
+        verify(productoInventarioRepository, times(1)).save(productoExistente);
+    }
+
+    @Test
+    void actualizarProducto_DeberiaLanzarExcepcionSiProductoNoExiste() {
+        // Caso: Se intenta actualizar un producto con un SKU que no existe.
+        // Esperado: Lanza RecursoNoEncontradoException.
+        String skuInexistente = "SKU_INEXISTENTE_UPDATE";
+        AgregarProductoInventarioRequestDTO requestDTO = new AgregarProductoInventarioRequestDTO();
+        when(productoInventarioRepository.findBySku(skuInexistente)).thenReturn(Optional.empty());
+
+        assertThrows(RecursoNoEncontradoException.class, () ->
+                productoInventarioService.actualizarProducto(skuInexistente, requestDTO));
+        verify(productoInventarioRepository, never()).save(any());
     }
 
     // --- Tests para actualizarStock para aumentar cobertura de JaCoCo ---
@@ -273,5 +327,29 @@ public class ProductoInventarioServiceTest {
         // Prueba para cubrir la rama de 'null' en el método mapToDTO
         ProductoInventarioDTO result = productoInventarioService.mapToDTO(null);
         assertNull(result);
+    }
+
+    // --- Tests para mapMovimientoToDTO para aumentar cobertura de JaCoCo ---
+
+    @Test
+    void mapMovimientoToDTO_ShouldReturnNullForNullInput() {
+        // Prueba para cubrir la rama de 'null' en el método mapMovimientoToDTO
+        MovimientoStockDTO result = productoInventarioService.mapMovimientoToDTO(null);
+        assertNull(result);
+    }
+
+    @Test
+    void mapMovimientoToDTO_ShouldHandleNullProductoInventario() {
+        // Prueba para cubrir la rama donde productoInventario es null dentro de MovimientoStock
+        MovimientoStock movimiento = new MovimientoStock();
+        movimiento.setId(1L);
+        movimiento.setSku("TESTSKU");
+        movimiento.setProductoInventario(null); // Simula que el producto asociado es null
+        movimiento.setTipoMovimiento(TipoMovimiento.ENTRADA);
+        movimiento.setCantidadMovida(10);
+
+        MovimientoStockDTO result = productoInventarioService.mapMovimientoToDTO(movimiento);
+        assertNotNull(result);
+        assertNull(result.getProductoInventarioId()); // Verifica que el ID del producto sea null
     }
 }
