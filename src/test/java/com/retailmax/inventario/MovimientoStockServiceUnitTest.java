@@ -2,6 +2,7 @@ package com.retailmax.inventario;
 
 
 import com.retailmax.inventario.exception.RecursoNoEncontradoException;
+import com.retailmax.inventario.exception.StockInsuficienteException;
 import com.retailmax.inventario.model.MovimientoStock;
 import com.retailmax.inventario.model.ProductoInventario;
 import com.retailmax.inventario.model.enums.TipoMovimiento;
@@ -33,7 +34,7 @@ public class MovimientoStockServiceUnitTest {
     private ProductoInventario testProducto;
 
     @BeforeEach
-    void setUp() {
+    void setUp() { // This method ensures testProducto is reset for each test
         testProducto = crearProductoInventario("SKU001", 100, "Bodega A", 10);
     }
 
@@ -72,6 +73,145 @@ public class MovimientoStockServiceUnitTest {
         });
 
         verify(movimientoStockRepository).findById(999L);
+    }
+
+    // Helper method to create a MovimientoStock for input
+    private MovimientoStock crearMovimientoStockInput(String sku, Integer cantidad, TipoMovimiento tipo, String referencia, String motivo, LocalDateTime fecha) {
+        MovimientoStock m = new MovimientoStock();
+        m.setSku(sku);
+        m.setCantidadMovida(cantidad);
+        m.setTipoMovimiento(tipo);
+        m.setReferenciaExterna(referencia);
+        m.setMotivo(motivo);
+        m.setFechaMovimiento(fecha);
+        return m;
+    }
+
+    // --- Tests para registrarMovimiento para aumentar cobertura de JaCoCo ---
+
+    @Test
+    void registrarMovimiento_SkuNull_ThrowsException() {
+        MovimientoStock movimientoInput = crearMovimientoStockInput(null, 10, TipoMovimiento.ENTRADA, "REF1", "Motivo", LocalDateTime.now());
+        assertThrows(IllegalArgumentException.class, () -> movimientoStockService.registrarMovimiento(movimientoInput));
+        verify(productoInventarioRepository, never()).findBySku(anyString());
+    }
+
+    @Test
+    void registrarMovimiento_SkuBlank_ThrowsException() {
+        MovimientoStock movimientoInput = crearMovimientoStockInput(" ", 10, TipoMovimiento.ENTRADA, "REF1", "Motivo", LocalDateTime.now());
+        assertThrows(IllegalArgumentException.class, () -> movimientoStockService.registrarMovimiento(movimientoInput));
+        verify(productoInventarioRepository, never()).findBySku(anyString());
+    }
+
+    @Test
+    void registrarMovimiento_CantidadMovidaNull_ThrowsException() {
+        MovimientoStock movimientoInput = crearMovimientoStockInput("SKU001", null, TipoMovimiento.ENTRADA, "REF1", "Motivo", LocalDateTime.now());
+        assertThrows(IllegalArgumentException.class, () -> movimientoStockService.registrarMovimiento(movimientoInput));
+        verify(productoInventarioRepository, never()).findBySku(anyString());
+    }
+
+    @Test
+    void registrarMovimiento_CantidadMovidaZero_ThrowsException() {
+        MovimientoStock movimientoInput = crearMovimientoStockInput("SKU001", 0, TipoMovimiento.ENTRADA, "REF1", "Motivo", LocalDateTime.now());
+        assertThrows(IllegalArgumentException.class, () -> movimientoStockService.registrarMovimiento(movimientoInput));
+        verify(productoInventarioRepository, never()).findBySku(anyString());
+    }
+
+    @Test
+    void registrarMovimiento_CantidadMovidaNegative_ThrowsException() {
+        MovimientoStock movimientoInput = crearMovimientoStockInput("SKU001", -5, TipoMovimiento.ENTRADA, "REF1", "Motivo", LocalDateTime.now());
+        assertThrows(IllegalArgumentException.class, () -> movimientoStockService.registrarMovimiento(movimientoInput));
+        verify(productoInventarioRepository, never()).findBySku(anyString());
+    }
+
+    @Test
+    void registrarMovimiento_TipoMovimientoNull_ThrowsException() {
+        MovimientoStock movimientoInput = crearMovimientoStockInput("SKU001", 10, null, "REF1", "Motivo", LocalDateTime.now());
+        assertThrows(IllegalArgumentException.class, () -> movimientoStockService.registrarMovimiento(movimientoInput));
+        verify(productoInventarioRepository, never()).findBySku(anyString());
+    }
+
+    @Test
+    void registrarMovimiento_ProductoNotFound_ThrowsException() {
+        MovimientoStock movimientoInput = crearMovimientoStockInput("SKU404", 10, TipoMovimiento.ENTRADA, "REF1", "Motivo", LocalDateTime.now());
+        when(productoInventarioRepository.findBySku("SKU404")).thenReturn(Optional.empty());
+        assertThrows(IllegalArgumentException.class, () -> movimientoStockService.registrarMovimiento(movimientoInput));
+        verify(productoInventarioRepository, times(1)).findBySku("SKU404");
+        verify(productoInventarioRepository, never()).save(any(ProductoInventario.class));
+        verify(movimientoStockRepository, never()).save(any(MovimientoStock.class));
+    }
+
+    @Test
+    void registrarMovimiento_Entrada_Success() {
+        MovimientoStock movimientoInput = crearMovimientoStockInput("SKU001", 20, TipoMovimiento.ENTRADA, "REF1", "Motivo", LocalDateTime.now());
+        when(productoInventarioRepository.findBySku("SKU001")).thenReturn(Optional.of(testProducto));
+        when(productoInventarioRepository.save(any(ProductoInventario.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(movimientoStockRepository.save(any(MovimientoStock.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        movimientoStockService.registrarMovimiento(movimientoInput);
+
+        assertEquals(120, testProducto.getCantidadDisponible()); // Initial 100 + 20
+        verify(productoInventarioRepository, times(1)).save(testProducto);
+        verify(movimientoStockRepository, times(1)).save(any(MovimientoStock.class));
+    }
+
+    @Test
+    void registrarMovimiento_Salida_Success() {
+        MovimientoStock movimientoInput = crearMovimientoStockInput("SKU001", 30, TipoMovimiento.SALIDA, "REF2", "Motivo", LocalDateTime.now());
+        when(productoInventarioRepository.findBySku("SKU001")).thenReturn(Optional.of(testProducto));
+        when(productoInventarioRepository.save(any(ProductoInventario.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(movimientoStockRepository.save(any(MovimientoStock.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        movimientoStockService.registrarMovimiento(movimientoInput);
+
+        assertEquals(70, testProducto.getCantidadDisponible()); // Initial 100 - 30
+        verify(productoInventarioRepository, times(1)).save(testProducto);
+        verify(movimientoStockRepository, times(1)).save(any(MovimientoStock.class));
+    }
+
+    @Test
+    void registrarMovimiento_Salida_InsufficientStock_ThrowsException() {
+        MovimientoStock movimientoInput = crearMovimientoStockInput("SKU001", 120, TipoMovimiento.SALIDA, "REF3", "Motivo", LocalDateTime.now());
+        when(productoInventarioRepository.findBySku("SKU001")).thenReturn(Optional.of(testProducto));
+
+        assertThrows(StockInsuficienteException.class, () -> movimientoStockService.registrarMovimiento(movimientoInput));
+        verify(productoInventarioRepository, never()).save(any(ProductoInventario.class));
+        verify(movimientoStockRepository, never()).save(any(MovimientoStock.class));
+    }
+
+    @Test
+    void registrarMovimiento_UnsupportedTipoMovimiento_ThrowsException() {
+        MovimientoStock movimientoInput = crearMovimientoStockInput("SKU001", 10, TipoMovimiento.RESERVA, "REF4", "Motivo", LocalDateTime.now()); // RESERVA is not handled in switch
+        when(productoInventarioRepository.findBySku("SKU001")).thenReturn(Optional.of(testProducto));
+
+        assertThrows(IllegalArgumentException.class, () -> movimientoStockService.registrarMovimiento(movimientoInput));
+        verify(productoInventarioRepository, never()).save(any(ProductoInventario.class)); // Should not save product
+        verify(movimientoStockRepository, never()).save(any(MovimientoStock.class)); // Should not save movement
+    }
+
+    // These tests cover the ternary operators for motivo and fechaMovimiento
+    @Test
+    void registrarMovimiento_MotivoNull_UsesDefaultDescription() {
+        MovimientoStock movimientoInput = crearMovimientoStockInput("SKU001", 10, TipoMovimiento.ENTRADA, "REF5", null, LocalDateTime.now());
+        when(productoInventarioRepository.findBySku("SKU001")).thenReturn(Optional.of(testProducto));
+        when(productoInventarioRepository.save(any(ProductoInventario.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(movimientoStockRepository.save(any(MovimientoStock.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        movimientoStockService.registrarMovimiento(movimientoInput);
+
+        verify(movimientoStockRepository, times(1)).save(argThat(mov -> mov.getMotivo().equals(TipoMovimiento.ENTRADA.getDescripcion())));
+    }
+
+    @Test
+    void registrarMovimiento_FechaMovimientoNull_UsesCurrentDateTime() {
+        MovimientoStock movimientoInput = crearMovimientoStockInput("SKU001", 10, TipoMovimiento.ENTRADA, "REF6", "Motivo", null);
+        when(productoInventarioRepository.findBySku("SKU001")).thenReturn(Optional.of(testProducto));
+        when(productoInventarioRepository.save(any(ProductoInventario.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(movimientoStockRepository.save(any(MovimientoStock.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        movimientoStockService.registrarMovimiento(movimientoInput);
+
+        verify(movimientoStockRepository, times(1)).save(argThat(mov -> mov.getFechaMovimiento() != null && mov.getFechaMovimiento().isAfter(LocalDateTime.now().minusSeconds(5))));
     }
 
     private ProductoInventario crearProductoInventario(String sku, Integer stock, String ubicacion, Integer min) {
