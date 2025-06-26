@@ -210,7 +210,7 @@ public class ProductoInventarioService {
                 .collect(Collectors.toList());
     }
 
-    private ProductoInventarioDTO mapToDTO(ProductoInventario producto) {
+    public ProductoInventarioDTO mapToDTO(ProductoInventario producto) {
         if (producto == null) return null;
 
         return ProductoInventarioDTO.builder()

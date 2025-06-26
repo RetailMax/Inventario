@@ -2,6 +2,7 @@ package com.retailmax.inventario;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -20,6 +21,7 @@ import com.retailmax.inventario.dto.ProductoInventarioDTO;
 import com.retailmax.inventario.exception.ProductoExistenteException;
 import com.retailmax.inventario.exception.RecursoNoEncontradoException;
 import com.retailmax.inventario.exception.StockInsuficienteException;
+import com.retailmax.inventario.model.enums.EstadoStock;
 import com.retailmax.inventario.model.ProductoInventario;
 import com.retailmax.inventario.repository.MovimientoStockRepository;
 import com.retailmax.inventario.repository.ProductoInventarioRepository;
@@ -72,13 +74,14 @@ public class ProductoInventarioServiceTest {
     void consultarProductoPorSku_DeberiaLanzarExcepcionSiNoExiste() {
         when(productoInventarioRepository.findBySku("NO_EXISTE")).thenReturn(Optional.empty());
 
-        assertThrows(RuntimeException.class, () ->
+        assertThrows(RecursoNoEncontradoException.class, () ->
                 productoInventarioService.consultarProductoPorSku("NO_EXISTE"));
     }
     @Test
     void consultarProductoPorSku_DeberiaRetornarProductoExistente() {
         ProductoInventario producto = new ProductoInventario();
         producto.setSku("SKU123");
+        producto.setEstado(EstadoStock.DISPONIBLE);
         producto.setCantidadDisponible(5);
         producto.setCantidadReservada(0); // <-- FIX agregado
 
@@ -111,6 +114,8 @@ public class ProductoInventarioServiceTest {
         ProductoInventario producto = new ProductoInventario();
         producto.setSku("SKU001");
         producto.setCantidadDisponible(100);
+        producto.setCantidadReservada(0);
+        producto.setEstado(EstadoStock.DISPONIBLE);
         when(productoInventarioRepository.findBySku("SKU001")).thenReturn(Optional.of(producto));
         when(productoInventarioRepository.save(any(ProductoInventario.class))).thenAnswer(inv -> inv.getArgument(0));
 
@@ -131,6 +136,8 @@ public class ProductoInventarioServiceTest {
         ProductoInventario producto = new ProductoInventario();
         producto.setSku("SKU001");
         producto.setCantidadDisponible(100);
+        producto.setCantidadReservada(0);
+        producto.setEstado(EstadoStock.DISPONIBLE);
         when(productoInventarioRepository.findBySku("SKU001")).thenReturn(Optional.of(producto));
         when(productoInventarioRepository.save(any(ProductoInventario.class))).thenAnswer(inv -> inv.getArgument(0));
 
@@ -149,6 +156,7 @@ public class ProductoInventarioServiceTest {
         ProductoInventario producto = new ProductoInventario();
         producto.setSku("SKU001");
         producto.setCantidadDisponible(10);
+        producto.setCantidadReservada(0);
         when(productoInventarioRepository.findBySku("SKU001")).thenReturn(Optional.of(producto));
 
         ActualizarStockRequestDTO request = new ActualizarStockRequestDTO("SKU001", 20, "SALIDA", "ref", "motivo");
@@ -164,6 +172,8 @@ public class ProductoInventarioServiceTest {
         ProductoInventario producto = new ProductoInventario();
         producto.setSku("SKU001");
         producto.setCantidadDisponible(100);
+        producto.setCantidadReservada(0);
+        producto.setEstado(EstadoStock.DISPONIBLE);
         when(productoInventarioRepository.findBySku("SKU001")).thenReturn(Optional.of(producto));
         when(productoInventarioRepository.save(any(ProductoInventario.class))).thenAnswer(inv -> inv.getArgument(0));
 
@@ -182,11 +192,86 @@ public class ProductoInventarioServiceTest {
         ProductoInventario producto = new ProductoInventario();
         producto.setSku("SKU001");
         producto.setCantidadDisponible(100);
+        producto.setCantidadReservada(0);
         when(productoInventarioRepository.findBySku("SKU001")).thenReturn(Optional.of(producto));
 
         ActualizarStockRequestDTO request = new ActualizarStockRequestDTO("SKU001", 10, "RESERVA", "ref", "motivo");
 
         assertThrows(IllegalArgumentException.class, () ->
                 productoInventarioService.actualizarStock(request));
+    }
+
+    // --- Tests para liberarStockReservado para aumentar cobertura de JaCoCo ---
+
+    @Test
+    void liberarStockReservado_ProductoNoEncontrado_LanzaExcepcion() {
+        // Caso: Se intenta liberar stock de un SKU que no existe.
+        // Esperado: Lanza RecursoNoEncontradoException.
+        String skuInexistente = "SKU_NO_EXISTE";
+        when(productoInventarioRepository.findBySku(skuInexistente)).thenReturn(Optional.empty());
+
+        assertThrows(RecursoNoEncontradoException.class, () ->
+                productoInventarioService.liberarStockReservado(skuInexistente, 10, "Motivo cualquiera"));
+
+        verify(productoInventarioRepository, never()).save(any());
+        verify(movimientoStockRepository, never()).save(any());
+    }
+
+    @Test
+    void liberarStockReservado_StockReservadoInsuficiente_LanzaExcepcion() {
+        // Caso: Se intenta liberar más stock del que está reservado.
+        // Esperado: Lanza IllegalArgumentException.
+        ProductoInventario producto = new ProductoInventario();
+        producto.setSku("SKU001");
+        producto.setCantidadReservada(5); // Solo 5 reservados
+        when(productoInventarioRepository.findBySku("SKU001")).thenReturn(Optional.of(producto));
+
+        assertThrows(IllegalArgumentException.class, () ->
+                productoInventarioService.liberarStockReservado("SKU001", 10, "Intentando liberar más de lo reservado")); // Se intentan liberar 10
+
+        verify(productoInventarioRepository, never()).save(any());
+    }
+
+    @Test
+    void liberarStockReservado_Exitoso_ConMotivoProporcionado() {
+        // Caso: Liberación exitosa con un motivo específico.
+        // Esperado: El stock se actualiza y se registra el movimiento con el motivo dado.
+        ProductoInventario producto = new ProductoInventario();
+        producto.setSku("SKU001");
+        producto.setCantidadDisponible(90);
+        producto.setCantidadReservada(20);
+        producto.setEstado(EstadoStock.DISPONIBLE);
+        when(productoInventarioRepository.findBySku("SKU001")).thenReturn(Optional.of(producto));
+
+        productoInventarioService.liberarStockReservado("SKU001", 15, "Venta cancelada #123");
+
+        assertEquals(5, producto.getCantidadReservada()); // 20 - 15
+        assertEquals(105, producto.getCantidadDisponible()); // 90 + 15
+        verify(productoInventarioRepository, times(1)).save(producto);
+        verify(movimientoStockRepository, times(1)).save(any(com.retailmax.inventario.model.MovimientoStock.class));
+    }
+
+    @Test
+    void liberarStockReservado_Exitoso_ConMotivoPorDefecto() {
+        // Caso: Liberación exitosa sin un motivo específico (debe usar el default).
+        // Esperado: El stock se actualiza y se registra el movimiento con el motivo por defecto.
+        ProductoInventario producto = new ProductoInventario();
+        producto.setSku("SKU002");
+        producto.setCantidadDisponible(50);
+        producto.setCantidadReservada(10);
+        producto.setEstado(EstadoStock.DISPONIBLE);
+        when(productoInventarioRepository.findBySku("SKU002")).thenReturn(Optional.of(producto));
+
+        productoInventarioService.liberarStockReservado("SKU002", 10, null); // Motivo es null
+
+        verify(productoInventarioRepository, times(1)).save(producto);
+        verify(movimientoStockRepository, times(1)).save(any(com.retailmax.inventario.model.MovimientoStock.class));
+    }
+
+    @Test
+    void mapToDTO_ShouldReturnNullForNullInput() {
+        // Prueba para cubrir la rama de 'null' en el método mapToDTO
+        ProductoInventarioDTO result = productoInventarioService.mapToDTO(null);
+        assertNull(result);
     }
 }
