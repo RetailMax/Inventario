@@ -29,3 +29,6 @@ PUT /api/inventario/productos/stock
   "sku": "DCC4B93B",
   "cantidad": 10
 }
+
+
+open target/site/jacoco/index.html
