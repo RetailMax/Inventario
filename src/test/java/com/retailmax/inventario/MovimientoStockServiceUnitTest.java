@@ -1,6 +1,7 @@
 package com.retailmax.inventario;
 
 
+import com.retailmax.inventario.dto.MovimientoStockDTO;
 import com.retailmax.inventario.exception.RecursoNoEncontradoException;
 import com.retailmax.inventario.exception.StockInsuficienteException;
 import com.retailmax.inventario.model.MovimientoStock;
@@ -62,6 +63,101 @@ public class MovimientoStockServiceUnitTest {
         });
 
         verify(productoInventarioRepository).findBySku("SKU404");
+    }
+
+    @Test
+    void testObtenerHistorialMovimientos_ConRangoDeFechas_CoversIfBranch() {
+        // Caso: Se solicita el historial con un rango de fechas.
+        // Esperado: Se invoca el método del repositorio que filtra por fecha.
+        String sku = "SKU001";
+        LocalDateTime fechaInicio = LocalDateTime.now().minusDays(5);
+        LocalDateTime fechaFin = LocalDateTime.now();
+
+        when(productoInventarioRepository.findBySku(sku)).thenReturn(Optional.of(testProducto));
+
+        MovimientoStock m1 = crearMovimientoStock(testProducto, TipoMovimiento.ENTRADA, 15, "Compra con fecha");
+        List<MovimientoStock> movimientosFiltrados = Collections.singletonList(m1);
+        when(movimientoStockRepository.findByProductoInventarioIdAndFechaMovimientoBetweenOrderByFechaMovimientoDesc(
+                testProducto.getId(), fechaInicio, fechaFin
+        )).thenReturn(movimientosFiltrados);
+
+        List<MovimientoStockDTO> result = movimientoStockService.obtenerHistorialMovimientos(sku, fechaInicio, fechaFin);
+
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        verify(movimientoStockRepository, times(1)).findByProductoInventarioIdAndFechaMovimientoBetweenOrderByFechaMovimientoDesc(anyLong(), any(LocalDateTime.class), any(LocalDateTime.class));
+        verify(movimientoStockRepository, never()).findByProductoInventarioIdOrderByFechaMovimientoDesc(anyLong());
+    }
+
+    @Test
+    void testMapToMovimientoStockDTO_ProductoInventarioNotNull() {
+        // Caso: Se mapea un movimiento cuyo producto asociado NO es nulo.
+        // Esperado: El DTO resultante tiene el productoInventarioId correcto.
+        MovimientoStock movimientoConProducto = crearMovimientoStock(testProducto, TipoMovimiento.ENTRADA, 10, "Movimiento con producto");
+        movimientoConProducto.setId(100L); // Asignar un ID para el movimiento
+        
+        // No necesitamos mockear el repositorio aquí, solo probar el método de mapeo
+        MovimientoStockDTO result = movimientoStockService.mapToMovimientoStockDTO(movimientoConProducto);
+
+        assertNotNull(result);
+        assertEquals(movimientoConProducto.getId(), result.getId());
+        assertEquals(testProducto.getId(), result.getProductoInventarioId()); // Verifica que el ID del producto no sea null
+        assertEquals(movimientoConProducto.getSku(), result.getSku());
+    }
+
+    @Test
+    void testMapToMovimientoStockDTO_conProductoInventarioNulo() {
+        // Caso: Se mapea un movimiento cuyo producto asociado es nulo.
+        // Esperado: El DTO resultante tiene un productoInventarioId nulo (cubre la rama 'null' del ternario).
+        MovimientoStock movimientoSinProducto = crearMovimientoStock(testProducto, TipoMovimiento.AJUSTE, 5, "Ajuste sin producto");
+        movimientoSinProducto.setProductoInventario(null); // Forzar el caso nulo
+        movimientoSinProducto.setId(101L);
+
+        // Llamada directa al método de mapeo
+        MovimientoStockDTO result = movimientoStockService.mapToMovimientoStockDTO(movimientoSinProducto);
+
+        assertNotNull(result);
+        assertNull(result.getProductoInventarioId());
+        assertEquals(movimientoSinProducto.getSku(), result.getSku());
+    }
+
+    @Test
+    void testObtenerHistorialMovimientos_SinRangoDeFechas_RetornaHistorialCompleto() {
+        // Caso: Se solicita el historial sin especificar fechas (cubre la rama 'else').
+        // Esperado: Se invoca el método del repositorio que no filtra por fecha.
+        String sku = "SKU001";
+        when(productoInventarioRepository.findBySku(sku)).thenReturn(Optional.of(testProducto));
+
+        List<MovimientoStock> movimientos = Arrays.asList(crearMovimientoStock(testProducto, TipoMovimiento.ENTRADA, 10, "Compra 1"));
+        when(movimientoStockRepository.findByProductoInventarioIdOrderByFechaMovimientoDesc(testProducto.getId())).thenReturn(movimientos);
+
+        List<MovimientoStockDTO> result = movimientoStockService.obtenerHistorialMovimientos(sku, null, null);
+
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        verify(movimientoStockRepository, times(1)).findByProductoInventarioIdOrderByFechaMovimientoDesc(testProducto.getId());
+        verify(movimientoStockRepository, never()).findByProductoInventarioIdAndFechaMovimientoBetweenOrderByFechaMovimientoDesc(anyLong(), any(), any());
+    }
+
+    @Test
+    void testObtenerHistorialMovimientos_FechaParcial_RetornaHistorialCompleto() {
+        // Caso: Se solicita el historial con solo una de las dos fechas (cubre la rama del '&&' que faltaba).
+        // Esperado: Se ignora la fecha parcial y se invoca el método que no filtra por fecha (comportamiento del 'else').
+        String sku = "SKU001";
+        LocalDateTime fechaInicio = LocalDateTime.now().minusDays(5);
+
+        when(productoInventarioRepository.findBySku(sku)).thenReturn(Optional.of(testProducto));
+
+        List<MovimientoStock> movimientos = Arrays.asList(crearMovimientoStock(testProducto, TipoMovimiento.ENTRADA, 10, "Compra 1"));
+        when(movimientoStockRepository.findByProductoInventarioIdOrderByFechaMovimientoDesc(testProducto.getId())).thenReturn(movimientos);
+
+        // Probar con fecha de inicio pero sin fecha de fin
+        List<MovimientoStockDTO> result = movimientoStockService.obtenerHistorialMovimientos(sku, fechaInicio, null);
+
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        verify(movimientoStockRepository, times(1)).findByProductoInventarioIdOrderByFechaMovimientoDesc(testProducto.getId());
+        verify(movimientoStockRepository, never()).findByProductoInventarioIdAndFechaMovimientoBetweenOrderByFechaMovimientoDesc(anyLong(), any(), any());
     }
 
     @Test
@@ -240,5 +336,21 @@ public class MovimientoStockServiceUnitTest {
         m.setFechaMovimiento(LocalDateTime.now());
         m.setStockFinalDespuesMovimiento(producto.getCantidadDisponible());
         return m;
+    }
+
+    // --- Tests for TipoMovimiento Enum to increase coverage ---
+
+    @Test
+    void testTipoMovimiento_fromDescripcion_Success() {
+        // This test covers the successful path of fromDescripcion, including case-insensitivity.
+        assertEquals(TipoMovimiento.ENTRADA, TipoMovimiento.fromDescripcion("Entrada de Stock"));
+        assertEquals(TipoMovimiento.SALIDA, TipoMovimiento.fromDescripcion("salida de stock"));
+        assertEquals(TipoMovimiento.AJUSTE, TipoMovimiento.fromDescripcion("Ajuste de Inventario"));
+    }
+
+    @Test
+    void testTipoMovimiento_fromDescripcion_NotFound_ThrowsException() {
+        // This test covers the failure path of fromDescripcion, ensuring an exception is thrown for invalid input.
+        assertThrows(IllegalArgumentException.class, () -> TipoMovimiento.fromDescripcion("Invalid Description"));
     }
 }

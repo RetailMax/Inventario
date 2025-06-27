@@ -5,5 +5,6 @@ public enum EstadoStock {
     RESERVADO,
     EN_TRANSITO,
     VENDIDO,
-    DADO_DE_BAJA
+    DADO_DE_BAJA,
+    DESCONTINUADO
 }

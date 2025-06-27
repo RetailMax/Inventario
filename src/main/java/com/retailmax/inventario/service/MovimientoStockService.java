@@ -109,7 +109,7 @@ public class MovimientoStockService {
         return mapToMovimientoStockDTO(savedMovimiento);
     }
 
-    private MovimientoStockDTO mapToMovimientoStockDTO(MovimientoStock movimientoStock) {
+    public MovimientoStockDTO mapToMovimientoStockDTO(MovimientoStock movimientoStock) {
         return MovimientoStockDTO.builder()
                 .id(movimientoStock.getId())
                 .productoInventarioId(movimientoStock.getProductoInventario() != null ? movimientoStock.getProductoInventario().getId() : null)

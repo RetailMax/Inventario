@@ -3,6 +3,9 @@ package com.retailmax.inventario;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.retailmax.inventario.dto.AgregarProductoInventarioRequestDTO;
 import com.retailmax.inventario.dto.AjusteStockManualRequestDTO;
+import com.retailmax.inventario.dto.ReservaStockRequestDTO;
+import com.retailmax.inventario.dto.ActualizarStockRequestDTO;
+import com.retailmax.inventario.dto.LiberarStockRequestDTO;
 import com.retailmax.inventario.model.ProductoInventario;
 import com.retailmax.inventario.model.enums.EstadoStock;
 import com.retailmax.inventario.repository.MovimientoStockRepository;
@@ -18,6 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -110,6 +114,51 @@ class ProductoInventarioControllerTest {
 
         Optional<ProductoInventario> check = productoInventarioRepository.findBySku(skuToDelete);
         assertFalse(check.isPresent());
+    }
+
+    @Test
+    void testActualizarProducto_Success() throws Exception {
+        // 1. Setup: Crear un producto existente para actualizar
+        String skuToUpdate = "UPDATE-SKU";
+        ProductoInventario productoExistente = new ProductoInventario();
+        productoExistente.setSku(skuToUpdate);
+        productoExistente.setCantidadDisponible(100);
+        productoExistente.setCantidadReservada(0);
+        productoExistente.setCantidadMinimaStock(10);
+        productoExistente.setCantidadEnTransito(0); // Campo NOT NULL que faltaba
+        productoExistente.setStock(100); // Campo NOT NULL que también faltaba
+        productoExistente.setUbicacionAlmacen("OLD-LOC");
+        productoExistente.setProductoBaseSku("OLD-BASE");
+        productoExistente.setTalla("M");
+        productoExistente.setColor("Red");
+        productoExistente.setActivo(true);
+        productoExistente.setFechaCreacion(LocalDateTime.now().minusDays(5));
+        productoExistente.setFechaUltimaActualizacion(LocalDateTime.now().minusDays(5));
+        productoExistente.setEstado(EstadoStock.DISPONIBLE);
+        productoInventarioRepository.save(productoExistente);
+
+        // 2. Preparar el DTO con los datos actualizados
+        AgregarProductoInventarioRequestDTO updateRequestDTO = new AgregarProductoInventarioRequestDTO(
+                skuToUpdate, // SKU no se actualiza, pero se envía para coherencia
+                productoExistente.getCantidadDisponible(), // Cantidad disponible no se actualiza por este endpoint
+                "NEW-LOC",
+                20, // Nueva cantidad mínima
+                "NEW-BASE",
+                "L",
+                "Blue",
+                EstadoStock.DISPONIBLE
+        );
+
+        // 3. Ejecutar la solicitud PUT y verificar
+        mockMvc.perform(put(PRODUCTOS_BASE_URL + "/" + skuToUpdate)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(updateRequestDTO)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.ubicacionAlmacen", is("NEW-LOC")))
+                .andExpect(jsonPath("$.cantidadMinimaStock", is(20)))
+                .andExpect(jsonPath("$.productoBaseSku", is("NEW-BASE")))
+                .andExpect(jsonPath("$.talla", is("L")))
+                .andExpect(jsonPath("$.color", is("Blue")));
     }
 
     @Test
@@ -276,6 +325,169 @@ class ProductoInventarioControllerTest {
         mockMvc.perform(post(PRODUCTOS_BASE_URL + "/stock/ajuste-manual")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(ajusteDTO)))
+                .andExpect(status().isBadRequest());
+    }
+
+    // --- Tests para validarDisponibilidadStock para aumentar cobertura de JaCoCo ---
+
+    @Test
+    void testValidarDisponibilidadStock_Disponible_ReturnsOk() throws Exception {
+        // 1. Setup: Crear un producto con stock suficiente
+        String sku = "VALID-SKU";
+        ProductoInventario producto = new ProductoInventario();
+        producto.setSku(sku);
+        producto.setCantidadDisponible(20);
+        producto.setCantidadReservada(0);
+        producto.setCantidadMinimaStock(5);
+        producto.setCantidadEnTransito(0);
+        producto.setStock(20);
+        producto.setUbicacionAlmacen("A1");
+        producto.setActivo(true);
+        producto.setFechaCreacion(LocalDateTime.now());
+        producto.setFechaUltimaActualizacion(LocalDateTime.now());
+        producto.setEstado(EstadoStock.DISPONIBLE);
+        productoInventarioRepository.save(producto);
+
+        // 2. Preparar el DTO de la solicitud
+        ReservaStockRequestDTO requestDTO = new ReservaStockRequestDTO();
+        requestDTO.setSku(sku);
+        requestDTO.setCantidad(10);
+
+        // 3. Ejecutar y verificar
+        mockMvc.perform(post(PRODUCTOS_BASE_URL + "/stock/reserva")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDTO)))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Stock disponible para reserva"));
+    }
+
+    @Test
+    void testValidarDisponibilidadStock_Insuficiente_ReturnsConflict() throws Exception {
+        // 1. Setup: Crear un producto con stock insuficiente
+        String sku = "INSUF-SKU";
+        ProductoInventario producto = new ProductoInventario();
+        producto.setSku(sku);
+        producto.setCantidadDisponible(5);
+        producto.setCantidadReservada(0);
+        producto.setCantidadMinimaStock(5);
+        producto.setCantidadEnTransito(0);
+        producto.setStock(5);
+        producto.setUbicacionAlmacen("A1");
+        producto.setActivo(true);
+        producto.setFechaCreacion(LocalDateTime.now());
+        producto.setFechaUltimaActualizacion(LocalDateTime.now());
+        producto.setEstado(EstadoStock.DISPONIBLE);
+        productoInventarioRepository.save(producto);
+
+        // 2. Preparar el DTO de la solicitud
+        ReservaStockRequestDTO requestDTO = new ReservaStockRequestDTO();
+        requestDTO.setSku(sku);
+        requestDTO.setCantidad(10);
+
+        // 3. Ejecutar y verificar
+        mockMvc.perform(post(PRODUCTOS_BASE_URL + "/stock/reserva")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDTO)))
+                .andExpect(status().isConflict())
+                .andExpect(content().string("Stock insuficiente"));
+    }
+
+    @Test
+    void testValidarDisponibilidadStock_ProductoNoEncontrado_ReturnsNotFound() throws Exception {
+        // 1. Preparar el DTO para un SKU que no existe
+        ReservaStockRequestDTO requestDTO = new ReservaStockRequestDTO();
+        requestDTO.setSku("NON-EXISTENT-SKU");
+        requestDTO.setCantidad(10);
+
+        // 2. Ejecutar y verificar
+        mockMvc.perform(post(PRODUCTOS_BASE_URL + "/stock/reserva")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDTO)))
+                .andExpect(status().isNotFound());
+    }
+
+    // --- Tests para actualizarStock y liberarStock para aumentar cobertura de JaCoCo ---
+
+    @Test
+    void testActualizarStock_Success() throws Exception {
+        // 1. Setup: Crear un producto existente
+        String sku = "STOCK-UPDATE-SKU";
+        ProductoInventario producto = new ProductoInventario();
+        producto.setSku(sku);
+        producto.setCantidadDisponible(50);
+        producto.setCantidadReservada(0);
+        producto.setCantidadMinimaStock(10);
+        producto.setCantidadEnTransito(0);
+        producto.setStock(50);
+        producto.setUbicacionAlmacen("D1");
+        producto.setActivo(true);
+        producto.setFechaCreacion(LocalDateTime.now());
+        producto.setFechaUltimaActualizacion(LocalDateTime.now());
+        producto.setEstado(EstadoStock.DISPONIBLE);
+        productoInventarioRepository.save(producto);
+
+        // 2. Preparar el DTO de la solicitud de actualización
+        ActualizarStockRequestDTO requestDTO = new ActualizarStockRequestDTO(
+                sku,
+                25, // Cantidad a agregar
+                "ENTRADA",
+                "COMPRA-PROV-XYZ",
+                "Recepción de nueva mercancía"
+        );
+
+        // 3. Ejecutar la solicitud PUT y verificar
+        mockMvc.perform(put(PRODUCTOS_BASE_URL + "/stock")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDTO)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.sku", is(sku)))
+                .andExpect(jsonPath("$.cantidadDisponible", is(75))); // 50 + 25
+    }
+
+    @Test
+    void testLiberarStock_Success() throws Exception {
+        // 1. Setup: Crear un producto con stock reservado
+        String sku = "LIBERAR-SKU";
+        ProductoInventario producto = new ProductoInventario();
+        producto.setSku(sku);
+        producto.setCantidadDisponible(80);
+        producto.setCantidadReservada(20); // Stock reservado
+        producto.setCantidadMinimaStock(10);
+        producto.setCantidadEnTransito(0);
+        producto.setStock(100); // Stock total
+        producto.setUbicacionAlmacen("E1");
+        producto.setActivo(true);
+        producto.setFechaCreacion(LocalDateTime.now());
+        producto.setFechaUltimaActualizacion(LocalDateTime.now());
+        producto.setEstado(EstadoStock.RESERVADO);
+        productoInventarioRepository.save(producto);
+
+        // 2. Preparar el DTO de la solicitud de liberación
+        LiberarStockRequestDTO requestDTO = new LiberarStockRequestDTO(sku, 15, "Venta cancelada por cliente");
+
+        // 3. Ejecutar la solicitud POST y verificar
+        mockMvc.perform(post(PRODUCTOS_BASE_URL + "/stock/liberar")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDTO)))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Stock liberado exitosamente."));
+
+        // 4. Verificar el estado final en la base de datos
+        ProductoInventario productoActualizado = productoInventarioRepository.findBySku(sku).orElseThrow();
+        assertEquals(95, productoActualizado.getCantidadDisponible()); // 80 + 15
+        assertEquals(5, productoActualizado.getCantidadReservada());   // 20 - 15
+    }
+
+    @Test
+    void testLiberarStock_FailsWhenNotEnoughReserved() throws Exception {
+        // 1. Setup: Reutilizamos el test anterior, pero intentamos liberar más de lo reservado
+        testLiberarStock_Success(); // Asegura que el producto "LIBERAR-SKU" exista
+        LiberarStockRequestDTO requestDTO = new LiberarStockRequestDTO("LIBERAR-SKU", 30, "Intento de liberar demasiado");
+
+        // 2. Ejecutar y verificar que falla con Bad Request
+        mockMvc.perform(post(PRODUCTOS_BASE_URL + "/stock/liberar")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDTO)))
                 .andExpect(status().isBadRequest());
     }
 }

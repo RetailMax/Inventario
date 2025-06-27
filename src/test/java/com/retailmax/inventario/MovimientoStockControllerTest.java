@@ -5,6 +5,7 @@ import com.retailmax.inventario.model.ProductoInventario;
 import com.retailmax.inventario.model.enums.TipoMovimiento;
 import com.retailmax.inventario.repository.MovimientoStockRepository;
 import com.retailmax.inventario.repository.ProductoInventarioRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +13,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
+import org.springframework.http.MediaType;
 import java.time.LocalDateTime;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -32,6 +35,9 @@ public class MovimientoStockControllerTest {
 
     @Autowired
     private ProductoInventarioRepository productoInventarioRepository;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     private static final String BASE_URL = "/api/inventario/movimientos";
 
@@ -131,5 +137,34 @@ public class MovimientoStockControllerTest {
                 .andExpect(jsonPath("$._embedded.movimientoStockDTOList", hasSize(2)))
                 .andExpect(jsonPath("$._embedded.movimientoStockDTOList[0].sku", is(producto1.getSku())))
                 .andExpect(jsonPath("$._embedded.movimientoStockDTOList[1].sku", is(producto1.getSku())));
+    }
+
+    // --- Test para registrarMovimiento para aumentar cobertura de JaCoCo ---
+
+    @Test
+    void testRegistrarMovimiento_Success() throws Exception {
+        // 1. Setup: We use 'producto1' created in the setup method.
+        // The initial stock is 100.
+
+        // 2. Prepare the request body (as a MovimientoStock entity, as per the controller signature)
+        MovimientoStock movimientoRequest = new MovimientoStock();
+        movimientoRequest.setSku(producto1.getSku());
+        movimientoRequest.setCantidadMovida(25);
+        movimientoRequest.setTipoMovimiento(TipoMovimiento.ENTRADA);
+        movimientoRequest.setMotivo("Recepción de mercancía de prueba");
+        movimientoRequest.setReferenciaExterna("TEST-PO-001");
+        // fechaMovimiento will be set by the service if null
+
+        // 3. Execute & Verify
+        mockMvc.perform(post(BASE_URL)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(movimientoRequest)))
+                .andExpect(status().isCreated()) // Expect 201 Created
+                .andExpect(jsonPath("$.sku", is(producto1.getSku())))
+                .andExpect(jsonPath("$.cantidadMovida", is(25)))
+                .andExpect(jsonPath("$.tipoMovimiento", is("ENTRADA")))
+                .andExpect(jsonPath("$.stockFinalDespuesMovimiento", is(125))) // 100 initial + 25
+                .andExpect(jsonPath("$._links.self").exists())
+                .andExpect(jsonPath("$._links.producto-asociado").exists());
     }
 }
