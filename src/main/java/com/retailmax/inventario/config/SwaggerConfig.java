@@ -14,6 +14,6 @@ public class SwaggerConfig {
                 .info(new Info()
                         .title("API 2025 Microservicio de Inventario")
                         .version("1.0")
-                        .description("Documentación de la API del microservicio de inventario para el año 2025"));
+                        .description("Documentación de la API del microservicio de inventario para el proyecto de Duoc"));
     }
 }

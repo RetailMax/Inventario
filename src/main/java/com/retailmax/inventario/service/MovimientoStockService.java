@@ -1,20 +1,22 @@
 package com.retailmax.inventario.service;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.retailmax.inventario.dto.MovimientoStockDTO;
 import com.retailmax.inventario.exception.RecursoNoEncontradoException;
+import com.retailmax.inventario.exception.StockInsuficienteException;
 import com.retailmax.inventario.model.MovimientoStock;
 import com.retailmax.inventario.model.ProductoInventario;
 import com.retailmax.inventario.model.enums.TipoMovimiento;
 import com.retailmax.inventario.repository.MovimientoStockRepository;
 import com.retailmax.inventario.repository.ProductoInventarioRepository;
-import com.retailmax.inventario.exception.StockInsuficienteException;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 
 
 @Service
@@ -67,8 +69,8 @@ public class MovimientoStockService {
             throw new IllegalArgumentException("El tipo de movimiento es obligatorio.");
         }
 
-        ProductoInventario producto = productoInventarioRepository.findBySku(movimientoInput.getSku())
-                .orElseThrow(() -> new RecursoNoEncontradoException("Producto con SKU " + movimientoInput.getSku() + " no encontrado. No se puede registrar el movimiento."));
+       ProductoInventario producto = productoInventarioRepository.findBySku(movimientoInput.getSku())
+        .orElseThrow(() -> new IllegalArgumentException("Producto con SKU " + movimientoInput.getSku() + " no existe."));
 
         int cantidadActual = producto.getCantidadDisponible();
         int cantidadMovida = movimientoInput.getCantidadMovida();
@@ -107,7 +109,7 @@ public class MovimientoStockService {
         return mapToMovimientoStockDTO(savedMovimiento);
     }
 
-    private MovimientoStockDTO mapToMovimientoStockDTO(MovimientoStock movimientoStock) {
+    public MovimientoStockDTO mapToMovimientoStockDTO(MovimientoStock movimientoStock) {
         return MovimientoStockDTO.builder()
                 .id(movimientoStock.getId())
                 .productoInventarioId(movimientoStock.getProductoInventario() != null ? movimientoStock.getProductoInventario().getId() : null)

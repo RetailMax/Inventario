@@ -78,7 +78,7 @@ public class ProductoInventarioService {
 
         int cantidadActual = producto.getCantidadDisponible();
         int cantidadMovida = requestDTO.getCantidad();
-        TipoMovimiento tipoMovimiento = TipoMovimiento.fromName(requestDTO.getTipoActualizacion());
+        TipoMovimiento tipoMovimiento = TipoMovimiento.fromName(requestDTO.getTipoMovimiento());
 
         int nuevoStockDisponible;
         switch (tipoMovimiento) {
@@ -95,7 +95,7 @@ public class ProductoInventarioService {
                 nuevoStockDisponible = cantidadMovida;
                 break;
             default:
-                throw new IllegalArgumentException("Invalid movement type: " + requestDTO.getTipoActualizacion());
+                throw new IllegalArgumentException("Invalid movement type: " + requestDTO.getTipoMovimiento());
         }
 
         producto.setCantidadDisponible(nuevoStockDisponible);
@@ -210,7 +210,7 @@ public class ProductoInventarioService {
                 .collect(Collectors.toList());
     }
 
-    private ProductoInventarioDTO mapToDTO(ProductoInventario producto) {
+    public ProductoInventarioDTO mapToDTO(ProductoInventario producto) {
         if (producto == null) return null;
 
         return ProductoInventarioDTO.builder()
@@ -230,7 +230,7 @@ public class ProductoInventarioService {
                 .build();
     }
 
-    private MovimientoStockDTO mapMovimientoToDTO(MovimientoStock movimiento) {
+    public MovimientoStockDTO mapMovimientoToDTO(MovimientoStock movimiento) { // Changed from private to package-private
         if (movimiento == null) return null;
 
         return MovimientoStockDTO.builder()
@@ -245,4 +245,43 @@ public class ProductoInventarioService {
                 .motivo(movimiento.getMotivo())
                 .build();
     }
+    // 🚩 RF10 - Reserva de Stock
+
+    @Transactional(readOnly = true)
+    public boolean validarDisponibilidad(String sku, Integer cantidadSolicitada) {
+        ProductoInventario producto = productoInventarioRepository.findBySku(sku)
+                .orElseThrow(() -> new RecursoNoEncontradoException("Producto con SKU " + sku + " no encontrado."));
+        
+        return producto.getCantidadDisponible() >= cantidadSolicitada;
+    }
+
+    @Transactional
+        public void liberarStockReservado(String sku, Integer cantidadLiberar, String motivo) {
+            ProductoInventario producto = productoInventarioRepository.findBySku(sku)
+                    .orElseThrow(() -> new RecursoNoEncontradoException("Producto con SKU " + sku + " no encontrado."));
+
+            if (producto.getCantidadReservada() < cantidadLiberar) {
+                throw new IllegalArgumentException("No hay suficiente stock reservado para liberar.");
+            }
+
+            producto.setCantidadReservada(producto.getCantidadReservada() - cantidadLiberar);
+            producto.setCantidadDisponible(producto.getCantidadDisponible() + cantidadLiberar);
+            producto.setStock(producto.getCantidadDisponible());
+            producto.setFechaUltimaActualizacion(LocalDateTime.now());
+
+            productoInventarioRepository.save(producto);
+
+            MovimientoStock movimiento = new MovimientoStock();
+            movimiento.setProductoInventario(producto);
+            movimiento.setSku(producto.getSku());
+            movimiento.setCantidadMovida(cantidadLiberar);
+            movimiento.setTipoMovimiento(TipoMovimiento.AJUSTE); // o LIBERACION si existe
+            movimiento.setFechaMovimiento(LocalDateTime.now());
+            movimiento.setStockFinalDespuesMovimiento(producto.getCantidadDisponible());
+            movimiento.setReferenciaExterna("Liberación");
+            movimiento.setMotivo(motivo != null ? motivo : "Liberación de stock reservado");
+            movimientoStockRepository.save(movimiento);
+    }
+
 }
+                                                                                                                                                                                                                                                                                                                             

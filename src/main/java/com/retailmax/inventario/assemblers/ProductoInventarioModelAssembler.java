@@ -1,6 +1,6 @@
 package com.retailmax.inventario.assemblers;
 
-import com.retailmax.inventario.controller.ProductoInventarioControllerV2;
+import com.retailmax.inventario.controller.ProductoInventarioController;
 import com.retailmax.inventario.dto.ProductoInventarioDTO;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.lang.NonNull;
@@ -22,8 +22,8 @@ public class ProductoInventarioModelAssembler implements RepresentationModelAsse
         // Construye el EntityModel para un ProductoInventarioDTO individual
         // Agrega un enlace 'self' que apunta a la consulta del producto por su SKU
         return EntityModel.of(productoInventario,
-                linkTo(methodOn(ProductoInventarioControllerV2.class).getProductoBySku(productoInventario.getSku())).withSelfRel(),
+                linkTo(methodOn(ProductoInventarioController.class).consultarProductoPorSku(productoInventario.getSku())).withSelfRel(),
                 // Agrega un enlace 'productos' que apunta a la colección completa de productos
-                linkTo(methodOn(ProductoInventarioControllerV2.class).getAllProductos()).withRel("productos"));
+                linkTo(methodOn(ProductoInventarioController.class).consultarTodosLosProductos()).withRel("productos"));
     }
 }

@@ -1,0 +1,31 @@
+SWAGGER http://localhost:8080/doc/swagger-ui/index.html
+
+
+POST /api/inventario/umbrales
+{
+    "sku": "SKU-NUEVO-001",
+    "tipoAlerta": "BAJO_STOCK",
+    "umbralCantidad": 15,
+    "activo": true
+}'
+
+
+
+PUT /api/inventario/productos/stock
+
+{
+  "sku": "DCC4B93B",
+  "cantidad": 1,
+  "tipoMovimiento": "ENTRADA",
+  "referenciaExterna": "string",
+  "motivo": "string"
+}
+
+
+/api/inventario/productos/stock/reserva
+
+
+{
+  "sku": "DCC4B93B",
+  "cantidad": 10
+}
