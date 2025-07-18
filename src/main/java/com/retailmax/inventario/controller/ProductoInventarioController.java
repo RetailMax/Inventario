@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+@CrossOrigin(origins = "*") // Solo para desarrollo, restringe en producción
 @RestController
 @RequestMapping("/api/inventario/productos")
 @Tag(name = "ProductoInventario", description = "Operaciones relacionadas con la gestión de productos de inventario")
@@ -89,7 +90,7 @@ public class ProductoInventarioController {
         return ResponseEntity.ok(assembler.toModel(updatedProducto));
     }
 
-    // 🔥 RF8 - Ajuste Manual de Stock
+    //  RF8 - Ajuste Manual de Stock
     @PostMapping(value = "/stock/ajuste-manual", produces = MediaTypes.HAL_JSON_VALUE)
     @Operation(
             summary = "Realizar un ajuste manual de stock",
@@ -117,7 +118,7 @@ public class ProductoInventarioController {
         return ResponseEntity.ok(assembler.toModel(actualizado));
     }
 
-    // ✅ RF10 - Reserva de Stock
+    //  RF10 - Reserva de Stock
     @PostMapping("/stock/reserva") // Este endpoint es de validación, no devuelve un recurso HATEOAS.
     @Operation(
             summary = "Validar disponibilidad de stock para reserva",

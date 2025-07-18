@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/inventario/umbrales")
 @Tag(name = "UmbralAlerta", description = "Operaciones relacionadas con la gestión de umbrales de alerta para productos de inventario")

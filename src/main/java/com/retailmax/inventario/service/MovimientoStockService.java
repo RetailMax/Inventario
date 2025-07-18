@@ -33,9 +33,10 @@ public class MovimientoStockService {
 
     @Transactional(readOnly = true)
     public List<MovimientoStockDTO> obtenerHistorialMovimientos(String sku, LocalDateTime fechaInicio, LocalDateTime fechaFin) {
-        ProductoInventario productoInventario = productoInventarioRepository.findBySku(sku)
-                .orElseThrow(() -> new RecursoNoEncontradoException("Producto con SKU " + sku + " no encontrado para obtener su historial de movimientos."));
-
+        String cleanedSku = sku.trim();
+    ProductoInventario productoInventario = productoInventarioRepository.findBySkuIgnoreCase(cleanedSku)
+        .orElseThrow(() -> new RecursoNoEncontradoException("Producto con SKU " + cleanedSku + " no encontrado para obtener su historial de movimientos."));
+    // ... resto igual
         List<MovimientoStock> movimientos;
         if (fechaInicio != null && fechaFin != null) {
             movimientos = movimientoStockRepository.findByProductoInventarioIdAndFechaMovimientoBetweenOrderByFechaMovimientoDesc(

@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
 @Tag(name = "CatalogoProducto", description = "Operaciones relacionadas con el catálogo de productos")
 @RequestMapping("/api/catalogo")

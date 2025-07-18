@@ -19,4 +19,6 @@ public interface ProductoInventarioRepository extends JpaRepository<ProductoInve
 
     // ✅ Requerido por RF5:
     List<ProductoInventario> findByEstado(EstadoStock estado);
+    Optional<ProductoInventario> findBySkuIgnoreCase(String sku);
+
 }

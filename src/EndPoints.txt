@@ -31,4 +31,9 @@ PUT /api/inventario/productos/stock
 }
 
 
+
+mvn clean verify
+
+mvn jacoco:report.
+
 open target/site/jacoco/index.html

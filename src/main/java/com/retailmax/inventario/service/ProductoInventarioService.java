@@ -245,7 +245,7 @@ public class ProductoInventarioService {
                 .motivo(movimiento.getMotivo())
                 .build();
     }
-    // 🚩 RF10 - Reserva de Stock
+    //  RF10 - Reserva de Stock
 
     @Transactional(readOnly = true)
     public boolean validarDisponibilidad(String sku, Integer cantidadSolicitada) {

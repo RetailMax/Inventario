@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestión de Inventario</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header Principal -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-boxes"></i>
+                <h1>Sistema de Gestión de Inventario</h1>
+            </div>
+            <nav class="main-nav">
+                <button class="nav-btn active" data-section="dashboard">
+                    <i class="fas fa-chart-line"></i>
+                    Dashboard
+                </button>
+                <button class="nav-btn" data-section="productos">
+                    <i class="fas fa-box"></i>
+                    Productos
+                </button>
+                <button class="nav-btn" data-section="stock">
+                    <i class="fas fa-warehouse"></i>
+                    Stock
+                </button>
+                <button class="nav-btn" data-section="movimientos">
+                    <i class="fas fa-exchange-alt"></i>
+                    Movimientos
+                </button>
+                <button class="nav-btn" data-section="alertas">
+                    <i class="fas fa-bell"></i>
+                    Alertas
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main class="main-content">
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="section active">
+            <div class="section-header">
+                <h2>Dashboard</h2>
+                <p>Resumen general del inventario</p>
+            </div>
+            
+            <div class="dashboard-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-box"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="total-productos">0</h3>
+                        <p>Total Productos</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-warehouse"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="stock-total">0</h3>
+                        <p>Stock Total</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card warning">
+                    <div class="stat-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="stock-bajo">0</h3>
+                        <p>Stock Bajo</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="movimientos-hoy">0</h3>
+                        <p>Movimientos Hoy</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-charts">
+                <div class="chart-card">
+                    <h3>Productos por Estado</h3>
+                    <div id="chart-estados" class="chart-container">
+                        <!-- Chart will be rendered here -->
+                    </div>
+                </div>
+                
+                <div class="chart-card">
+                    <h3>Alertas Activas</h3>
+                    <div id="alertas-activas" class="alerts-container">
+                        <!-- Active alerts will be displayed here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Productos Section -->
+        <section id="productos" class="section">
+            <div class="section-header">
+                <h2>Gestión de Productos</h2>
+                <button class="btn btn-primary" id="btn-nuevo-producto">
+                    <i class="fas fa-plus"></i>
+                    Nuevo Producto
+                </button>
+            </div>
+
+            <div class="filters-bar">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="search-productos" placeholder="Buscar por SKU...">
+                </div>
+                <select id="filter-estado">
+                    <option value="">Todos los estados</option>
+                    <option value="DISPONIBLE">Disponible</option>
+                    <option value="RESERVADO">Reservado</option>
+                    <option value="EN_TRANSITO">En Tránsito</option>
+                    <option value="VENDIDO">Vendido</option>
+                    <option value="DADO_DE_BAJA">Dado de Baja</option>
+                    <option value="DESCONTINUADO">Descontinuado</option>
+                </select>
+            </div>
+
+            <div class="table-container">
+                <table id="tabla-productos" class="data-table">
+                    <thead>
+                        <tr>
+                            <th>SKU</th>
+                            <th>Stock Disponible</th>
+                            <th>Stock Reservado</th>
+                            <th>Ubicación</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Products will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Stock Section -->
+        <section id="stock" class="section">
+            <div class="section-header">
+                <h2>Gestión de Stock</h2>
+            </div>
+
+            <div class="stock-actions">
+                <div class="action-card">
+                    <h3>Actualizar Stock</h3>
+                    <form id="form-actualizar-stock">
+                        <div class="form-group">
+                            <label for="stock-sku">SKU del Producto</label>
+                            <input type="text" id="stock-sku" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="stock-cantidad">Cantidad</label>
+                            <input type="number" id="stock-cantidad" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="stock-tipo">Tipo de Movimiento</label>
+                            <select id="stock-tipo" required>
+                                <option value="">Seleccionar tipo</option>
+                                <option value="ENTRADA">Entrada</option>
+                                <option value="SALIDA">Salida</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="stock-referencia">Referencia Externa</label>
+                            <input type="text" id="stock-referencia">
+                        </div>
+                        <div class="form-group">
+                            <label for="stock-motivo">Motivo</label>
+                            <input type="text" id="stock-motivo">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Actualizar Stock</button>
+                    </form>
+                </div>
+
+                <div class="action-card">
+                    <h3>Ajuste Manual</h3>
+                    <form id="form-ajuste-manual">
+                        <div class="form-group">
+                            <label for="ajuste-sku">SKU del Producto</label>
+                            <input type="text" id="ajuste-sku" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="ajuste-cantidad">Cantidad</label>
+                            <input type="number" id="ajuste-cantidad" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="ajuste-tipo">Tipo de Ajuste</label>
+                            <select id="ajuste-tipo" required>
+                                <option value="">Seleccionar tipo</option>
+                                <option value="ENTRADA">Entrada</option>
+                                <option value="SALIDA">Salida</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="ajuste-motivo">Motivo del Ajuste</label>
+                            <input type="text" id="ajuste-motivo" required>
+                        </div>
+                        <button type="submit" class="btn btn-warning">Realizar Ajuste</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="stock-queries">
+                <h3>Consultas de Stock</h3>
+                <div class="query-controls">
+                    <div class="form-group">
+                        <label for="umbral-bajo">Umbral Stock Bajo</label>
+                        <input type="number" id="umbral-bajo" value="10" min="0">
+                        <button class="btn btn-secondary" id="btn-stock-bajo">Consultar</button>
+                    </div>
+                    <div class="form-group">
+                        <label for="umbral-exceso">Umbral Stock Excesivo</label>
+                        <input type="number" id="umbral-exceso" value="100" min="0">
+                        <button class="btn btn-secondary" id="btn-stock-exceso">Consultar</button>
+                    </div>
+                </div>
+                <div id="resultados-consulta" class="query-results"></div>
+            </div>
+        </section>
+
+        <!-- Movimientos Section -->
+        <section id="movimientos" class="section">
+            <div class="section-header">
+                <h2>Historial de Movimientos</h2>
+            </div>
+
+            <div class="movimientos-filters">
+                <div class="form-group">
+                    <label for="movimientos-sku">Filtrar por SKU</label>
+                    <input type="text" id="movimientos-sku" placeholder="Ingrese SKU">
+                </div>
+                <button class="btn btn-primary" id="btn-buscar-movimientos">Buscar Movimientos</button>
+            </div>
+
+            <div class="table-container">
+                <table id="tabla-movimientos" class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>SKU</th>
+                            <th>Tipo</th>
+                            <th>Cantidad</th>
+                            <th>Stock Final</th>
+                            <th>Motivo</th>
+                            <th>Fecha</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Movements will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Alertas Section -->
+        <section id="alertas" class="section">
+            <div class="section-header">
+                <h2>Gestión de Alertas</h2>
+                <button class="btn btn-primary" id="btn-nueva-alerta">
+                    <i class="fas fa-plus"></i>
+                    Nueva Alerta
+                </button>
+            </div>
+
+            <div class="table-container">
+                <table id="tabla-alertas" class="data-table">
+                    <thead>
+                        <tr>
+                            <th>SKU</th>
+                            <th>Tipo de Alerta</th>
+                            <th>Umbral</th>
+                            <th>Estado</th>
+                            <th>Fecha Creación</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Alerts will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal para Nuevo/Editar Producto -->
+    <div id="modal-producto" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-producto-title">Nuevo Producto</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="form-producto">
+                <div class="form-group">
+                    <label for="producto-sku">SKU *</label>
+                    <input type="text" id="producto-sku" required>
+                </div>
+                <div class="form-group">
+                    <label for="producto-cantidad">Cantidad Inicial *</label>
+                    <input type="number" id="producto-cantidad" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label for="producto-ubicacion">Ubicación de Almacén *</label>
+                    <input type="text" id="producto-ubicacion" required>
+                </div>
+                <div class="form-group">
+                    <label for="producto-minimo">Stock Mínimo</label>
+                    <input type="number" id="producto-minimo" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="producto-base">SKU Producto Base *</label>
+                    <input type="text" id="producto-base" required>
+                </div>
+                <div class="form-group">
+                    <label for="producto-talla">Talla</label>
+                    <input type="text" id="producto-talla">
+                </div>
+                <div class="form-group">
+                    <label for="producto-color">Color</label>
+                    <input type="text" id="producto-color">
+                </div>
+                <div class="form-group">
+                    <label for="producto-estado">Estado</label>
+                    <select id="producto-estado">
+                        <option value="DISPONIBLE">Disponible</option>
+                        <option value="RESERVADO">Reservado</option>
+                        <option value="EN_TRANSITO">En Tránsito</option>
+                        <option value="VENDIDO">Vendido</option>
+                        <option value="DADO_DE_BAJA">Dado de Baja</option>
+                        <option value="DESCONTINUADO">Descontinuado</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary modal-cancel">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para Nueva/Editar Alerta -->
+    <div id="modal-alerta" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-alerta-title">Nueva Alerta</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="form-alerta">
+                <div class="form-group">
+                    <label for="alerta-sku">SKU *</label>
+                    <input type="text" id="alerta-sku" required>
+                </div>
+                <div class="form-group">
+                    <label for="alerta-tipo">Tipo de Alerta *</label>
+                    <select id="alerta-tipo" required>
+                        <option value="">Seleccionar tipo</option>
+                        <option value="BAJO_STOCK">Bajo Stock</option>
+                        <option value="EXCESO_STOCK">Exceso de Stock</option>
+                        <option value="SIN_MOVIMIENTO">Sin Movimiento</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="alerta-umbral">Umbral de Cantidad *</label>
+                    <input type="number" id="alerta-umbral" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label for="alerta-activo">Estado</label>
+                    <select id="alerta-activo">
+                        <option value="true">Activo</option>
+                        <option value="false">Inactivo</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary modal-cancel">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Cargando...</p>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
