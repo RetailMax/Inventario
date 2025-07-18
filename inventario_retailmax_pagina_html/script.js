@@ -131,6 +131,7 @@ async function apiRequest(endpoint, options = {}) {
 async function loadDashboardData() {
     try {
         await loadProducts();
+        await loadAlerts(); // <--- Cargamos alertas ANTES de calcular el dashboard
         updateDashboardStats();
         loadActiveAlerts();
     } catch (error) {
@@ -141,12 +142,23 @@ async function loadDashboardData() {
 function updateDashboardStats() {
     const totalProductos = productos.length;
     const stockTotal = productos.reduce((sum, p) => sum + (p.cantidadDisponible || 0), 0);
-    const stockBajo = productos.filter(p => (p.cantidadDisponible || 0) <= (p.cantidadMinimaStock || 0)).length;
+
+    // Stock Bajo: cantidad de alertas activas de tipo BAJO STOCK
+    const stockBajo = (alertas.filter(a => a.activo && a.tipoAlerta === 'BAJO_STOCK')).length;
+
+    // Movimientos Hoy: contar movimientos cuya fecha sea hoy
+    const hoy = new Date();
+    const movimientosHoy = movimientos.filter(m => {
+        const fecha = new Date(m.fechaMovimiento);
+        return fecha.getDate() === hoy.getDate() &&
+               fecha.getMonth() === hoy.getMonth() &&
+               fecha.getFullYear() === hoy.getFullYear();
+    }).length;
 
     document.getElementById('total-productos').textContent = totalProductos;
     document.getElementById('stock-total').textContent = stockTotal;
     document.getElementById('stock-bajo').textContent = stockBajo;
-    document.getElementById('movimientos-hoy').textContent = '0'; // Would need date filtering
+    document.getElementById('movimientos-hoy').textContent = movimientosHoy;
 
     // Update chart
     updateEstadosChart();
