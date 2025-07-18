@@ -1,0 +1,1069 @@
+[[1;34mINFO[m] Scanning for projects...
+[[1;33mWARNING[m] 
+[[1;33mWARNING[m] Some problems were encountered while building the effective model for com.retailmax:inventario-service:jar:0.0.1-SNAPSHOT
+[[1;33mWARNING[m] 'dependencies.dependency.(groupId:artifactId:type:classifier)' must be unique: org.springframework.boot:spring-boot-starter-test:jar -> duplicate declaration of version (?) @ line 110, column 21
+[[1;33mWARNING[m] 
+[[1;33mWARNING[m] It is highly recommended to fix these problems because they threaten the stability of your build.
+[[1;33mWARNING[m] 
+[[1;33mWARNING[m] For this reason, future Maven versions might no longer support building such malformed projects.
+[[1;33mWARNING[m] 
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m------------------< [0;36mcom.retailmax:inventario-service[0;1m >------------------[m
+[[1;34mINFO[m] [1mBuilding Inventario Service 0.0.1-SNAPSHOT[m
+[[1;34mINFO[m] [1m--------------------------------[ jar ]---------------------------------[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-clean-plugin:3.3.2:clean[m [1m(default-clean)[m @ [36minventario-service[0;1m ---[m
+[[1;34mINFO[m] Deleting /home/nico-gabo/Desktop/FullSnack/ProyectoTerminado/Inventario/target
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mjacoco-maven-plugin:0.8.12:prepare-agent[m [1m(default)[m @ [36minventario-service[0;1m ---[m
+[[1;34mINFO[m] argLine set to -javaagent:/home/nico-gabo/.m2/repository/org/jacoco/org.jacoco.agent/0.8.12/org.jacoco.agent-0.8.12-runtime.jar=destfile=/home/nico-gabo/Desktop/FullSnack/ProyectoTerminado/Inventario/target/jacoco.exec
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-resources-plugin:3.3.1:resources[m [1m(default-resources)[m @ [36minventario-service[0;1m ---[m
+[[1;34mINFO[m] Copying 1 resource from src/main/resources to target/classes
+[[1;34mINFO[m] Copying 0 resource from src/main/resources to target/classes
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-compiler-plugin:3.11.0:compile[m [1m(default-compile)[m @ [36minventario-service[0;1m ---[m
+[[1;34mINFO[m] Changes detected - recompiling the module! :source
+[[1;34mINFO[m] Compiling 41 source files with javac [debug release 21] to target/classes
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-resources-plugin:3.3.1:testResources[m [1m(default-testResources)[m @ [36minventario-service[0;1m ---[m
+[[1;34mINFO[m] skip non existing resourceDirectory /home/nico-gabo/Desktop/FullSnack/ProyectoTerminado/Inventario/src/test/resources
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-compiler-plugin:3.11.0:testCompile[m [1m(default-testCompile)[m @ [36minventario-service[0;1m ---[m
+[[1;34mINFO[m] Changes detected - recompiling the module! :dependency
+[[1;34mINFO[m] Compiling 11 source files with javac [debug release 21] to target/test-classes
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-surefire-plugin:3.2.5:test[m [1m(default-test)[m @ [36minventario-service[0;1m ---[m
+[[1;34mINFO[m] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[[1;34mINFO[m] 
+[[1;34mINFO[m] -------------------------------------------------------
+[[1;34mINFO[m]  T E S T S
+[[1;34mINFO[m] -------------------------------------------------------
+[[1;34mINFO[m] Running com.retailmax.inventario.controller.[1mCatalogoProductoControllerTest[m
+16:53:46.445 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.retailmax.inventario.controller.CatalogoProductoControllerTest]: CatalogoProductoControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+16:53:47.435 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.retailmax.inventario.InventarioServiceApplication for test class com.retailmax.inventario.controller.CatalogoProductoControllerTest
+16:53:48.493 [main] INFO org.springframework.boot.devtools.restart.RestartApplicationListener -- Restart disabled due to context in which it is running
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.0)
+
+2025-07-18T16:53:50.669-04:00  INFO 39781 --- [           main] c.r.i.c.CatalogoProductoControllerTest   : Starting CatalogoProductoControllerTest using Java 21.0.7 with PID 39781 (started by nico-gabo in /home/nico-gabo/Desktop/FullSnack/ProyectoTerminado/Inventario)
+2025-07-18T16:53:50.678-04:00  INFO 39781 --- [           main] c.r.i.c.CatalogoProductoControllerTest   : The following 1 profile is active: "dev"
+2025-07-18T16:53:54.871-04:00  INFO 39781 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-07-18T16:53:54.971-04:00  INFO 39781 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 83 ms. Found 3 JPA repository interfaces.
+2025-07-18T16:53:55.812-04:00  INFO 39781 --- [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=10b9ad68-5207-3e0c-9049-3af4bfb35b11
+2025-07-18T16:53:58.000-04:00  INFO 39781 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-07-18T16:53:58.149-04:00  INFO 39781 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.2.Final
+2025-07-18T16:53:58.279-04:00  INFO 39781 --- [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-07-18T16:53:59.647-04:00  INFO 39781 --- [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-07-18T16:53:59.768-04:00  INFO 39781 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-07-18T16:54:03.122-04:00  INFO 39781 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection oracle.jdbc.driver.T4CConnection@44988600
+2025-07-18T16:54:03.129-04:00  INFO 39781 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-07-18T16:54:10.755-04:00  INFO 39781 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-07-18T16:54:12.556-04:00  INFO 39781 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-07-18T16:54:18.215-04:00  INFO 39781 --- [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2025-07-18T16:54:18.216-04:00  INFO 39781 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-07-18T16:54:18.242-04:00  INFO 39781 --- [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2025-07-18T16:54:18.270-04:00  INFO 39781 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 52 ms
+2025-07-18T16:54:18.986-04:00  INFO 39781 --- [           main] c.r.i.c.CatalogoProductoControllerTest   : Started CatalogoProductoControllerTest in 30.582 seconds (process running for 35.777)
+Limpiando datos existentes antes de la carga...
+Hibernate: select ms1_0.id,ms1_0.cantidad_movida,ms1_0.fecha_movimiento,ms1_0.motivo,ms1_0.producto_inventario_id,ms1_0.referencia_externa,ms1_0.sku,ms1_0.stock_final_despues_movimiento,ms1_0.tipo_movimiento from movimientos_stock ms1_0
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: select ua1_0.id,ua1_0.activo,ua1_0.fecha_creacion,ua1_0.fecha_ultima_actualizacion,ua1_0.sku,ua1_0.tipo_alerta,ua1_0.umbral_cantidad from umbrales_alerta ua1_0
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Datos existentes limpiados.
+Cargando datos de prueba para Inventario RetailMax...
+-> Cargando ProductoInventario...
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0
+-> 20 ProductosInventario cargados.
+-> Cargando UmbralesAlerta...
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: select count(*) from umbrales_alerta ua1_0
+-> 20 UmbralesAlerta cargados.
+-> Cargando MovimientosStock...
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: select count(*) from movimientos_stock ms1_0
+-> 100 MovimientosStock cargados.
+Carga inicial de datos de inventario completada.
+
+MockHttpServletRequest:
+      HTTP Method = GET
+      Request URI = /api/catalogo/productos
+       Parameters = {}
+          Headers = []
+             Body = null
+    Session Attrs = {}
+
+Handler:
+             Type = com.retailmax.inventario.controller.CatalogoProductoController
+           Method = com.retailmax.inventario.controller.CatalogoProductoController#obtenerCatalogo()
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = [Vary:"Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers", Content-Type:"application/json"]
+     Content type = application/json
+             Body = [{"sku":"SKU123","nombre":"Producto de Prueba","categoria":"Categoria A"},{"sku":"SKU456","nombre":"Otro Producto","categoria":"Categoria B"}]
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+[[1;31mERROR[m] [1;31mTests [0;1mrun: [0;1m2[m, [1;31mFailures: [0;1;31m1[m, Errors: 0, Skipped: 0, Time elapsed: 46.12 s[1;31m <<< FAILURE![m -- in com.retailmax.inventario.controller.[1mCatalogoProductoControllerTest[m
+[[1;31mERROR[m] com.retailmax.inventario.controller.CatalogoProductoControllerTest.testObtenerCatalogo_ListaVacia -- Time elapsed: 0.091 s <<< FAILURE!
+java.lang.AssertionError: 
+JSON path "$"
+Expected: a collection with size <0>
+     but: collection size was <2>
+	at org.hamcrest.MatcherAssert.assertThat(MatcherAssert.java:20)
+	at org.springframework.test.util.JsonPathExpectationsHelper.assertValue(JsonPathExpectationsHelper.java:74)
+	at org.springframework.test.web.servlet.result.JsonPathResultMatchers.lambda$value$0(JsonPathResultMatchers.java:87)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:214)
+	at com.retailmax.inventario.controller.CatalogoProductoControllerTest.testObtenerCatalogo_ListaVacia(CatalogoProductoControllerTest.java:38)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+[[1;34mINFO[m] Running com.retailmax.inventario.controller.[1mMovimientoStockControllerTest[m
+2025-07-18T16:54:31.633-04:00  INFO 39781 --- [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.retailmax.inventario.controller.MovimientoStockControllerTest]: MovimientoStockControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2025-07-18T16:54:31.642-04:00  INFO 39781 --- [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.retailmax.inventario.InventarioServiceApplication for test class com.retailmax.inventario.controller.MovimientoStockControllerTest
+Hibernate: select ms1_0.id,ms1_0.cantidad_movida,ms1_0.fecha_movimiento,ms1_0.motivo,ms1_0.producto_inventario_id,ms1_0.referencia_externa,ms1_0.sku,ms1_0.stock_final_despues_movimiento,ms1_0.tipo_movimiento from movimientos_stock ms1_0
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: select ms1_0.id,ms1_0.cantidad_movida,ms1_0.fecha_movimiento,ms1_0.motivo,ms1_0.producto_inventario_id,ms1_0.referencia_externa,ms1_0.sku,ms1_0.stock_final_despues_movimiento,ms1_0.tipo_movimiento from movimientos_stock ms1_0 where ms1_0.id=?
+Hibernate: select ms1_0.id,ms1_0.cantidad_movida,ms1_0.fecha_movimiento,ms1_0.motivo,ms1_0.producto_inventario_id,ms1_0.referencia_externa,ms1_0.sku,ms1_0.stock_final_despues_movimiento,ms1_0.tipo_movimiento from movimientos_stock ms1_0
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0 where pi1_0.sku=?
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: update inventarios set activo=?,cantidad_disponible=?,cantidad_en_transito=?,cantidad_minima_stock=?,cantidad_reservada=?,color=?,estado=?,fecha_creacion=?,fecha_ultima_actualizacion=?,producto_base_sku=?,sku=?,stock=?,talla=?,ubicacion_almacen=? where id=?
+Hibernate: select ms1_0.id,ms1_0.cantidad_movida,ms1_0.fecha_movimiento,ms1_0.motivo,ms1_0.producto_inventario_id,ms1_0.referencia_externa,ms1_0.sku,ms1_0.stock_final_despues_movimiento,ms1_0.tipo_movimiento from movimientos_stock ms1_0
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0 where upper(pi1_0.sku)=upper(?)
+Hibernate: select ms1_0.id,ms1_0.cantidad_movida,ms1_0.fecha_movimiento,ms1_0.motivo,ms1_0.producto_inventario_id,ms1_0.referencia_externa,ms1_0.sku,ms1_0.stock_final_despues_movimiento,ms1_0.tipo_movimiento from movimientos_stock ms1_0 where ms1_0.producto_inventario_id=? order by ms1_0.fecha_movimiento desc
+Hibernate: select ms1_0.id,ms1_0.cantidad_movida,ms1_0.fecha_movimiento,ms1_0.motivo,ms1_0.producto_inventario_id,ms1_0.referencia_externa,ms1_0.sku,ms1_0.stock_final_despues_movimiento,ms1_0.tipo_movimiento from movimientos_stock ms1_0
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: select ms1_0.id,ms1_0.cantidad_movida,ms1_0.fecha_movimiento,ms1_0.motivo,ms1_0.producto_inventario_id,ms1_0.referencia_externa,ms1_0.sku,ms1_0.stock_final_despues_movimiento,ms1_0.tipo_movimiento from movimientos_stock ms1_0 where ms1_0.id=?
+Hibernate: select ms1_0.id,ms1_0.cantidad_movida,ms1_0.fecha_movimiento,ms1_0.motivo,ms1_0.producto_inventario_id,ms1_0.referencia_externa,ms1_0.sku,ms1_0.stock_final_despues_movimiento,ms1_0.tipo_movimiento from movimientos_stock ms1_0
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+[[1;34mINFO[m] [1;32mTests run: [0;1;32m5[m, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.157 s -- in com.retailmax.inventario.controller.[1mMovimientoStockControllerTest[m
+[[1;34mINFO[m] Running com.retailmax.inventario.controller.[1mUmbralAlertaControllerTest[m
+2025-07-18T16:54:34.787-04:00  INFO 39781 --- [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.retailmax.inventario.controller.UmbralAlertaControllerTest]: UmbralAlertaControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2025-07-18T16:54:34.791-04:00  INFO 39781 --- [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.retailmax.inventario.InventarioServiceApplication for test class com.retailmax.inventario.controller.UmbralAlertaControllerTest
+Hibernate: select ua1_0.id,ua1_0.activo,ua1_0.fecha_creacion,ua1_0.fecha_ultima_actualizacion,ua1_0.sku,ua1_0.tipo_alerta,ua1_0.umbral_cantidad from umbrales_alerta ua1_0
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: select ua1_0.id,ua1_0.activo,ua1_0.fecha_creacion,ua1_0.fecha_ultima_actualizacion,ua1_0.sku,ua1_0.tipo_alerta,ua1_0.umbral_cantidad from umbrales_alerta ua1_0 where ua1_0.sku=?
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: select ua1_0.id,ua1_0.activo,ua1_0.fecha_creacion,ua1_0.fecha_ultima_actualizacion,ua1_0.sku,ua1_0.tipo_alerta,ua1_0.umbral_cantidad from umbrales_alerta ua1_0 where ua1_0.sku=?
+Hibernate: select ua1_0.id,ua1_0.activo,ua1_0.fecha_creacion,ua1_0.fecha_ultima_actualizacion,ua1_0.sku,ua1_0.tipo_alerta,ua1_0.umbral_cantidad from umbrales_alerta ua1_0
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: select ua1_0.id,ua1_0.activo,ua1_0.fecha_creacion,ua1_0.fecha_ultima_actualizacion,ua1_0.sku,ua1_0.tipo_alerta,ua1_0.umbral_cantidad from umbrales_alerta ua1_0 where ua1_0.sku=?
+Hibernate: update umbrales_alerta set activo=?,fecha_creacion=?,fecha_ultima_actualizacion=?,sku=?,tipo_alerta=?,umbral_cantidad=? where id=?
+Hibernate: select ua1_0.id,ua1_0.activo,ua1_0.fecha_creacion,ua1_0.fecha_ultima_actualizacion,ua1_0.sku,ua1_0.tipo_alerta,ua1_0.umbral_cantidad from umbrales_alerta ua1_0
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: select ua1_0.id,ua1_0.activo,ua1_0.fecha_creacion,ua1_0.fecha_ultima_actualizacion,ua1_0.sku,ua1_0.tipo_alerta,ua1_0.umbral_cantidad from umbrales_alerta ua1_0
+Hibernate: select ua1_0.id,ua1_0.activo,ua1_0.fecha_creacion,ua1_0.fecha_ultima_actualizacion,ua1_0.sku,ua1_0.tipo_alerta,ua1_0.umbral_cantidad from umbrales_alerta ua1_0
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: select ua1_0.id,ua1_0.activo,ua1_0.fecha_creacion,ua1_0.fecha_ultima_actualizacion,ua1_0.sku,ua1_0.tipo_alerta,ua1_0.umbral_cantidad from umbrales_alerta ua1_0
+Hibernate: select ua1_0.id,ua1_0.activo,ua1_0.fecha_creacion,ua1_0.fecha_ultima_actualizacion,ua1_0.sku,ua1_0.tipo_alerta,ua1_0.umbral_cantidad from umbrales_alerta ua1_0
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: select ua1_0.id,ua1_0.activo,ua1_0.fecha_creacion,ua1_0.fecha_ultima_actualizacion,ua1_0.sku,ua1_0.tipo_alerta,ua1_0.umbral_cantidad from umbrales_alerta ua1_0 where ua1_0.sku=?
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: select ua1_0.id,ua1_0.activo,ua1_0.fecha_creacion,ua1_0.fecha_ultima_actualizacion,ua1_0.sku,ua1_0.tipo_alerta,ua1_0.umbral_cantidad from umbrales_alerta ua1_0
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: select ua1_0.id,ua1_0.activo,ua1_0.fecha_creacion,ua1_0.fecha_ultima_actualizacion,ua1_0.sku,ua1_0.tipo_alerta,ua1_0.umbral_cantidad from umbrales_alerta ua1_0 where ua1_0.sku=?
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: select ua1_0.id,ua1_0.activo,ua1_0.fecha_creacion,ua1_0.fecha_ultima_actualizacion,ua1_0.sku,ua1_0.tipo_alerta,ua1_0.umbral_cantidad from umbrales_alerta ua1_0 where ua1_0.sku=?
+Hibernate: delete from umbrales_alerta where id=?
+Hibernate: select ua1_0.id,ua1_0.activo,ua1_0.fecha_creacion,ua1_0.fecha_ultima_actualizacion,ua1_0.sku,ua1_0.tipo_alerta,ua1_0.umbral_cantidad from umbrales_alerta ua1_0 where ua1_0.sku=?
+[[1;34mINFO[m] [1;32mTests run: [0;1;32m6[m, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.193 s -- in com.retailmax.inventario.controller.[1mUmbralAlertaControllerTest[m
+[[1;34mINFO[m] Running com.retailmax.inventario.controller.[1mProductoInventarioControllerTest[m
+2025-07-18T16:54:37.008-04:00  INFO 39781 --- [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.retailmax.inventario.controller.ProductoInventarioControllerTest]: ProductoInventarioControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2025-07-18T16:54:37.020-04:00  INFO 39781 --- [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.retailmax.inventario.InventarioServiceApplication for test class com.retailmax.inventario.controller.ProductoInventarioControllerTest
+Hibernate: select ms1_0.id,ms1_0.cantidad_movida,ms1_0.fecha_movimiento,ms1_0.motivo,ms1_0.producto_inventario_id,ms1_0.referencia_externa,ms1_0.sku,ms1_0.stock_final_despues_movimiento,ms1_0.tipo_movimiento from movimientos_stock ms1_0
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: select pi1_0.id from inventarios pi1_0 where pi1_0.sku=? fetch first ? rows only
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: select ms1_0.id,ms1_0.cantidad_movida,ms1_0.fecha_movimiento,ms1_0.motivo,ms1_0.producto_inventario_id,ms1_0.referencia_externa,ms1_0.sku,ms1_0.stock_final_despues_movimiento,ms1_0.tipo_movimiento from movimientos_stock ms1_0
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0
+Hibernate: delete from inventarios where id=?
+Hibernate: select ms1_0.id,ms1_0.cantidad_movida,ms1_0.fecha_movimiento,ms1_0.motivo,ms1_0.producto_inventario_id,ms1_0.referencia_externa,ms1_0.sku,ms1_0.stock_final_despues_movimiento,ms1_0.tipo_movimiento from movimientos_stock ms1_0
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0
+Hibernate: select ms1_0.id,ms1_0.cantidad_movida,ms1_0.fecha_movimiento,ms1_0.motivo,ms1_0.producto_inventario_id,ms1_0.referencia_externa,ms1_0.sku,ms1_0.stock_final_despues_movimiento,ms1_0.tipo_movimiento from movimientos_stock ms1_0
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0 where pi1_0.cantidad_disponible<?
+Hibernate: select ms1_0.id,ms1_0.cantidad_movida,ms1_0.fecha_movimiento,ms1_0.motivo,ms1_0.producto_inventario_id,ms1_0.referencia_externa,ms1_0.sku,ms1_0.stock_final_despues_movimiento,ms1_0.tipo_movimiento from movimientos_stock ms1_0
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0 where pi1_0.cantidad_disponible>?
+Hibernate: select ms1_0.id,ms1_0.cantidad_movida,ms1_0.fecha_movimiento,ms1_0.motivo,ms1_0.producto_inventario_id,ms1_0.referencia_externa,ms1_0.sku,ms1_0.stock_final_despues_movimiento,ms1_0.tipo_movimiento from movimientos_stock ms1_0
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0
+Hibernate: delete from inventarios where id=?
+Hibernate: delete from inventarios where id=?
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0 where pi1_0.sku=?
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: update inventarios set activo=?,cantidad_disponible=?,cantidad_en_transito=?,cantidad_minima_stock=?,cantidad_reservada=?,color=?,estado=?,fecha_creacion=?,fecha_ultima_actualizacion=?,producto_base_sku=?,sku=?,stock=?,talla=?,ubicacion_almacen=? where id=?
+Hibernate: select ms1_0.id,ms1_0.cantidad_movida,ms1_0.fecha_movimiento,ms1_0.motivo,ms1_0.producto_inventario_id,ms1_0.referencia_externa,ms1_0.sku,ms1_0.stock_final_despues_movimiento,ms1_0.tipo_movimiento from movimientos_stock ms1_0
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0
+Hibernate: delete from inventarios where id=?
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0 where pi1_0.sku=?
+Hibernate: select ms1_0.id,ms1_0.cantidad_movida,ms1_0.fecha_movimiento,ms1_0.motivo,ms1_0.producto_inventario_id,ms1_0.referencia_externa,ms1_0.sku,ms1_0.stock_final_despues_movimiento,ms1_0.tipo_movimiento from movimientos_stock ms1_0
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0
+Hibernate: delete from inventarios where id=?
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0 where pi1_0.sku=?
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: update inventarios set activo=?,cantidad_disponible=?,cantidad_en_transito=?,cantidad_minima_stock=?,cantidad_reservada=?,color=?,estado=?,fecha_creacion=?,fecha_ultima_actualizacion=?,producto_base_sku=?,sku=?,stock=?,talla=?,ubicacion_almacen=? where id=?
+Hibernate: select ms1_0.id,ms1_0.cantidad_movida,ms1_0.fecha_movimiento,ms1_0.motivo,ms1_0.producto_inventario_id,ms1_0.referencia_externa,ms1_0.sku,ms1_0.stock_final_despues_movimiento,ms1_0.tipo_movimiento from movimientos_stock ms1_0
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0
+Hibernate: delete from inventarios where id=?
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0 where pi1_0.sku=?
+Hibernate: select ms1_0.id,ms1_0.cantidad_movida,ms1_0.fecha_movimiento,ms1_0.motivo,ms1_0.producto_inventario_id,ms1_0.referencia_externa,ms1_0.sku,ms1_0.stock_final_despues_movimiento,ms1_0.tipo_movimiento from movimientos_stock ms1_0
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0 where pi1_0.sku=?
+Hibernate: select ms1_0.id,ms1_0.cantidad_movida,ms1_0.fecha_movimiento,ms1_0.motivo,ms1_0.producto_inventario_id,ms1_0.referencia_externa,ms1_0.sku,ms1_0.stock_final_despues_movimiento,ms1_0.tipo_movimiento from movimientos_stock ms1_0
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0
+Hibernate: delete from inventarios where id=?
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0 where pi1_0.sku=?
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: update inventarios set activo=?,cantidad_disponible=?,cantidad_en_transito=?,cantidad_minima_stock=?,cantidad_reservada=?,color=?,estado=?,fecha_creacion=?,fecha_ultima_actualizacion=?,producto_base_sku=?,sku=?,stock=?,talla=?,ubicacion_almacen=? where id=?
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0 where pi1_0.sku=?
+Hibernate: select ms1_0.id,ms1_0.cantidad_movida,ms1_0.fecha_movimiento,ms1_0.motivo,ms1_0.producto_inventario_id,ms1_0.referencia_externa,ms1_0.sku,ms1_0.stock_final_despues_movimiento,ms1_0.tipo_movimiento from movimientos_stock ms1_0
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0
+Hibernate: delete from inventarios where id=?
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0 where pi1_0.sku=?
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: update inventarios set activo=?,cantidad_disponible=?,cantidad_en_transito=?,cantidad_minima_stock=?,cantidad_reservada=?,color=?,estado=?,fecha_creacion=?,fecha_ultima_actualizacion=?,producto_base_sku=?,sku=?,stock=?,talla=?,ubicacion_almacen=? where id=?
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0 where pi1_0.sku=?
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0 where pi1_0.sku=?
+Hibernate: select ms1_0.id,ms1_0.cantidad_movida,ms1_0.fecha_movimiento,ms1_0.motivo,ms1_0.producto_inventario_id,ms1_0.referencia_externa,ms1_0.sku,ms1_0.stock_final_despues_movimiento,ms1_0.tipo_movimiento from movimientos_stock ms1_0
+Hibernate: delete from movimientos_stock where id=?
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0
+Hibernate: delete from inventarios where id=?
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0 where pi1_0.sku=?
+Hibernate: update inventarios set activo=?,cantidad_disponible=?,cantidad_en_transito=?,cantidad_minima_stock=?,cantidad_reservada=?,color=?,estado=?,fecha_creacion=?,fecha_ultima_actualizacion=?,producto_base_sku=?,sku=?,stock=?,talla=?,ubicacion_almacen=? where id=?
+Hibernate: select ms1_0.id,ms1_0.cantidad_movida,ms1_0.fecha_movimiento,ms1_0.motivo,ms1_0.producto_inventario_id,ms1_0.referencia_externa,ms1_0.sku,ms1_0.stock_final_despues_movimiento,ms1_0.tipo_movimiento from movimientos_stock ms1_0
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0
+Hibernate: delete from inventarios where id=?
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0 where pi1_0.sku=?
+Hibernate: delete from inventarios where id=?
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0 where pi1_0.sku=?
+Hibernate: select ms1_0.id,ms1_0.cantidad_movida,ms1_0.fecha_movimiento,ms1_0.motivo,ms1_0.producto_inventario_id,ms1_0.referencia_externa,ms1_0.sku,ms1_0.stock_final_despues_movimiento,ms1_0.tipo_movimiento from movimientos_stock ms1_0
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0 where pi1_0.sku=?
+[[1;34mINFO[m] [1;32mTests run: [0;1;32m15[m, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.278 s -- in com.retailmax.inventario.controller.[1mProductoInventarioControllerTest[m
+[[1;34mINFO[m] Running com.retailmax.inventario.controller.[1mAuditoriaControllerTest[m
+2025-07-18T16:54:41.343-04:00  INFO 39781 --- [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.retailmax.inventario.controller.AuditoriaControllerTest]: AuditoriaControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2025-07-18T16:54:41.398-04:00  INFO 39781 --- [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.retailmax.inventario.InventarioServiceApplication for test class com.retailmax.inventario.controller.AuditoriaControllerTest
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0
+Hibernate: delete from inventarios where id=?
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0 where pi1_0.sku=?
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0
+Hibernate: delete from inventarios where id=?
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0 where pi1_0.sku=?
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0 where pi1_0.sku=?
+[[1;34mINFO[m] [1;32mTests run: [0;1;32m4[m, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.953 s -- in com.retailmax.inventario.controller.[1mAuditoriaControllerTest[m
+[[1;34mINFO[m] Running com.retailmax.inventario.service.[1mAuditoriaInventarioServiceTest[m
+[[1;34mINFO[m] [1;32mTests run: [0;1;32m5[m, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.535 s -- in com.retailmax.inventario.service.[1mAuditoriaInventarioServiceTest[m
+[[1;34mINFO[m] Running com.retailmax.inventario.service.[1mProductoInventarioServiceTest[m
+[[1;34mINFO[m] [1;32mTests run: [0;1;32m32[m, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.580 s -- in com.retailmax.inventario.service.[1mProductoInventarioServiceTest[m
+[[1;34mINFO[m] Running com.retailmax.inventario.service.[1mMovimientoStockServiceUnitTest[m
+[[1;31mERROR[m] [1;31mTests [0;1mrun: [0;1m23[m, [1;31mFailures: [0;1;31m1[m, [1;31mErrors: [0;1;31m5[m, Skipped: 0, Time elapsed: 0.662 s[1;31m <<< FAILURE![m -- in com.retailmax.inventario.service.[1mMovimientoStockServiceUnitTest[m
+[[1;31mERROR[m] com.retailmax.inventario.service.MovimientoStockServiceUnitTest.registrarMovimiento_MotivoNull_UsesDefaultDescription -- Time elapsed: 0.029 s <<< ERROR!
+java.lang.IllegalArgumentException: Producto con SKU SKU001 no existe.
+	at com.retailmax.inventario.service.MovimientoStockService.lambda$registrarMovimiento$2(MovimientoStockService.java:74)
+	at java.base/java.util.Optional.orElseThrow(Optional.java:403)
+	at com.retailmax.inventario.service.MovimientoStockService.registrarMovimiento(MovimientoStockService.java:74)
+	at com.retailmax.inventario.service.MovimientoStockServiceUnitTest.registrarMovimiento_MotivoNull_UsesDefaultDescription(MovimientoStockServiceUnitTest.java:296)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+[[1;31mERROR[m] com.retailmax.inventario.service.MovimientoStockServiceUnitTest.registrarMovimiento_FechaMovimientoNull_UsesCurrentDateTime -- Time elapsed: 0.011 s <<< ERROR!
+java.lang.IllegalArgumentException: Producto con SKU SKU001 no existe.
+	at com.retailmax.inventario.service.MovimientoStockService.lambda$registrarMovimiento$2(MovimientoStockService.java:74)
+	at java.base/java.util.Optional.orElseThrow(Optional.java:403)
+	at com.retailmax.inventario.service.MovimientoStockService.registrarMovimiento(MovimientoStockService.java:74)
+	at com.retailmax.inventario.service.MovimientoStockServiceUnitTest.registrarMovimiento_FechaMovimientoNull_UsesCurrentDateTime(MovimientoStockServiceUnitTest.java:308)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+[[1;31mERROR[m] com.retailmax.inventario.service.MovimientoStockServiceUnitTest.registrarMovimiento_Salida_InsufficientStock_ThrowsException -- Time elapsed: 0.036 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: Unexpected exception type thrown, expected: <com.retailmax.inventario.exception.StockInsuficienteException> but was: <java.lang.IllegalArgumentException>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:67)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:35)
+	at org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3115)
+	at com.retailmax.inventario.service.MovimientoStockServiceUnitTest.registrarMovimiento_Salida_InsufficientStock_ThrowsException(MovimientoStockServiceUnitTest.java:273)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+Caused by: java.lang.IllegalArgumentException: Producto con SKU SKU001 no existe.
+	at com.retailmax.inventario.service.MovimientoStockService.lambda$registrarMovimiento$2(MovimientoStockService.java:74)
+	at java.base/java.util.Optional.orElseThrow(Optional.java:403)
+	at com.retailmax.inventario.service.MovimientoStockService.registrarMovimiento(MovimientoStockService.java:74)
+	at com.retailmax.inventario.service.MovimientoStockServiceUnitTest.lambda$registrarMovimiento_Salida_InsufficientStock_ThrowsException$13(MovimientoStockServiceUnitTest.java:273)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:53)
+	... 6 more
+
+[[1;31mERROR[m] com.retailmax.inventario.service.MovimientoStockServiceUnitTest.registrarMovimiento_Entrada_Success -- Time elapsed: 0.024 s <<< ERROR!
+java.lang.IllegalArgumentException: Producto con SKU SKU001 no existe.
+	at com.retailmax.inventario.service.MovimientoStockService.lambda$registrarMovimiento$2(MovimientoStockService.java:74)
+	at java.base/java.util.Optional.orElseThrow(Optional.java:403)
+	at com.retailmax.inventario.service.MovimientoStockService.registrarMovimiento(MovimientoStockService.java:74)
+	at com.retailmax.inventario.service.MovimientoStockServiceUnitTest.registrarMovimiento_Entrada_Success(MovimientoStockServiceUnitTest.java:247)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+[[1;31mERROR[m] com.retailmax.inventario.service.MovimientoStockServiceUnitTest.registrarMovimiento_UnsupportedTipoMovimiento_ThrowsException -- Time elapsed: 0.111 s <<< ERROR!
+org.mockito.exceptions.misusing.UnnecessaryStubbingException: 
+
+Unnecessary stubbings detected.
+Clean & maintainable test code requires zero unnecessary code.
+Following stubbings are unnecessary (click to navigate to relevant line of code):
+  1. -> at com.retailmax.inventario.service.MovimientoStockServiceUnitTest.registrarMovimiento_UnsupportedTipoMovimiento_ThrowsException(MovimientoStockServiceUnitTest.java:281)
+Please remove unnecessary stubbings or use 'lenient' strictness. More info: javadoc for UnnecessaryStubbingException class.
+	at org.mockito.junit.jupiter.MockitoExtension.afterEach(MockitoExtension.java:197)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+[[1;31mERROR[m] com.retailmax.inventario.service.MovimientoStockServiceUnitTest.registrarMovimiento_Salida_Success -- Time elapsed: 0.033 s <<< ERROR!
+java.lang.IllegalArgumentException: Producto con SKU SKU001 no existe.
+	at com.retailmax.inventario.service.MovimientoStockService.lambda$registrarMovimiento$2(MovimientoStockService.java:74)
+	at java.base/java.util.Optional.orElseThrow(Optional.java:403)
+	at com.retailmax.inventario.service.MovimientoStockService.registrarMovimiento(MovimientoStockService.java:74)
+	at com.retailmax.inventario.service.MovimientoStockServiceUnitTest.registrarMovimiento_Salida_Success(MovimientoStockServiceUnitTest.java:261)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+[[1;34mINFO[m] Running com.retailmax.inventario.service.[1mCatalogoProductoServiceTest[m
+[[1;34mINFO[m] [1;32mTests run: [0;1;32m1[m, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.016 s -- in com.retailmax.inventario.service.[1mCatalogoProductoServiceTest[m
+[[1;34mINFO[m] Running com.retailmax.inventario.service.[1mUmbralAlertaServiceTest[m
+[[1;34mINFO[m] [1;32mTests run: [0;1;32m16[m, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.946 s -- in com.retailmax.inventario.service.[1mUmbralAlertaServiceTest[m
+[[1;34mINFO[m] Running com.retailmax.inventario.[1mInventarioServiceApplicationTests[m
+2025-07-18T16:54:52.219-04:00  INFO 39781 --- [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.retailmax.inventario.InventarioServiceApplicationTests]: InventarioServiceApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2025-07-18T16:54:52.283-04:00  INFO 39781 --- [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.retailmax.inventario.InventarioServiceApplication for test class com.retailmax.inventario.InventarioServiceApplicationTests
+2025-07-18T16:54:52.307-04:00  INFO 39781 --- [           main] o.s.b.d.r.RestartApplicationListener     : Restart disabled due to context in which it is running
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.0)
+
+2025-07-18T16:54:52.650-04:00  INFO 39781 --- [           main] c.r.i.InventarioServiceApplicationTests  : Starting InventarioServiceApplicationTests using Java 21.0.7 with PID 39781 (started by nico-gabo in /home/nico-gabo/Desktop/FullSnack/ProyectoTerminado/Inventario)
+2025-07-18T16:54:52.650-04:00  INFO 39781 --- [           main] c.r.i.InventarioServiceApplicationTests  : The following 1 profile is active: "dev"
+2025-07-18T16:54:55.303-04:00  INFO 39781 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-07-18T16:54:55.350-04:00  INFO 39781 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 47 ms. Found 3 JPA repository interfaces.
+2025-07-18T16:54:55.676-04:00  INFO 39781 --- [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=fba97d34-5f2d-3fcd-83a6-f79a722710e0
+2025-07-18T16:54:56.766-04:00  INFO 39781 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-07-18T16:54:56.797-04:00  INFO 39781 --- [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-07-18T16:54:56.952-04:00  INFO 39781 --- [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-07-18T16:54:56.966-04:00  INFO 39781 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2025-07-18T16:54:58.674-04:00  INFO 39781 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection oracle.jdbc.driver.T4CConnection@4dde1683
+2025-07-18T16:54:58.675-04:00  INFO 39781 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2025-07-18T16:54:59.145-04:00  INFO 39781 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-07-18T16:54:59.878-04:00  INFO 39781 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-07-18T16:55:03.647-04:00  INFO 39781 --- [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2025-07-18T16:55:03.796-04:00  INFO 39781 --- [           main] c.r.i.InventarioServiceApplicationTests  : Started InventarioServiceApplicationTests in 11.489 seconds (process running for 80.587)
+Limpiando datos existentes antes de la carga...
+Hibernate: select ms1_0.id,ms1_0.cantidad_movida,ms1_0.fecha_movimiento,ms1_0.motivo,ms1_0.producto_inventario_id,ms1_0.referencia_externa,ms1_0.sku,ms1_0.stock_final_despues_movimiento,ms1_0.tipo_movimiento from movimientos_stock ms1_0
+Hibernate: select ua1_0.id,ua1_0.activo,ua1_0.fecha_creacion,ua1_0.fecha_ultima_actualizacion,ua1_0.sku,ua1_0.tipo_alerta,ua1_0.umbral_cantidad from umbrales_alerta ua1_0
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0
+Hibernate: delete from inventarios where id=?
+Datos existentes limpiados.
+Cargando datos de prueba para Inventario RetailMax...
+-> Cargando ProductoInventario...
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into inventarios (activo,cantidad_disponible,cantidad_en_transito,cantidad_minima_stock,cantidad_reservada,color,estado,fecha_creacion,fecha_ultima_actualizacion,producto_base_sku,sku,stock,talla,ubicacion_almacen,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: select pi1_0.id,pi1_0.activo,pi1_0.cantidad_disponible,pi1_0.cantidad_en_transito,pi1_0.cantidad_minima_stock,pi1_0.cantidad_reservada,pi1_0.color,pi1_0.estado,pi1_0.fecha_creacion,pi1_0.fecha_ultima_actualizacion,pi1_0.producto_base_sku,pi1_0.sku,pi1_0.stock,pi1_0.talla,pi1_0.ubicacion_almacen from inventarios pi1_0
+-> 20 ProductosInventario cargados.
+-> Cargando UmbralesAlerta...
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: insert into umbrales_alerta (activo,fecha_creacion,fecha_ultima_actualizacion,sku,tipo_alerta,umbral_cantidad,id) values (?,?,?,?,?,?,default)
+Hibernate: select count(*) from umbrales_alerta ua1_0
+-> 20 UmbralesAlerta cargados.
+-> Cargando MovimientosStock...
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into movimientos_stock (cantidad_movida,fecha_movimiento,motivo,producto_inventario_id,referencia_externa,sku,stock_final_despues_movimiento,tipo_movimiento,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: select count(*) from movimientos_stock ms1_0
+-> 100 MovimientosStock cargados.
+Carga inicial de datos de inventario completada.
+[[1;34mINFO[m] [1;32mTests run: [0;1;32m1[m, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 15.09 s -- in com.retailmax.inventario.[1mInventarioServiceApplicationTests[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] Results:
+[[1;34mINFO[m] 
+[[1;31mERROR[m] [1;31mFailures: [m
+[[1;31mERROR[m] [1;31m  CatalogoProductoControllerTest.testObtenerCatalogo_ListaVacia:38 JSON path "$"
+Expected: a collection with size <0>
+     but: collection size was <2>[m
+[[1;31mERROR[m] [1;31m  MovimientoStockServiceUnitTest.registrarMovimiento_Salida_InsufficientStock_ThrowsException:273 Unexpected exception type thrown, expected: <com.retailmax.inventario.exception.StockInsuficienteException> but was: <java.lang.IllegalArgumentException>[m
+[[1;31mERROR[m] [1;31mErrors: [m
+[[1;31mERROR[m] [1;31m  MovimientoStockServiceUnitTest.registrarMovimiento_Entrada_Success:247 » IllegalArgument Producto con SKU SKU001 no existe.[m
+[[1;31mERROR[m] [1;31m  MovimientoStockServiceUnitTest.registrarMovimiento_FechaMovimientoNull_UsesCurrentDateTime:308 » IllegalArgument Producto con SKU SKU001 no existe.[m
+[[1;31mERROR[m] [1;31m  MovimientoStockServiceUnitTest.registrarMovimiento_MotivoNull_UsesDefaultDescription:296 » IllegalArgument Producto con SKU SKU001 no existe.[m
+[[1;31mERROR[m] [1;31m  MovimientoStockServiceUnitTest.registrarMovimiento_Salida_Success:261 » IllegalArgument Producto con SKU SKU001 no existe.[m
+[[1;31mERROR[m] [1;31m  MovimientoStockServiceUnitTest.registrarMovimiento_UnsupportedTipoMovimiento_ThrowsException » UnnecessaryStubbing 
+Unnecessary stubbings detected.
+Clean & maintainable test code requires zero unnecessary code.
+Following stubbings are unnecessary (click to navigate to relevant line of code):
+  1. -> at com.retailmax.inventario.service.MovimientoStockServiceUnitTest.registrarMovimiento_UnsupportedTipoMovimiento_ThrowsException(MovimientoStockServiceUnitTest.java:281)
+Please remove unnecessary stubbings or use 'lenient' strictness. More info: javadoc for UnnecessaryStubbingException class.[m
+[[1;34mINFO[m] 
+[[1;31mERROR[m] [1;31mTests run: 110, Failures: 2, Errors: 5, Skipped: 0[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] [1;31mBUILD FAILURE[m
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] Total time:  01:42 min
+[[1;34mINFO[m] Finished at: 2025-07-18T16:55:08-04:00
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;31mERROR[m] Failed to execute goal [32morg.apache.maven.plugins:maven-surefire-plugin:3.2.5:test[m [1m(default-test)[m on project [36minventario-service[m: [1;31mThere are test failures.[m
+[[1;31mERROR[m] [1;31m[m
+[[1;31mERROR[m] [1;31mPlease refer to /home/nico-gabo/Desktop/FullSnack/ProyectoTerminado/Inventario/target/surefire-reports for the individual test results.[m
+[[1;31mERROR[m] [1;31mPlease refer to dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.[m
+[[1;31mERROR[m] -> [1m[Help 1][m
+[[1;31mERROR[m] 
+[[1;31mERROR[m] To see the full stack trace of the errors, re-run Maven with the [1m-e[m switch.
+[[1;31mERROR[m] Re-run Maven using the [1m-X[m switch to enable full debug logging.
+[[1;31mERROR[m] 
+[[1;31mERROR[m] For more information about the errors and possible solutions, please read the following articles:
+[[1;31mERROR[m] [1m[Help 1][m http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException

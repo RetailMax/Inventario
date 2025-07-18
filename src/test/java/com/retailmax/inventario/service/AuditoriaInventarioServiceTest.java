@@ -1,9 +1,8 @@
-package com.retailmax.inventario;
+package com.retailmax.inventario.service;
 
 import com.retailmax.inventario.dto.DiscrepanciaStockDTO;
 import com.retailmax.inventario.model.ProductoInventario;
 import com.retailmax.inventario.repository.ProductoInventarioRepository;
-import com.retailmax.inventario.service.AuditoriaInventarioService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,4 +1,4 @@
-package com.retailmax.inventario; // Asegúrate de que este sea el paquete correcto
+package com.retailmax.inventario.controller; // Asegúrate de que este sea el paquete correcto
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.retailmax.inventario.dto.UmbralAlertaDTO;

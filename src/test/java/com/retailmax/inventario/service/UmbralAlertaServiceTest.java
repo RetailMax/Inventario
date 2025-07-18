@@ -1,11 +1,10 @@
-package com.retailmax.inventario;
+package com.retailmax.inventario.service;
 
 import com.retailmax.inventario.dto.UmbralAlertaDTO;
 import com.retailmax.inventario.exception.RecursoNoEncontradoException;
 import com.retailmax.inventario.model.UmbralAlerta;
 import com.retailmax.inventario.model.enums.TipoAlerta;
 import com.retailmax.inventario.repository.UmbralAlertaRepository;
-import com.retailmax.inventario.service.UmbralAlertaService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

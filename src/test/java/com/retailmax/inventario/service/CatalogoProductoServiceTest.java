@@ -1,6 +1,5 @@
-package com.retailmax.inventario;
+package com.retailmax.inventario.service;
 
-import com.retailmax.inventario.service.CatalogoProductoService;
 import com.retailmax.inventario.dto.ProductoCatalogoDTO;
 import org.junit.jupiter.api.Test;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.retailmax.inventario;
+package com.retailmax.inventario.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -33,7 +33,6 @@ import com.retailmax.inventario.model.MovimientoStock;
 import com.retailmax.inventario.model.ProductoInventario;
 import com.retailmax.inventario.repository.MovimientoStockRepository;
 import com.retailmax.inventario.repository.ProductoInventarioRepository;
-import com.retailmax.inventario.service.ProductoInventarioService;
 
 @ExtendWith(MockitoExtension.class)
 public class ProductoInventarioServiceTest {

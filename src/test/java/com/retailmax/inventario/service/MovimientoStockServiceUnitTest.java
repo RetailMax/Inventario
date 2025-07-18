@@ -1,4 +1,4 @@
-package com.retailmax.inventario;
+package com.retailmax.inventario.service;
 
 
 import com.retailmax.inventario.dto.MovimientoStockDTO;
@@ -9,7 +9,6 @@ import com.retailmax.inventario.model.ProductoInventario;
 import com.retailmax.inventario.model.enums.TipoMovimiento;
 import com.retailmax.inventario.repository.MovimientoStockRepository;
 import com.retailmax.inventario.repository.ProductoInventarioRepository;
-import com.retailmax.inventario.service.MovimientoStockService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

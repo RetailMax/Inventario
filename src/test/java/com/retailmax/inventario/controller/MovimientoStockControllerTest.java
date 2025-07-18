@@ -1,4 +1,4 @@
-package com.retailmax.inventario;
+package com.retailmax.inventario.controller;
 
 import com.retailmax.inventario.model.MovimientoStock;
 import com.retailmax.inventario.model.ProductoInventario;

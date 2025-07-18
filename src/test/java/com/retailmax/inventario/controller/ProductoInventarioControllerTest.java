@@ -1,4 +1,4 @@
-package com.retailmax.inventario;
+package com.retailmax.inventario.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.retailmax.inventario.dto.AgregarProductoInventarioRequestDTO;
